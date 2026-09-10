@@ -6,11 +6,7 @@
 const get = k => { try{ return JSON.parse(localStorage.getItem(k)||'{}'); }catch(e){ return {}; } };
 const esc = s => String(s==null?'':s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
-const START = {
-  he:'נקודת ההתחלה שלנו',
-  items:[{label:'הריב שחוזר אצלנו', field:'loopfight'},
-         {label:'איפה אנחנו היום', field:'curve'}]
-};
+const START = { he:'למה אנחנו כאן', field:'goal', line:'מה כל אחד מאיתנו רוצה שיהיה בינינו בעוד חצי שנה.' };
 
 const ROWS = [
   {num:'01', en:'STOP',      he:'לעצור',
@@ -51,11 +47,13 @@ function render(){
   }).join('');
 
   const S0 = get('comeback.st00');
-  const startItems = START.items.map(it=>{
-    const v = S0[it.field]; if(v) any = true;
-    return `<div class="row"><span>${esc(it.label)}</span><b>${esc(v||'·')}</b></div>`;
+  const goals = (S0[START.field] || ['','']);
+  const startItems = (couple.p||[]).map((p,i)=>{
+    const v = goals[i]; if(v) any = true;
+    return `<div class="row"><span>${esc(p.name||'·')}</span><b>${esc(v||'·')}</b></div>`;
   }).join('');
-  const startBlock = `<div class="person"><div class="hd"><b>${esc(START.he)}</b><span>00</span></div>${startItems}</div>`;
+  const startBlock = `<div class="person"><div class="hd"><b>${esc(START.he)}</b><span>00</span></div>
+    <p>${esc(START.line)}</p>${startItems}</div>`;
 
   el.innerHTML = `<div class="cardhead"><b>הדרך חזרה שלנו</b><span>${esc(names)}</span></div>
     ${startBlock}${body}
