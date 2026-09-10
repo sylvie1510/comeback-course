@@ -305,8 +305,21 @@ hr.rule{border:0;border-top:1px solid var(--rule);margin-block:2.5rem}
 a.station{
   display:block;background:var(--sheet);padding:1.4rem 1.5rem;text-decoration:none;color:inherit;
   transition:background .18s;position:relative;
+  padding-inline-end:3.6rem;
+  -webkit-tap-highlight-color:transparent;
+}
+a.station::after{
+  content:"←";
+  position:absolute;inset-inline-end:1.3rem;inset-block-start:50%;
+  transform:translateY(-50%);
+  font-size:1.5rem;line-height:1;font-weight:900;color:var(--crimson);
+  transition:transform .2s cubic-bezier(.2,.7,.3,1);
 }
 a.station:hover{background:#fff}
+a.station:hover::after{transform:translateY(-50%) translateX(-5px)}
+a.station:active{background:var(--paper)}
+a.station:active::after{transform:translateY(-50%) translateX(-9px)}
+a.station:focus-visible{outline:2px solid var(--crimson);outline-offset:-2px}
 a.station .n{font-weight:900;font-size:.72rem;letter-spacing:.2em;color:var(--crimson-soft)}
 a.station .t{font-weight:900;font-size:clamp(1.35rem,1.1rem + 1.2vw,1.85rem);line-height:1.15;margin-block:.15rem .35rem}
 a.station .d{font-size:.92rem;color:var(--ink-faint);line-height:1.5}
@@ -316,6 +329,9 @@ a.station .st{
 }
 a.station.done .st{color:var(--crimson)}
 a.station.done .t::after{content:" ✓";color:var(--crimson);font-size:.7em;vertical-align:.15em}
+
+.mapteaser{margin-top:1.1rem;text-align:center}
+[hidden]{display:none!important}
 
 /* ---------- station nav ---------- */
 .stationnav{display:flex;justify-content:space-between;gap:1rem;align-items:center;

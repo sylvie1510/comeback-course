@@ -62,9 +62,14 @@ function render(){
       זוגיות בריאה היא זוגיות ששני אנשים יודעים איך לתקן, ולחזור לחיבור מחודש.</p>
     </div>`;
 
+  const sec = document.getElementById('cardsec');
+  const teaser = document.getElementById('mapteaser');
   if(!any){
-    const hint = document.getElementById('maphint');
-    if(hint) hint.textContent = 'המפה תתמלא מעצמה ככל שתעברו את התחנות.';
+    if(sec) sec.hidden = true;
+    if(teaser) teaser.hidden = false;
+  }else{
+    if(sec) sec.hidden = false;
+    if(teaser) teaser.hidden = true;
   }
 }
 document.readyState==='loading' ? addEventListener('DOMContentLoaded', render) : render();
