@@ -6,7 +6,7 @@
 const get = k => { try{ return JSON.parse(localStorage.getItem(k)||'{}'); }catch(e){ return {}; } };
 const esc = s => String(s==null?'':s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
-const START = { he:'למה אנחנו כאן', field:'goal', line:'מה כל אחד מאיתנו רוצה שיהיה בינינו בעוד חצי שנה.' };
+const START = { he:'למה אנחנו כאן', field:'goal', line:'חשוב לי ללמוד לתקן, כדי שהזוגיות שלנו תרגיש יותר…' };
 
 const ROWS = [
   {num:'01', en:'STOP',      he:'לעצור',

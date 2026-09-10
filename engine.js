@@ -108,7 +108,7 @@ W.text = (el) => {
     <div>
       ${el.dataset.noname==='1'?'':`<div class="pname">${esc(p.name)||'·'}</div>`}
       <div class="field" style="margin-bottom:0">
-        ${el.dataset.label?`<label>${esc(rz(el.dataset.label,i).replace('{שני}', C.p[1-i].name||'·'))}</label>`:''}
+        ${el.dataset.label?`<label class="${el.dataset.stem?'stem':''}">${esc(rz(el.dataset.label,i).replace('{שני}', C.p[1-i].name||'·'))}</label>`:''}
         ${el.dataset.hint?`<p class="tiny" style="margin-bottom:.6rem">${esc(rz(el.dataset.hint,i))}</p>`:''}
         <textarea rows="${rows}" data-act="free" data-f="${f}" data-i="${i}"
           placeholder="${esc(rz(el.dataset.ph||'',i))}">${esc(val(f,i))}</textarea>

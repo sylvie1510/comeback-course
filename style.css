@@ -152,6 +152,10 @@ em{font-style:normal;color:var(--ink);font-weight:900}
 
 .field{margin-bottom:1.3rem}
 .field > label{display:block;font-size:.76rem;letter-spacing:.14em;color:var(--ink-faint);margin-bottom:.55rem;font-weight:900}
+.field > label.stem{
+  font-size:1.02rem;font-weight:900;letter-spacing:-.005em;color:var(--ink);
+  line-height:1.5;margin-bottom:.75rem;
+}
 .chips{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:.5rem}
 .chip{
   border:1px solid var(--rule);background:transparent;color:var(--ink-soft);
