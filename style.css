@@ -2,8 +2,9 @@
   --paper:#EFE9E3;
   --sheet:#FBF8F5;
   --ink:#231D1B;
-  --ink-soft:#5A504C;
-  --ink-faint:#9A8F89;
+  --ink-soft:#463D39;
+  --ink-faint:#2B2421;
+  --ink-mute:#9A8F89;
   --rule:#DED4CB;
   --crimson:#840200;
   --crimson-soft:#B6564E;
@@ -38,8 +39,8 @@ section{padding-block:clamp(2.75rem,7vw,4.5rem)}
 /* ---------- type ---------- */
 h1,h2,h3,.blk{font-weight:900;letter-spacing:-.015em;line-height:1.12}
 .eyebrow{
-  font-size:.72rem;letter-spacing:.22em;color:var(--ink-faint);
-  font-weight:300;margin-bottom:1.1rem;
+  font-size:.7rem;letter-spacing:.18em;color:var(--ink-faint);
+  font-weight:900;margin-bottom:1.1rem;
 }
 h2{font-size:clamp(1.9rem,1.3rem + 2.6vw,3rem);margin-bottom:1.25rem}
 h3{font-size:clamp(1.25rem,1rem + 1vw,1.6rem);margin-bottom:.7rem}
@@ -55,7 +56,7 @@ em{font-style:normal;color:var(--ink);font-weight:900}
 .pull.red{color:var(--crimson)}
 .voices{margin-block:2rem;display:grid;gap:.5rem;padding-inline-start:1.1rem;border-inline-start:1px solid var(--crimson-soft)}
 .voices p{margin:0;font-weight:900;color:var(--crimson);line-height:1.35;font-size:clamp(1.05rem,.95rem + .55vw,1.3rem)}
-.tiny{font-size:.85rem;color:var(--ink-faint);line-height:1.6}
+.tiny{font-size:.9rem;color:var(--ink-faint);line-height:1.65}
 
 /* ---------- cover ---------- */
 #cover{display:flex;flex-direction:column;justify-content:center;position:relative;
@@ -119,7 +120,7 @@ em{font-style:normal;color:var(--ink);font-weight:900}
 .side{background:var(--sheet);padding:1.25rem}
 .side h4{font-weight:900;font-size:1.05rem;margin-bottom:.9rem}
 .side dl{display:grid;gap:.65rem}
-.side dt{font-size:.7rem;letter-spacing:.16em;color:var(--ink-faint)}
+.side dt{font-size:.76rem;letter-spacing:.14em;color:var(--ink-faint);font-weight:900}
 .side dd{color:var(--ink-soft);line-height:1.5;font-size:.95rem}
 
 /* ---------- question panels ---------- */
@@ -150,7 +151,7 @@ em{font-style:normal;color:var(--ink);font-weight:900}
 .opt .en{font-size:.68rem;letter-spacing:.16em;opacity:.6;margin-inline-start:.5rem}
 
 .field{margin-bottom:1.3rem}
-.field > label{display:block;font-size:.72rem;letter-spacing:.16em;color:var(--ink-faint);margin-bottom:.55rem}
+.field > label{display:block;font-size:.76rem;letter-spacing:.14em;color:var(--ink-faint);margin-bottom:.55rem;font-weight:900}
 .chips{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:.5rem}
 .chip{
   border:1px solid var(--rule);background:transparent;color:var(--ink-soft);
@@ -164,7 +165,7 @@ input[type=text],textarea{
   border:0;border-bottom:1px solid var(--rule);padding:.45rem 0;resize:none;line-height:1.6;
 }
 input[type=text]:focus,textarea:focus{outline:none;border-bottom-color:var(--crimson)}
-input::placeholder,textarea::placeholder{color:var(--ink-faint);opacity:.75}
+input::placeholder,textarea::placeholder{color:var(--ink-mute);opacity:1}
 
 .shared{max-width:30rem}
 .shared .big{
@@ -208,7 +209,7 @@ input::placeholder,textarea::placeholder{color:var(--ink-faint);opacity:.75}
 .card .cardhead{
   display:flex;justify-content:space-between;align-items:baseline;
   border-bottom:2px solid var(--ink);padding-bottom:.6rem;margin-bottom:1.75rem;
-  font-size:.72rem;letter-spacing:.2em;color:var(--ink-faint);gap:1rem;
+  font-size:.74rem;letter-spacing:.18em;color:var(--ink-faint);gap:1rem;
 }
 .card .cardhead b{font-weight:900;font-size:.95rem;letter-spacing:.12em;color:var(--ink)}
 .person{margin-bottom:2rem;padding-bottom:2rem;border-bottom:1px solid var(--rule)}
@@ -254,7 +255,7 @@ hr.rule{border:0;border-top:1px solid var(--rule);margin-block:2.5rem}
 
 /* ---------- intro ---------- */
 .skip{margin-top:1.1rem}
-.skip a{font-size:.8rem;letter-spacing:.06em;color:var(--ink-faint);text-decoration:none;border-bottom:1px solid var(--rule);padding-bottom:2px}
+.skip a{font-size:.82rem;font-weight:900;letter-spacing:.04em;color:var(--ink-faint);text-decoration:none;border-bottom:1px solid var(--rule);padding-bottom:2px}
 .skip a:hover{color:var(--crimson);border-bottom-color:var(--crimson-soft)}
 
 .promises{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);margin-block:1.75rem}
@@ -267,7 +268,7 @@ hr.rule{border:0;border-top:1px solid var(--rule);margin-block:2.5rem}
   font-size:clamp(4rem,3rem + 9vw,7.5rem);margin-block:1.5rem .4rem}
 
 .curve{margin:2rem 0 2.5rem;border:1px solid var(--rule);background:var(--sheet);padding:1.25rem 1rem 1.1rem}
-.curve figcaption{font-size:.72rem;letter-spacing:.2em;color:var(--crimson);margin-bottom:.4rem;padding-inline:.4rem}
+.curve figcaption{font-size:.7rem;font-weight:900;letter-spacing:.18em;color:var(--crimson);margin-bottom:.4rem;padding-inline:.4rem}
 .curve svg{display:block;width:100%;height:auto;overflow:visible}
 .curve .base{stroke:var(--rule);stroke-width:1;stroke-dasharray:4 5}
 .curve .line{fill:none;stroke:var(--crimson);stroke-width:3.5;stroke-linecap:round}
@@ -275,7 +276,7 @@ hr.rule{border:0;border-top:1px solid var(--rule);margin-block:2.5rem}
 .curve .dot.hi{fill:var(--crimson)}
 .curve .lb{font-family:"Polin",sans-serif;font-weight:900;font-size:15px;fill:var(--ink);text-anchor:middle}
 .curve .lb.hi{fill:var(--crimson)}
-.curve .sm{font-family:"Polin",sans-serif;font-weight:300;font-size:11px;fill:var(--ink-faint);text-anchor:middle}
+.curve .sm{font-family:"Polin",sans-serif;font-weight:300;font-size:11.5px;fill:var(--ink-soft);text-anchor:middle}
 .curve .tiny{margin:.9rem .4rem 0}
 
 /* ---------- hub / map ---------- */
@@ -302,7 +303,7 @@ a.station .t{font-weight:900;font-size:clamp(1.35rem,1.1rem + 1.2vw,1.85rem);lin
 a.station .d{font-size:.92rem;color:var(--ink-faint);line-height:1.5}
 a.station .st{
   position:absolute;inset-inline-end:1.5rem;inset-block-start:1.5rem;
-  font-size:.68rem;letter-spacing:.16em;color:var(--ink-faint);
+  font-size:.68rem;letter-spacing:.16em;color:var(--ink-mute);
 }
 a.station.done .st{color:var(--crimson)}
 a.station.done .t::after{content:" ✓";color:var(--crimson);font-size:.7em;vertical-align:.15em}
@@ -310,7 +311,7 @@ a.station.done .t::after{content:" ✓";color:var(--crimson);font-size:.7em;vert
 /* ---------- station nav ---------- */
 .stationnav{display:flex;justify-content:space-between;gap:1rem;align-items:center;
   border-top:1px solid var(--rule);padding-top:1.5rem;margin-top:1rem}
-.stationnav a{color:var(--ink-faint);text-decoration:none;font-size:.85rem;letter-spacing:.12em}
+.stationnav a{color:var(--ink-faint);text-decoration:none;font-size:.85rem;letter-spacing:.1em;font-weight:900}
 .stationnav a:hover{color:var(--crimson)}
 
 /* ---------- misc ---------- */
@@ -325,6 +326,6 @@ a.station.done .t::after{content:" ✓";color:var(--crimson);font-size:.7em;vert
 .vs{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);margin-block:2rem}
 @media(min-width:640px){.vs{grid-template-columns:1fr 1fr}}
 .vs > div{background:var(--sheet);padding:1.25rem}
-.vs .lbl{font-size:.7rem;letter-spacing:.16em;color:var(--ink-faint);margin-bottom:.5rem}
+.vs .lbl{font-size:.76rem;letter-spacing:.14em;color:var(--ink-faint);margin-bottom:.5rem;font-weight:900}
 .vs .no{color:var(--ink-faint);text-decoration:line-through}
 .vs .yes{color:var(--ink);font-weight:900}
