@@ -93,6 +93,11 @@ em{font-style:normal;color:var(--ink);font-weight:900}
 @media (prefers-reduced-motion:reduce){.coverimg{animation:none}}
 @media print{.coverimg{display:none}}
 
+.bodyimg{margin:2.25rem 0 .5rem;border:1px solid var(--rule);background:var(--sheet);overflow:hidden}
+.bodyimg img{display:block;width:100%;aspect-ratio:3/2;object-fit:cover;
+  filter:grayscale(1) contrast(1.04) brightness(.99)}
+@media print{.bodyimg{display:none}}
+
 /* ---------- reveal ---------- */
 .rv{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.3,1)}
 .rv.in{opacity:1;transform:none}
