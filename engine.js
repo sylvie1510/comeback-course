@@ -255,6 +255,9 @@ function renderNames(){
 /* ============================================================
    רינדור כללי
    ============================================================ */
+function renderAssembled(){
+  document.querySelectorAll('[data-widget="assembled"]').forEach(el=>W.assembled(el));
+}
 function renderWidgets(){
   document.querySelectorAll('[data-widget]').forEach(el=>{
     const fn = W[el.dataset.widget]; if(fn) fn(el);
@@ -271,12 +274,18 @@ function renderAll(){ renderWidgets(); buildCard(); updateGate(); }
    ============================================================ */
 document.addEventListener('input', e=>{
   const d = e.target.dataset, v = e.target.value;
-  if(d.act==='name'){ C.p[+d.i].name = v; saveCouple(); renderWidgets(); buildCard(); updateGate(); return; }
+  if(d.act==='name'){ C.p[+d.i].name = v; saveCouple();
+    document.querySelectorAll('.pname').forEach((el,k)=>{ el.textContent = C.p[k%2].name || '·'; });
+    buildCard(); updateGate(); return; }
   if(d.act==='free'){ setPair(d.f, +d.i, v); buildCard(); return; }
   if(d.act==='suggest'){ setPair(d.f, +d.i, v);
     if(!Array.isArray(A[d.f+'_t'])) A[d.f+'_t']=[false,false];
     A[d.f+'_t'][+d.i]=true; saveAnswers(); buildCard(); return; }
-  if(d.act==='shared'){ A[d.f]=v; saveAnswers(); renderWidgets(); buildCard(); return; }
+  if(d.act==='shared'){ A[d.f]=v; saveAnswers(); renderAssembled(); buildCard(); return; }
+});
+
+document.addEventListener('change', e=>{
+  if(e.target.dataset.act==='name'){ renderWidgets(); buildCard(); }
 });
 
 document.addEventListener('click', e=>{
@@ -291,7 +300,9 @@ document.addEventListener('click', e=>{
     const arr = A[d.f][+d.i], k = arr.indexOf(d.v);
     k>-1 ? arr.splice(k,1) : arr.push(d.v);
     saveAnswers(); b.setAttribute('aria-pressed', k===-1); buildCard(); return; }
-  if(d.act==='sselect'){ A[d.f] = (A[d.f]===d.v ? '' : d.v); saveAnswers(); renderWidgets(); buildCard(); return; }
+  if(d.act==='sselect'){ A[d.f] = (A[d.f]===d.v ? '' : d.v); saveAnswers();
+    const host = b.closest('[data-widget="schoice"]'); if(host) W.schoice(host);
+    renderAssembled(); buildCard(); return; }
   if(b.id==='resetbtn'){
     if(confirm('למחוק את התשובות של התחנה הזאת ולהתחיל אותה מחדש?')){
       localStorage.removeItem(STATION_KEY()); location.reload(); } }
