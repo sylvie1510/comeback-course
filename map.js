@@ -11,7 +11,7 @@ const START = { he:'למה אנחנו כאן', field:'goal', line:'חשוב לי
 const ROWS = [
   {num:'01', en:'STOP',      he:'לעצור',
    line:'אני יודע/ת מתי לעצור, לפני שאנחנו עושים עוד נזק.',
-   items:[{label:'מילת הקוד', field:'code'},{label:'אורך ההפסקה', field:'duration'}]},
+   items:[{label:'מילת הקוד', field:'code'},{label:'אורך ההפסקה', field:'duration'},{label:'מי מחזיר לשיחה', field:'whoreturns'}]},
   {num:'02', en:'SPACE',     he:'הזמן שאחרי',
    line:'אני יודע/ת להירגע בזמן הזה, במקום להמשיך את הריב בראש.',
    items:[{label:'מה אנחנו לא עושים', field:'notdoing'}]},
@@ -62,15 +62,8 @@ function render(){
       זוגיות בריאה היא זוגיות ששני אנשים יודעים איך לתקן, ולחזור לחיבור מחודש.</p>
     </div>`;
 
-  const sec = document.getElementById('cardsec');
-  const teaser = document.getElementById('mapteaser');
-  if(!any){
-    if(sec) sec.hidden = true;
-    if(teaser) teaser.hidden = false;
-  }else{
-    if(sec) sec.hidden = false;
-    if(teaser) teaser.hidden = true;
-  }
+  const hint = document.getElementById('maphint');
+  if(hint) hint.textContent = any ? '' : 'המפה תתמלא מעצמה ככל שתעברו את התחנות.';
 }
 document.readyState==='loading' ? addEventListener('DOMContentLoaded', render) : render();
 })();

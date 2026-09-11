@@ -90,10 +90,10 @@ var CARD = {
   visual: {kind:'ladder', title:'מד הריחוק שלכם', field:'rung', options:'RUNGS'},
   badge: {field:'rung', options:'RUNGS'},
   requires: {pair:['rung','weird'], shared:['sign','closure']},
+  steps: {label:'הצעד שלכם עכשיו', bank:'BANK_C', key:'rung'},
   blocks: [
     {type:'bank',        bank:'BANK_A', key:'rung'},
     {type:'bankPartner', bank:'BANK_WEIRD', key:'weird'},
-    {type:'do',          label:'מה שעליך לעשות', bank:'BANK_C', key:'rung'},
     {type:'chips',       label:'ככה אני [מסמן/מסמנת] שחזרתי', field:'signs'},
     {type:'plain',       template:'SIGNAL', quote:true},
     {type:'note',        label:'מה שלמדתי על עצמי', field:'learnedMe'},

@@ -287,6 +287,38 @@ input::placeholder,textarea::placeholder{color:var(--ink-mute);opacity:1}
 .scale .st.on i{background:var(--crimson);height:8px}
 .scale .st.on span{color:var(--ink)}
 
+/* צעדים קונקרטיים */
+.steps{
+  display:grid;gap:1px;background:var(--ink);border:2px solid var(--ink);
+  margin:0 0 2rem;
+}
+@media(min-width:640px){.steps{grid-template-columns:1fr 1fr}.steps .hd{grid-column:1/-1}}
+.steps .hd{
+  background:var(--ink);color:var(--paper);font-weight:900;
+  font-size:.74rem;letter-spacing:.18em;padding:.6rem .9rem;text-align:center;
+}
+.steps .step{background:var(--sheet);padding:1.1rem 1.15rem}
+.steps .step .who{font-weight:900;font-size:1.05rem;margin-bottom:.45rem}
+.steps .step p{margin:0;color:var(--ink);line-height:1.6;font-size:.95rem}
+
+/* רשימה מסומנת בלי מספור */
+.ladderv.nonum li{padding-inline-start:1.1rem}
+
+/* שתי דלתות */
+.doors{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule)}
+@media(min-width:640px){.doors{grid-template-columns:1fr 1fr}}
+.dcol{background:var(--paper);padding:1rem}
+.dcol .who{font-weight:900;font-size:1rem;margin-bottom:.5rem}
+.dcol .ev{margin:0 0 .8rem;font-size:.88rem;color:var(--ink-mute);font-weight:900}
+.dcol .door{background:var(--sheet);border:1px solid var(--rule);padding:.75rem .85rem;margin-bottom:.6rem}
+.dcol .door:last-child{margin-bottom:0}
+.dcol .door span{display:block;font-size:.66rem;letter-spacing:.14em;font-weight:900;color:var(--ink-mute);margin-bottom:.35rem}
+.dcol .door p{margin:0 0 .5rem;font-size:.92rem;line-height:1.5;color:var(--ink)}
+.dcol .door b{font-size:.82rem;font-weight:900}
+.dcol .door.d1{border-inline-start:3px solid var(--crimson)}
+.dcol .door.d1 b{color:var(--crimson)}
+.dcol .door.d2{border-inline-start:3px solid var(--ink)}
+
 /* ---------- final card ---------- */
 #cardsec{background:var(--ink);color:var(--paper)}
 #cardsec .eyebrow{color:var(--crimson-soft)}

@@ -243,11 +243,56 @@ function visScale(v){
     <div class="scale">${steps}</div>${note}</figure>`;
 }
 
+function visMarks(v){
+  const opts = window[v.options] || [];
+  if(!(val(v.field,0) && val(v.field,1)))
+    return visHint(v, v.hint || 'המיפוי ייבנה כאן ברגע ששניכם תענו.');
+  const rows = opts.map(o=>{
+    const who = C.p.map((p,i)=> (val(v.field,i)===o.id ? `<em>${esc(p.name||'·')}</em>` : '')).join('');
+    return `<li class="${who?'on':''}"><span class="lbl">${esc(rz(o.label||'',0))}</span><span class="pins">${who}</span></li>`;
+  }).join('');
+  const same = val(v.field,0) === val(v.field,1);
+  const note = same ? (v.sameNote||'') : (v.diffNote||'');
+  return `<figure class="vis"><figcaption>${esc(v.title)}</figcaption>
+    <ol class="ladderv nonum">${rows}</ol>${note?`<p class="combo">${esc(note)}</p>`:''}</figure>`;
+}
+
+function visDoors(v){
+  const ok = C.p.some((p,i)=> val(v.a,i) || val(v.b,i));
+  if(!ok) return visHint(v, v.hint || 'שתי הדלתות ייבנו כאן ממה שתכתבו למעלה.');
+  const cols = C.p.map((p,i)=>`
+    <div class="dcol">
+      <div class="who">${esc(p.name||'·')}</div>
+      ${val(v.field,i)?`<p class="ev">${esc(val(v.field,i))}</p>`:''}
+      <div class="door d1"><span>הדלת הראשונה</span><p>${esc(val(v.a,i)||'—')}</p><b>↓ ריחוק, או ריב נוסף</b></div>
+      <div class="door d2"><span>הדלת השנייה</span><p>${esc(val(v.b,i)||'—')}</p><b>↓ פנייה מרוככת</b></div>
+    </div>`).join('');
+  return `<figure class="vis"><figcaption>${esc(v.title)}</figcaption>
+    <div class="doors">${cols}</div>
+    <p class="combo">שתיהן אפשריות. ההבדל ביניהן הוא לא באמת, אלא במה שקורה אחריהן.</p></figure>`;
+}
+
+function buildSteps(){
+  const st = (window.CARD||{}).steps; if(!st) return '';
+  const bank = window[st.bank] || {};
+  const any = C.p.some((p,i)=> val(st.key,i));
+  if(!any) return '';
+  const cols = C.p.map((p,i)=>{
+    const k = val(st.key,i);
+    return `<div class="step">
+      <div class="who">${esc(p.name||'·')}</div>
+      <p>${k ? esc(rz(bank[k], i)) : '—'}</p></div>`;
+  }).join('');
+  return `<div class="steps"><div class="hd">${esc(st.label||'הצעדים שלכם')}</div>${cols}</div>`;
+}
+
 function buildVisual(){
   const v = (window.CARD||{}).visual; if(!v) return '';
   if(v.kind === 'matrix') return visMatrix(v);
   if(v.kind === 'ladder') return visLadder(v);
   if(v.kind === 'scale')  return visScale(v);
+  if(v.kind === 'marks')  return visMarks(v);
+  if(v.kind === 'doors')  return visDoors(v);
   return '';
 }
 
@@ -319,7 +364,7 @@ function buildCard(){
 
   el.innerHTML = `<div class="cardhead"><b>${esc(CARD.title)}</b>
       <span>${esc(C.p[0].name||'')}${C.p[1].name?' & '+esc(C.p[1].name):''}</span></div>
-    ${buildVisual()}${people}${agr}`;
+    ${buildVisual()}${buildSteps()}${people}${agr}`;
   markProgress();
 }
 

@@ -104,13 +104,17 @@ var CHIPS_OPENQ = [
 /* ---------- הכרטיס ---------- */
 var CARD = {
   title: 'תחנה 04 · REPAIR',
+  visual: {kind:'marks', title:'מפת ה־50% שלכם', field:'half', options:'HALVES',
+           hint:'המפה תיבנה כאן ברגע ששניכם תסמנו איפה החלק שלכם.',
+           sameNote:'שניכם סימנתם את אותו מקום. זה אומר שיש לכם דפוס משותף, ושאפשר לתרגל אותו יחד.',
+           diffNote:'כל אחד מכם נופל במקום אחר. זה דווקא טוב: אתם לא צריכים לתקן את אותו דבר, אלא כל אחד את שלו.'},
   badge: {field:'half', options:'HALVES'},
   requires: {pair:['righteous','need','half'], shared:['blowup']},
+  steps: {label:'ה־50% שלי · הצעד שלכם', bank:'BANK_HALF', key:'half'},
   blocks: [
     {type:'bank',        bank:'BANK_RIGHT', key:'righteous'},
     {type:'bankPartner', bank:'BANK_NEED',  key:'need'},
     {type:'chips',       label:'השאלות שאני [מתחייב/מתחייבת] לשאול', field:'openq'},
-    {type:'do',          label:'ה־50% שלי', bank:'BANK_HALF', key:'half'},
     {type:'note',        label:'אני רואה מה עשיתי', field:'apoDid'},
     {type:'note',        label:'אני [מבין/מבינה] איך זה השפיע עליך', field:'apoEffect'},
     {type:'note',        label:'ומה שאני [מציע/מציעה] כדי לתקן', field:'apoFix'},

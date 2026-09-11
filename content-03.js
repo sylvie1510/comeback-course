@@ -102,12 +102,12 @@ var CARD = {
   },
   badge: {field:'stance', options:'STANCES'},
   requires: {pair:['rejection','stance'], shared:['initiator']},
+  steps: {label:'הצעד שלכם עכשיו', bank:'BANK_C', key:'rejection'},
   blocks: [
     {type:'chips', label:'ככה אני [מזמין/מזמינה]', field:'invites'},
     {type:'bank',  bank:'BANK_A', key:'rejection'},
     {type:'note',  label:'מה שאני לא [סופר/סופרת] כהזמנה', field:'missed'},
     {type:'note',  label:'והפרשנות הנדיבה שלי', field:'generous'},
-    {type:'do',    label:'מה שעליך לעשות', bank:'BANK_C', key:'rejection'},
     {type:'quote', field:'opener', bank:'BANK_OPENER', key:'stance'},
     {type:'plain', template:'NOT_READY', quote:true},
     {type:'note',        label:'מה שלמדתי על עצמי', field:'learnedMe'},

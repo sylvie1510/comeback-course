@@ -124,11 +124,11 @@ var CARD = {
   },
   badge: {field:'mode', options:'MODES'},
   requires: {pair:['mode','interp'], shared:['code','duration','whoreturns']},
+  steps: {label:'הצעד שלכם עכשיו', bank:'BANK_C', key:'mode'},
   blocks: [
     {type:'bank',        bank:'BANK_A', key:'mode'},
     {type:'bankPartner', bank:'BANK_B', key:'interp'},
     {type:'note',        label:'הסימן המוקדם שלי', field:'early'},
-    {type:'do',          label:'מה שעליך לעשות', bank:'BANK_C', key:'mode'},
     {type:'quote',       field:'flip', bank:'BANK_FLIP', key:'mode'},
     {type:'plain',       template:'FULL_LINE', quote:true},
     {type:'note',        label:'מה שלמדתי על עצמי', field:'learnedMe'},

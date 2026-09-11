@@ -101,8 +101,11 @@ var FULL_LINE = 'הקשר הזה חשוב לי יותר מהצורך להחזי�
 /* ---------- הכרטיס ---------- */
 var CARD = {
   title: 'תחנה 02 · SPACE',
+  visual: {kind:'doors', title:'שתי הדלתות שלכם', field:'event', a:'story', b:'other',
+           hint:'שתי הדלתות ייבנו כאן ממה שתכתבו בשאלת הדלתות.'},
   badge: {field:'distortion', options:'DISTORTIONS'},
   requires: {pair:['distortion','belief'], shared:['notdoing']},
+  steps: {label:'הצעד שלכם עכשיו', bank:'BANK_C', key:'distortion'},
   blocks: [
     {type:'bank',  bank:'BANK_A', key:'distortion'},
     {type:'chips', label:'ומה אני עושה עם עצמי בזמן הזה', field:'doing'},
@@ -112,7 +115,6 @@ var CARD = {
     {type:'note',  label:'האירוע החוזר', field:'event'},
     {type:'note',  label:'הדלת הראשונה', field:'story'},
     {type:'note',  label:'והדלת השנייה', field:'other'},
-    {type:'do',    label:'מה שעליך לעשות', bank:'BANK_C', key:'distortion'},
     {type:'bank',  bank:'BANK_EGO', key:'belief'},
     {type:'chips', label:'שלושת הדברים שאעשה במקום', field:'instead'},
     {type:'plain', template:'FULL_LINE', quote:true},
