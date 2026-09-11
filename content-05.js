@@ -87,6 +87,7 @@ var SIGNAL = 'אני [רוצה/רוצה] לחזור אליך. אני לא [בט�
 /* ---------- הכרטיס ---------- */
 var CARD = {
   title: 'תחנה 05 · RECONNECT',
+  visual: {kind:'ladder', title:'מד הריחוק שלכם', field:'rung', options:'RUNGS'},
   badge: {field:'rung', options:'RUNGS'},
   requires: {pair:['rung','weird'], shared:['sign','closure']},
   blocks: [

@@ -165,6 +165,79 @@ W.assembled = (el) => {
   }).join('');
 };
 
+
+/* ============================================================
+   ויזואליזציות · תמונה אחת של הדפוס בסוף כל תחנה
+   ============================================================ */
+function visMatrix(v){
+  const opts = window[v.options] || [];
+  const pins = {};
+  C.p.forEach((p,i)=>{ const k = val(v.field,i); if(k){ (pins[k] = pins[k] || []).push(p.name || '·'); } });
+  const cell = id => {
+    const o = opts.find(o=>o.id===id) || {};
+    const mine = (pins[id]||[]).map(n=>`<em>${esc(n)}</em>`).join('');
+    return `<div class="qd${mine?' on':''}">
+      <span class="en">${esc(o.en||'')}</span><b>${esc(rz(o.label||'',0))}</b>
+      <div class="pins">${mine}</div></div>`;
+  };
+  const a = val(v.field,0), b = val(v.field,1);
+  let combo = '';
+  if(a && b){
+    const key = [a,b].sort().join('|');
+    const c = (window[v.combos]||{})[key];
+    if(c) combo = `<p class="combo"><b>${esc(c.name)}</b> ${esc(c.line)}</p>`;
+  }
+  return `<figure class="vis">
+    <figcaption>${esc(v.title)}</figcaption>
+    <div class="mx">
+      <div class="ax t">${esc(v.axes[0])}</div>
+      <div class="ax r">${esc(v.axes[2])}</div>
+      <div class="grid">${cell(v.cells[0])}${cell(v.cells[1])}${cell(v.cells[3])}${cell(v.cells[2])}</div>
+      <div class="ax l">${esc(v.axes[3])}</div>
+      <div class="ax b">${esc(v.axes[1])}</div>
+    </div>${combo}</figure>`;
+}
+
+function visLadder(v){
+  const opts = window[v.options] || [];
+  const idx = i => opts.findIndex(o => o.id === val(v.field,i));
+  const i0 = idx(0), i1 = idx(1);
+  const rows = opts.map((o,k)=>{
+    const who = C.p.map((p,i)=> (idx(i)===k ? `<em>${esc(p.name||'·')}</em>` : '')).join('');
+    return `<li class="${who?'on':''}"><span class="n">${String(k+1).padStart(2,'0')}</span>
+      <span class="lbl">${esc(rz(o.label||'',0))}</span><span class="pins">${who}</span></li>`;
+  }).join('');
+  let combo = '';
+  if(i0 > -1 && i1 > -1){
+    const gap = Math.abs(i0 - i1);
+    combo = gap === 0
+      ? '<p class="combo"><b>אתם באותו שלב.</b> זה אומר שאתם נתקעים יחד, ושהצעד הבא הוא משותף.</p>'
+      : `<p class="combo"><b>${gap===1?'אתם שלב אחד זה מזה.':'אתם '+gap+' שלבים זה מזה.'}</b> ` +
+        'מי שנמצא גבוה יותר צריך לרדת אל השלב של השני, ולא להפך. ההתקרבות תמיד מתחילה מהמקום האיטי יותר.</p>';
+  }
+  return `<figure class="vis"><figcaption>${esc(v.title)}</figcaption>
+    <ol class="ladderv">${rows}</ol>${combo}</figure>`;
+}
+
+function visScale(v){
+  const opts = window[v.options] || [];
+  const cur = A[v.field];
+  const k = opts.indexOf(cur);
+  const steps = opts.map((o,i)=>
+    `<div class="st${i===k?' on':''}${(k>-1&&i<k)?' pre':''}"><i></i><span>${esc(o)}</span></div>`).join('');
+  const note = (k > -1 && v.notes && v.notes[k]) ? `<p class="combo">${esc(v.notes[k])}</p>` : '';
+  return `<figure class="vis"><figcaption>${esc(v.title)}</figcaption>
+    <div class="scale">${steps}</div>${note}</figure>`;
+}
+
+function buildVisual(){
+  const v = (window.CARD||{}).visual; if(!v) return '';
+  if(v.kind === 'matrix') return visMatrix(v);
+  if(v.kind === 'ladder') return visLadder(v);
+  if(v.kind === 'scale')  return visScale(v);
+  return '';
+}
+
 /* ============================================================
    הכרטיס
    ============================================================ */
@@ -233,7 +306,7 @@ function buildCard(){
 
   el.innerHTML = `<div class="cardhead"><b>${esc(CARD.title)}</b>
       <span>${esc(C.p[0].name||'')}${C.p[1].name?' & '+esc(C.p[1].name):''}</span></div>
-    ${people}${agr}`;
+    ${buildVisual()}${people}${agr}`;
   markProgress();
 }
 
