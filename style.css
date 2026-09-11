@@ -51,11 +51,6 @@ body::before{
 #chapbar .t{font-weight:900;font-size:.95rem;line-height:1.2;color:var(--ink)}
 #chapbar .c{font-size:.72rem;letter-spacing:.1em;font-weight:900;color:var(--ink-mute);white-space:nowrap}
 
-.chapter[hidden]{display:none}
-.chapnav{
-  display:flex;justify-content:space-between;align-items:center;gap:1rem;
-  margin-inline:auto;padding-block:.5rem 3.5rem;
-}
 .cbtn{
   font:inherit;font-weight:900;font-size:.95rem;
   border:1px solid var(--ink);background:transparent;color:var(--ink);
@@ -65,7 +60,7 @@ body::before{
 .cbtn:hover{background:var(--ink);color:var(--paper)}
 .cbtn.solid{background:var(--crimson);border-color:var(--crimson);color:#fff}
 .cbtn.solid:hover{background:#a10300;border-color:#a10300}
-@media print{#chapbar,.chapnav{display:none}.chapter[hidden]{display:block!important}}
+@media print{#chapbar{display:none}}
 
 /* ---------- layout ---------- */
 .wrap{max-width:var(--measure);margin-inline:auto;padding-inline:clamp(1.25rem,5vw,2rem)}

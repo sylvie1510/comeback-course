@@ -325,10 +325,9 @@ function buildCard(){
 
 
 /* ============================================================
-   פרקים · חלוקת התחנה לחלקים עם מד התקדמות
+   פרקים · גלילה רציפה, עם מד התקדמות שמראה איפה אתם
    ============================================================ */
-const CHAP_KEY = () => 'comeback.chap' + (window.STATION ? STATION.num : '00');
-let CHAPTERS = [], chapIdx = 0;
+let CHAPTERS = [], chapIdx = -1;
 
 function chapTitle(sec){
   if(sec.id === 'cardsec') return 'הכרטיס שלכם';
@@ -339,6 +338,28 @@ function chapTitle(sec){
     if(hd) t = hd.textContent.trim().replace(/\s+/g,' ');
   }
   return t || 'פרק';
+}
+
+function setActiveChapter(k){
+  if(k === chapIdx) return;
+  chapIdx = k;
+  const bar = document.getElementById('chapbar'); if(!bar) return;
+  bar.querySelector('.t').textContent = CHAPTERS[k].dataset.title;
+  bar.querySelector('.c').textContent = `פרק ${k+1} מתוך ${CHAPTERS.length}`;
+  bar.querySelectorAll('.seg').forEach((sg,i)=>{
+    sg.classList.toggle('done', i < k);
+    sg.classList.toggle('now', i === k);
+  });
+}
+
+function goChapter(k){
+  if(!CHAPTERS.length) return;
+  k = Math.max(0, Math.min(CHAPTERS.length-1, k));
+  const bar = document.getElementById('chapbar');
+  const bh = bar ? bar.offsetHeight : 0;
+  const y = CHAPTERS[k].getBoundingClientRect().top + scrollY - bh - 10;
+  setActiveChapter(k);
+  scrollTo({top: Math.max(0, y), behavior: 'smooth'});
 }
 
 function chapterize(){
@@ -364,17 +385,11 @@ function chapterize(){
   const rail = document.getElementById('rail');
   document.body.insertBefore(bar, rail ? rail.nextSibling : document.body.firstChild);
 
-  groups.forEach((g, k) => {
+  groups.forEach(g => {
     const wrap = document.createElement('div');
     wrap.className = 'chapter';
     wrap.dataset.title = chapTitle(g[0]);
     g.forEach(sec => wrap.appendChild(sec));
-    const nav = document.createElement('div');
-    nav.className = 'chapnav wrap wide';
-    nav.innerHTML =
-      (k > 0 ? '<button type="button" class="cbtn" data-chap="prev">→ הקודם</button>' : '<span></span>') +
-      (k < groups.length - 1 ? '<button type="button" class="cbtn solid" data-chap="next">הבא ←</button>' : '<span></span>');
-    wrap.appendChild(nav);
     gate.appendChild(wrap);
   });
 
@@ -382,32 +397,17 @@ function chapterize(){
   bar.querySelector('.segs').innerHTML = CHAPTERS.map((c,k)=>
     `<button type="button" class="seg" data-go="${k}" title="${esc(c.dataset.title)}"><i></i></button>`).join('');
 
-  let start = 0;
-  try{ start = Math.min(CHAPTERS.length-1, Math.max(0, parseInt(localStorage.getItem(CHAP_KEY())||'0',10)||0)); }catch(e){}
-  showChapter(start, false);
+  const sync = () => {
+    const bh = bar.offsetHeight;
+    let k = 0;
+    CHAPTERS.forEach((c,i)=>{ if(c.getBoundingClientRect().top - bh - 40 <= 0) k = i; });
+    setActiveChapter(k);
+  };
+  addEventListener('scroll', sync, {passive:true});
+  addEventListener('resize', sync, {passive:true});
+  setActiveChapter(0);
+  setTimeout(sync, 60);
   return true;
-}
-
-function showChapter(k, scroll){
-  if(!CHAPTERS.length) return;
-  chapIdx = Math.max(0, Math.min(CHAPTERS.length-1, k));
-  CHAPTERS.forEach((c,i)=> c.hidden = (i !== chapIdx));
-  const bar = document.getElementById('chapbar');
-  if(bar){
-    bar.querySelector('.t').textContent = CHAPTERS[chapIdx].dataset.title;
-    bar.querySelector('.c').textContent = `פרק ${chapIdx+1} מתוך ${CHAPTERS.length}`;
-    bar.querySelectorAll('.seg').forEach((s,i)=>{
-      s.classList.toggle('done', i < chapIdx);
-      s.classList.toggle('now', i === chapIdx);
-    });
-  }
-  try{ localStorage.setItem(CHAP_KEY(), String(chapIdx)); }catch(e){}
-  CHAPTERS[chapIdx].querySelectorAll('.rv').forEach(el=>el.classList.add('in'));
-  if(scroll){
-    const bh = bar ? bar.offsetHeight : 0;
-    const y = CHAPTERS[chapIdx].getBoundingClientRect().top + scrollY - bh - 10;
-    scrollTo({top: Math.max(0, y), behavior: 'smooth'});
-  }
 }
 
 /* ============================================================
@@ -479,11 +479,9 @@ document.addEventListener('click', e=>{
   if(d.fieldGo){
     const el = document.querySelector('[data-field="'+d.fieldGo+'"]');
     const ch = el && el.closest('.chapter');
-    if(ch && CHAPTERS.length) showChapter(CHAPTERS.indexOf(ch), true);
+    if(ch && CHAPTERS.length) goChapter(CHAPTERS.indexOf(ch));
     return; }
-  if(d.chap==='next'){ showChapter(chapIdx+1, true); return; }
-  if(d.chap==='prev'){ showChapter(chapIdx-1, true); return; }
-  if(d.go !== undefined){ showChapter(+d.go, true); return; }
+  if(d.go !== undefined){ goChapter(+d.go); return; }
   if(b.id==='resetbtn'){
     if(confirm('למחוק את התשובות של התחנה הזאת ולהתחיל אותה מחדש?')){
       localStorage.removeItem(STATION_KEY()); location.reload(); } }
