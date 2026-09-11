@@ -4,7 +4,7 @@
   --ink:#231D1B;
   --ink-soft:#463D39;
   --ink-faint:#2B2421;
-  --ink-mute:#9A8F89;
+  --ink-mute:#6E645E;
   --rule:#DED4CB;
   --crimson:#840200;
   --crimson-soft:#B6564E;
@@ -369,6 +369,7 @@ hr.rule{border:0;border-top:1px solid var(--rule);margin-block:2.5rem}
   #cardsec{background:#fff;color:#000;padding:0}
   #cardsec h2,#cardsec .eyebrow,.btnrow{display:none}
   .card{border:1px solid #000}
+  .stationnav,.helpline{display:none!important}
 }
 
 /* ---------- intro ---------- */
@@ -432,6 +433,7 @@ a.station:focus-visible{outline:2px solid var(--crimson);outline-offset:-2px}
 a.station .n{font-weight:900;font-size:.72rem;letter-spacing:.2em;color:var(--crimson-soft)}
 a.station .t{font-weight:900;font-size:clamp(1.35rem,1.1rem + 1.2vw,1.85rem);line-height:1.15;margin-block:.15rem .35rem}
 a.station .d{font-size:.92rem;color:var(--ink-faint);line-height:1.5}
+a.station .mins{font-size:.72rem;letter-spacing:.1em;color:var(--ink-faint);opacity:.75;margin-top:.5rem}
 a.station .st{
   position:absolute;inset-inline-end:1.5rem;inset-block-start:1.5rem;
   font-size:.68rem;letter-spacing:.16em;color:var(--ink-mute);
@@ -447,6 +449,26 @@ a.station.done .t::after{content:" ✓";color:var(--crimson);font-size:.7em;vert
   border-top:1px solid var(--rule);padding-top:1.5rem;margin-top:1rem}
 .stationnav a{color:var(--ink-faint);text-decoration:none;font-size:.85rem;letter-spacing:.1em;font-weight:900}
 .stationnav a:hover{color:var(--crimson)}
+
+.helpline{text-align:center;color:var(--ink-faint);margin:.9rem 0 0;font-size:.78rem}
+.helpline a{color:var(--ink-faint);text-decoration:underline;font-weight:900}
+.helpline a:hover{color:var(--crimson)}
+
+/* ---------- safety note ---------- */
+.safenote{background:var(--sheet);border:1px solid var(--rule);border-inline-start:3px solid var(--crimson-soft);
+  padding:1.15rem 1.3rem;border-radius:2px}
+.safenote a{color:var(--crimson);font-weight:900;text-decoration:none}
+.safenote a:hover{text-decoration:underline}
+.safemini{margin-top:.9rem}
+.safemini a{color:var(--crimson);font-weight:900;text-decoration:underline}
+.safemini a:hover{color:var(--crimson)}
+
+/* ---------- device sync ---------- */
+.syncbox{border:1px solid var(--rule);padding:1rem 1.3rem;border-radius:2px;background:var(--sheet)}
+.syncbox summary{cursor:pointer;font-weight:900;font-size:.92rem;color:var(--ink)}
+.syncbox summary:hover{color:var(--crimson)}
+.syncbtns{display:flex;gap:.75rem;flex-wrap:wrap;margin-top:.4rem}
+.syncbox input[type=file]{display:none}
 
 /* ---------- misc ---------- */
 .ladder{counter-reset:s;display:grid;gap:.5rem;margin-block:1.75rem}

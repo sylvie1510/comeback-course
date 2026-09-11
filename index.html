@@ -5,8 +5,8 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>הקאמבק · הדרך חזרה</title>
-<link rel="stylesheet" href="fonts.css?v=22">
-<link rel="stylesheet" href="style.css?v=22">
+<link rel="stylesheet" href="fonts.css?v=29">
+<link rel="stylesheet" href="style.css?v=29">
 </head>
 <body>
 
@@ -22,7 +22,20 @@
     </p>
     <div class="scroll-hint">גללו · שבו יחד</div>
     <p class="skip"><a href="#start">כבר יודעים למה אתם כאן? קפצו ישר לתחנות ↓</a></p>
+    <p class="tiny safemini">לפני שממשיכים: זה לא הכלי הנכון אם יש בזוגיות שלכם פחד פיזי מבן/בת הזוג. <a href="tel:1201">ער״ן · 1201</a>, כל השעות.</p>
     <figure class="coverimg"><img src="images/00-cover.jpg" alt="זוג הולך בשביל" loading="eager" decoding="async"></figure>
+  </div>
+</section>
+
+<section class="wrap" id="checkinBanner" hidden>
+  <div class="safenote" style="border-inline-start-color:var(--crimson)">
+    <p class="tiny" style="margin-bottom:.5rem">
+      עברו כבר <b class="days">7</b> ימים מאז שסיימתם את חמש התחנות.
+    </p>
+    <p class="tiny" style="margin-bottom:.7rem">
+      רוצים לעשות בדיקה קצרה? <a href="map.html">למפה שלכם</a> - או פשוט חמש דקות לדבר על איך הולך.
+    </p>
+    <button type="button" class="btn" id="checkinDismiss" style="padding:.4rem .9rem;font-size:.8rem">סגירה</button>
   </div>
 </section>
 
@@ -165,6 +178,23 @@
 </section>
 
 <section class="wrap">
+  <div class="rv">
+    <div class="eyebrow">רגע אחד לפני שממשיכים</div>
+    <div class="safenote">
+      <p class="tiny" style="margin-bottom:.6rem">
+        הדרך הזאת בנויה לריבים, לריחוק, ולתקשורת שנשברת - לא לפחד פיזי מבן/בת הזוג.
+      </p>
+      <p class="tiny" style="margin-bottom:.6rem">
+        אם יש בזוגיות שלכם איום, אלימות, או פחד ממשי מהצד השני - זה לא המסע להתחיל בו עכשיו.
+        יש למי לפנות: <a href="tel:1201">ער״ן · 1201</a> (עזרה נפשית ראשונה, כל השעות, בלי לספר שם),
+        או <a href="tel:118">מוקד 118</a> של משרד הרווחה.
+      </p>
+      <p class="tiny" style="margin-bottom:0">אם זה לא המצב אצלכם - בואו נמשיך.</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
   <div class="q rv">
     <div class="eyebrow">קודם כל</div>
     <h3>איך קוראים לכם?</h3>
@@ -203,30 +233,35 @@
         <div class="n">01 · STOP</div>
         <div class="t">לעצור</div>
         <div class="d">לזהות את ההסלמה כשהיא מתחילה, ולדעת לעצור לפני שנעשה נזק.</div>
+        <div class="mins">כ-12 דקות</div>
       </a>
       <a class="station" href="station-02.html" data-num="02">
         <span class="st"></span>
         <div class="n">02 · SPACE</div>
         <div class="t">מרחב</div>
         <div class="d">מה לעשות עם עצמנו כשאנחנו לבד בראש שלנו. החלק שאפשר ליישם גם בלי שיתוף פעולה של אף אחד.</div>
+        <div class="mins">כ-8 דקות</div>
       </a>
       <a class="station" href="station-03.html" data-num="03">
         <span class="st"></span>
         <div class="n">03 · RETURN</div>
         <div class="t">חזרה</div>
         <div class="d">איך נראית הזמנה לתיקון, איך שולחים אותה, ואיך לא מפספסים אותה כשהיא מגיעה.</div>
+        <div class="mins">כ-8 דקות</div>
       </a>
       <a class="station" href="station-04.html" data-num="04">
         <span class="st"></span>
         <div class="n">04 · REPAIR</div>
         <div class="t">תיקון</div>
         <div class="d">מצדקנות לסקרנות, ה־50% שלי, התנצלות שעובדת ובקשה שהיא לא הוראה.</div>
+        <div class="mins">כ-10 דקות</div>
       </a>
       <a class="station" href="station-05.html" data-num="05">
         <span class="st"></span>
         <div class="n">05 · RECONNECT</div>
         <div class="t">חיבור מחדש</div>
         <div class="d">אפשר לעשות שיחת תיקון מצוינת ולהישאר זרים. איך חוזרים גם לגוף של הקשר.</div>
+        <div class="mins">כ-8 דקות</div>
       </a>
     </div>
     <p class="tiny mapteaser">
@@ -236,11 +271,49 @@
   </div>
 </section>
 
+<section class="wrap" id="sources">
+  <div class="rv">
+    <details class="syncbox">
+      <summary>מאיפה המספרים והמסגרת הזאת</summary>
+      <p class="tiny" style="margin:.8rem 0">
+        69% מהקונפליקטים הזוגיים שאינם ניתנים לפתרון, וארבעת הפרשים (ביקורת, בוז, התגוננות, אטימות) -
+        ממחקר מכון גוטמן (The Gottman Institute), מעשרות שנות מעקב אחר זוגות.
+        Physiological Flooding - המונח של ד״ר ג׳ון גוטמן למצב שבו מערכת העצבים מוצפת ופוגעת ביכולת שלנו להקשיב.
+        הציטוט על 80% מהזוגות - ג׳יימס סקסטון, עורך דין לגירושין, מתוך התובנות שלו על מה שהוא רואה אצל זוגות שמגיעים אליו.
+        המסגרת של חמש התחנות (STOP · SPACE · RETURN · REPAIR · RECONNECT) היא שיטת העבודה של סילבי פרידמן מהקליניקה שלה.
+      </p>
+    </details>
+  </div>
+</section>
+
+<section class="wrap" id="sync">
+  <div class="rv">
+    <details class="syncbox">
+      <summary>ממשיכים ממכשיר אחר? (למשל: בן/בת הזוג ממלאים בטלפון שלהם)</summary>
+      <p class="tiny" style="margin:.8rem 0">
+        כל התשובות נשמרות רק במכשיר שבו מילאתם, ולא נשלחות לשום מקום.
+        כדי לאחד תשובות משני מכשירים, או לגבות לפני שמנקים את הדפדפן -
+        הכי קל לשלוח קישור. אפשר גם קובץ.
+      </p>
+      <div class="syncbtns">
+        <button type="button" class="btn solid" id="sharelinkbtn">להעתיק קישור שיתוף</button>
+        <button type="button" class="btn" id="exportbtn">לייצא קובץ גיבוי</button>
+        <label class="btn" for="importfile">לייבא קובץ</label>
+        <input type="file" id="importfile" accept="application/json" hidden>
+      </div>
+      <p class="tiny" id="syncmsg" style="margin-top:.6rem"></p>
+    </details>
+  </div>
+</section>
+
 <div class="wrap wide"><div class="stationnav">
   <span class="tiny">סילבי פרידמן · מאמנת זוגות · @sylvie_selfishlove</span>
   <span></span>
 </div></div>
 
-<script src="engine.js?v=22"></script>
+<div class="wrap wide"><p class="tiny helpline">אם צריך עזרה עכשיו, לא מחכים: <a href="tel:1201">ער״ן · 1201</a> (עזרה נפשית ראשונה, כל השעות) · <a href="tel:118">מוקד 118</a></p></div>
+
+<script src="sync.js?v=29"></script>
+<script src="engine.js?v=29"></script>
 </body>
 </html>

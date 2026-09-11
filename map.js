@@ -65,5 +65,41 @@ function render(){
   const hint = document.getElementById('maphint');
   if(hint) hint.textContent = any ? '' : 'המפה תתמלא מעצמה ככל שתעברו את התחנות.';
 }
+
+/* ---------- תזכורת ליומן, שבוע קדימה ---------- */
+function pad(n){ return String(n).padStart(2,'0'); }
+function icsDate(d){
+  return d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate())+'T'+pad(d.getHours())+pad(d.getMinutes())+'00';
+}
+function addReminder(){
+  const couple = get('comeback.couple');
+  const names = (couple.p||[]).map(p=>p.name).filter(Boolean).join(' ו');
+  const code = (get('comeback.st01')||{}).code || '';
+  const start = new Date(); start.setDate(start.getDate()+7); start.setHours(20,0,0,0);
+  const end = new Date(start.getTime()+15*60000);
+  const desc = 'בדיקה קצרה (שלוש פעמים, פעם בשבוע): עברנו את הקאמבק.'
+    + (code ? ' השתמשנו במילת הקוד ״'+code+'״ בפועל?' : ' זכרנו להשתמש במה שהסכמנו עליו?')
+    + ' חמש דקות שיחה - מה עבד, מה לא, ומה כדאי לרענן.';
+  const ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//הקאמבק//תזכורת//HE','CALSCALE:GREGORIAN',
+    'BEGIN:VEVENT',
+    'UID:'+Date.now()+'@comeback-course',
+    'DTSTAMP:'+icsDate(new Date()),
+    'DTSTART:'+icsDate(start),
+    'DTEND:'+icsDate(end),
+    'SUMMARY:בדיקת קאמבק' + (names?' - '+names:''),
+    'DESCRIPTION:'+desc.replace(/,/g,'\\,'),
+    'RRULE:FREQ=WEEKLY;COUNT=3',
+    'END:VEVENT','END:VCALENDAR'].join('\r\n');
+  const blob = new Blob([ics], {type:'text/calendar;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'תזכורת-קאמבק.ics';
+  document.body.appendChild(a); a.click();
+  setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+}
+document.addEventListener('click', e=>{
+  if(e.target && e.target.id === 'remindbtn') addReminder();
+});
+
 document.readyState==='loading' ? addEventListener('DOMContentLoaded', render) : render();
 })();
