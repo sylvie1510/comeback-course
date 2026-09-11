@@ -237,6 +237,93 @@ function buildCard(){
   markProgress();
 }
 
+
+/* ============================================================
+   פרקים · חלוקת התחנה לחלקים עם מד התקדמות
+   ============================================================ */
+const CHAP_KEY = () => 'comeback.chap' + (window.STATION ? STATION.num : '00');
+let CHAPTERS = [], chapIdx = 0;
+
+function chapTitle(sec){
+  if(sec.id === 'cardsec') return 'הכרטיס שלכם';
+  const eb = sec.querySelector('.eyebrow');
+  let t = eb ? eb.textContent.trim().replace(/^\d+\s*·\s*/, '') : '';
+  if(!t || /^שאלה|^הסכמה/.test(t)){
+    const hd = sec.querySelector('h2, h3');
+    if(hd) t = hd.textContent.trim().replace(/\s+/g,' ');
+  }
+  return t || 'פרק';
+}
+
+function chapterize(){
+  const gate = document.getElementById('gate'); if(!gate) return false;
+  const secs = [...gate.children].filter(el => el.tagName === 'SECTION');
+  if(secs.length < 4) return false;
+
+  const isQ = el => !!el.querySelector('.q');
+  const groups = []; let cur = [];
+  secs.forEach((el, i) => {
+    if(el.id === 'cardsec'){ if(cur.length) groups.push(cur); groups.push([el]); cur = []; return; }
+    cur.push(el);
+    const nxt = secs[i+1];
+    if(isQ(el) && (!nxt || !isQ(nxt) || nxt.id === 'cardsec')){ groups.push(cur); cur = []; }
+  });
+  if(cur.length) groups.push(cur);
+  if(groups.length < 3) return false;
+
+  const bar = document.createElement('div');
+  bar.id = 'chapbar';
+  bar.innerHTML = `<div class="segs"></div>
+    <div class="meta"><b class="t"></b><span class="c"></span></div>`;
+  const rail = document.getElementById('rail');
+  document.body.insertBefore(bar, rail ? rail.nextSibling : document.body.firstChild);
+
+  groups.forEach((g, k) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'chapter';
+    wrap.dataset.title = chapTitle(g[0]);
+    g.forEach(sec => wrap.appendChild(sec));
+    const nav = document.createElement('div');
+    nav.className = 'chapnav wrap wide';
+    nav.innerHTML =
+      (k > 0 ? '<button type="button" class="cbtn" data-chap="prev">→ הקודם</button>' : '<span></span>') +
+      (k < groups.length - 1 ? '<button type="button" class="cbtn solid" data-chap="next">הבא ←</button>' : '<span></span>');
+    wrap.appendChild(nav);
+    gate.appendChild(wrap);
+  });
+
+  CHAPTERS = [...gate.querySelectorAll('.chapter')];
+  bar.querySelector('.segs').innerHTML = CHAPTERS.map((c,k)=>
+    `<button type="button" class="seg" data-go="${k}" title="${esc(c.dataset.title)}"><i></i></button>`).join('');
+
+  let start = 0;
+  try{ start = Math.min(CHAPTERS.length-1, Math.max(0, parseInt(localStorage.getItem(CHAP_KEY())||'0',10)||0)); }catch(e){}
+  showChapter(start, false);
+  return true;
+}
+
+function showChapter(k, scroll){
+  if(!CHAPTERS.length) return;
+  chapIdx = Math.max(0, Math.min(CHAPTERS.length-1, k));
+  CHAPTERS.forEach((c,i)=> c.hidden = (i !== chapIdx));
+  const bar = document.getElementById('chapbar');
+  if(bar){
+    bar.querySelector('.t').textContent = CHAPTERS[chapIdx].dataset.title;
+    bar.querySelector('.c').textContent = `פרק ${chapIdx+1} מתוך ${CHAPTERS.length}`;
+    bar.querySelectorAll('.seg').forEach((s,i)=>{
+      s.classList.toggle('done', i < chapIdx);
+      s.classList.toggle('now', i === chapIdx);
+    });
+  }
+  try{ localStorage.setItem(CHAP_KEY(), String(chapIdx)); }catch(e){}
+  CHAPTERS[chapIdx].querySelectorAll('.rv').forEach(el=>el.classList.add('in'));
+  if(scroll){
+    const bh = bar ? bar.offsetHeight : 0;
+    const y = CHAPTERS[chapIdx].getBoundingClientRect().top + scrollY - bh - 10;
+    scrollTo({top: Math.max(0, y), behavior: 'smooth'});
+  }
+}
+
 /* ============================================================
    שמות
    ============================================================ */
@@ -303,6 +390,9 @@ document.addEventListener('click', e=>{
   if(d.act==='sselect'){ A[d.f] = (A[d.f]===d.v ? '' : d.v); saveAnswers();
     const host = b.closest('[data-widget="schoice"]'); if(host) W.schoice(host);
     renderAssembled(); buildCard(); return; }
+  if(d.chap==='next'){ showChapter(chapIdx+1, true); return; }
+  if(d.chap==='prev'){ showChapter(chapIdx-1, true); return; }
+  if(d.go !== undefined){ showChapter(+d.go, true); return; }
   if(b.id==='resetbtn'){
     if(confirm('למחוק את התשובות של התחנה הזאת ולהתחיל אותה מחדש?')){
       localStorage.removeItem(STATION_KEY()); location.reload(); } }
@@ -323,15 +413,17 @@ function boot(){
     const st = a.querySelector('.st'); if(st) st.textContent = done ? 'הושלמה' : '';
   });
 
+  const hasChapters = chapterize();
+
   const io = new IntersectionObserver(es=>es.forEach(en=>{
     if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }}),
     {rootMargin:'0px 0px -12% 0px'});
   document.querySelectorAll('.rv').forEach(el=>io.observe(el));
 
-  const bar = document.querySelector('#rail i');
-  if(bar) addEventListener('scroll', ()=>{
+  const rail = document.querySelector('#rail i');
+  if(rail) addEventListener('scroll', ()=>{
     const h = document.documentElement.scrollHeight - innerHeight;
-    bar.style.width = (h>0 ? (scrollY/h)*100 : 0) + '%';
+    rail.style.width = (h>0 ? (scrollY/h)*100 : 0) + '%';
   }, {passive:true});
 }
 

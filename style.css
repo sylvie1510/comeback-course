@@ -31,6 +31,42 @@ body::before{
 #rail{position:fixed;top:0;right:0;left:0;height:2px;background:transparent;z-index:20}
 #rail i{display:block;height:100%;width:0;background:var(--crimson);transition:width .12s linear}
 
+/* ---------- chapters ---------- */
+#chapbar{
+  position:sticky;top:0;z-index:15;
+  background:rgba(239,233,227,.94);backdrop-filter:saturate(1.2) blur(8px);
+  border-bottom:1px solid var(--rule);
+  padding:.55rem clamp(1.25rem,5vw,2rem) .6rem;
+}
+#chapbar .segs{display:flex;gap:4px;margin-bottom:.45rem}
+#chapbar .seg{
+  flex:1;border:0;background:transparent;padding:0;cursor:pointer;
+  height:16px;display:flex;align-items:center;
+}
+#chapbar .seg i{display:block;width:100%;height:3px;background:var(--rule);transition:background .25s}
+#chapbar .seg.done i{background:var(--crimson-soft)}
+#chapbar .seg.now i{background:var(--crimson);height:5px}
+#chapbar .seg:hover i{background:var(--crimson-soft)}
+#chapbar .meta{display:flex;justify-content:space-between;align-items:baseline;gap:1rem}
+#chapbar .t{font-weight:900;font-size:.95rem;line-height:1.2;color:var(--ink)}
+#chapbar .c{font-size:.72rem;letter-spacing:.1em;font-weight:900;color:var(--ink-mute);white-space:nowrap}
+
+.chapter[hidden]{display:none}
+.chapnav{
+  display:flex;justify-content:space-between;align-items:center;gap:1rem;
+  margin-inline:auto;padding-block:.5rem 3.5rem;
+}
+.cbtn{
+  font:inherit;font-weight:900;font-size:.95rem;
+  border:1px solid var(--ink);background:transparent;color:var(--ink);
+  padding:.8rem 1.6rem;cursor:pointer;transition:.18s;
+  -webkit-tap-highlight-color:transparent;
+}
+.cbtn:hover{background:var(--ink);color:var(--paper)}
+.cbtn.solid{background:var(--crimson);border-color:var(--crimson);color:#fff}
+.cbtn.solid:hover{background:#a10300;border-color:#a10300}
+@media print{#chapbar,.chapnav{display:none}.chapter[hidden]{display:block!important}}
+
 /* ---------- layout ---------- */
 .wrap{max-width:var(--measure);margin-inline:auto;padding-inline:clamp(1.25rem,5vw,2rem)}
 .wide{max-width:56rem}
