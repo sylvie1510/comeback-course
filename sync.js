@@ -8,6 +8,42 @@
 const KEYS = ['comeback.couple','comeback.progress',
   'comeback.st00','comeback.st01','comeback.st02','comeback.st03','comeback.st04','comeback.st05'];
 
+
+/* ---------- מיזוג · אף תשובה לא נמחקת ----------
+   הכלל: תא ריק אצלי מתמלא ממה שהגיע. תא מלא אצלי נשאר כמו שהוא.
+   ככה כל אחד יכול למלא בטלפון שלו, ובסוף לשני המכשירים יש את שתי העמודות. */
+function isObj(v){ return v && typeof v === 'object' && !Array.isArray(v); }
+
+function mergeVal(mine, theirs){
+  if(theirs === undefined || theirs === null || theirs === '') return mine;
+  if(mine === undefined || mine === null || mine === '') return theirs;
+  if(typeof mine === 'boolean' || typeof theirs === 'boolean') return !!mine || !!theirs;
+  if(Array.isArray(mine) && Array.isArray(theirs)){
+    const out = [], n = Math.max(mine.length, theirs.length);
+    for(let i = 0; i < n; i++) out[i] = mergeVal(mine[i], theirs[i]);
+    return out;
+  }
+  if(Array.isArray(mine) && !mine.length) return theirs;
+  if(isObj(mine) && isObj(theirs)) return mergeObj(mine, theirs);
+  return mine;
+}
+
+function mergeObj(mine, theirs){
+  const out = Object.assign({}, mine || {});
+  Object.keys(theirs || {}).forEach(k => { out[k] = mergeVal(out[k], theirs[k]); });
+  return out;
+}
+
+function mergeInto(key, rawIncoming){
+  let incoming, existing;
+  try{ incoming = JSON.parse(rawIncoming); }catch(e){ return false; }
+  try{ existing = JSON.parse(localStorage.getItem(key) || 'null'); }catch(e){ existing = null; }
+  if(existing === null){ localStorage.setItem(key, rawIncoming); return true; }
+  const merged = (isObj(existing) || isObj(incoming)) ? mergeObj(existing, incoming) : mergeVal(existing, incoming);
+  localStorage.setItem(key, JSON.stringify(merged));
+  return true;
+}
+
 function exportData(){
   const data = {};
   KEYS.forEach(k=>{ const v = localStorage.getItem(k); if(v!=null) data[k]=v; });
@@ -25,9 +61,9 @@ function importData(file, msgEl){
     try{
       const data = JSON.parse(reader.result);
       let n = 0;
-      Object.keys(data).forEach(k=>{ if(KEYS.includes(k)){ localStorage.setItem(k, data[k]); n++; } });
+      Object.keys(data).forEach(k=>{ if(KEYS.includes(k) && mergeInto(k, data[k])) n++; });
       if(!n) throw new Error('empty');
-      if(msgEl) msgEl.textContent = 'יובא בהצלחה. טוענים מחדש…';
+      if(msgEl) msgEl.textContent = 'אוחד בהצלחה. שום תשובה קיימת לא נמחקה. טוענים מחדש…';
       setTimeout(()=>location.reload(), 700);
     }catch(e){
       if(msgEl) msgEl.textContent = 'הקובץ לא נראה כמו גיבוי תקין של הקאמבק. נסו לייצא שוב מהמכשיר המקורי.';
@@ -35,52 +71,6 @@ function importData(file, msgEl){
   };
   reader.readAsText(file);
 }
-
-/* ---------- קישור שיתוף - דרך קלה יותר מקובץ, לשליחה בוואטסאפ ---------- */
-function b64encode(obj){
-  return btoa(unescape(encodeURIComponent(JSON.stringify(obj))));
-}
-function b64decode(str){
-  return JSON.parse(decodeURIComponent(escape(atob(str))));
-}
-function shareLink(msgEl){
-  const data = {};
-  KEYS.forEach(k=>{ const v = localStorage.getItem(k); if(v!=null) data[k]=v; });
-  if(!Object.keys(data).length){
-    if(msgEl) msgEl.textContent = 'אין עדיין תשובות לשתף. מלאו קודם משהו באחת התחנות.';
-    return;
-  }
-  const encoded = b64encode(data);
-  const base = location.href.split('?')[0].split('#')[0].replace(/index\.html$/,'');
-  const url = base + 'index.html?d=' + encoded;
-  if(url.length > 7000){
-    if(msgEl) msgEl.textContent = 'יש כבר הרבה תשובות, והקישור יוצא ארוך מדי. עדיף להשתמש בקובץ גיבוי (למעלה).';
-    return;
-  }
-  const done = () => { if(msgEl) msgEl.textContent = 'הקישור הועתק. אפשר לשלוח אותו לבן/בת הזוג בוואטסאפ - כשהם יפתחו אותו, יוצע להם לייבא.'; };
-  const fail = () => { if(msgEl) msgEl.innerHTML = 'לא הצלחנו להעתיק אוטומטית. הקישור: <br><code style="word-break:break-all">'+url+'</code>'; };
-  if(navigator.clipboard && navigator.clipboard.writeText){
-    navigator.clipboard.writeText(url).then(done).catch(fail);
-  } else fail();
-}
-function checkIncomingLink(){
-  const params = new URLSearchParams(location.search);
-  const d = params.get('d');
-  if(!d) return;
-  try{
-    const data = b64decode(d);
-    const known = Object.keys(data).filter(k=>KEYS.includes(k));
-    if(!known.length) return;
-    if(confirm('התקבל קישור עם תשובות של הקאמבק. לייבא אותן? זה יחליף את התשובות שכבר יש במכשיר הזה.')){
-      known.forEach(k=> localStorage.setItem(k, data[k]));
-      history.replaceState(null, '', location.pathname);
-      location.reload();
-      return;
-    }
-  }catch(e){}
-  history.replaceState(null, '', location.pathname);
-}
-checkIncomingLink();
 
 /* ---------- תזכורת קצרה לחזור ולהמשיך, אם לא סיימתם עכשיו ---------- */
 function pad(n){ return String(n).padStart(2,'0'); }
@@ -147,7 +137,6 @@ document.addEventListener('click', e=>{
     const el = document.getElementById('checkinBanner');
     if(el) el.hidden = true;
   }
-  if(e.target && e.target.id === 'sharelinkbtn') shareLink(document.getElementById('syncmsg'));
 });
 document.addEventListener('change', e=>{
   if(e.target && e.target.id === 'importfile' && e.target.files && e.target.files[0]){
