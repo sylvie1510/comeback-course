@@ -169,8 +169,18 @@ W.assembled = (el) => {
 /* ============================================================
    ויזואליזציות · תמונה אחת של הדפוס בסוף כל תחנה
    ============================================================ */
+function visHint(v, msg){
+  return `<figure class="vis empty">
+    <figcaption>${esc(v.title)}</figcaption>
+    <p class="hint">${esc(msg)}</p>
+    <button type="button" class="cbtn" data-field-go="${esc(v.field)}">לשאלה החסרה ←</button>
+  </figure>`;
+}
+
 function visMatrix(v){
   const opts = window[v.options] || [];
+  if(!(val(v.field,0) && val(v.field,1)))
+    return visHint(v, 'מפת הדפוס תיבנה כאן ברגע ששניכם תבחרו את דפוס ההישרדות שלכם.');
   const pins = {};
   C.p.forEach((p,i)=>{ const k = val(v.field,i); if(k){ (pins[k] = pins[k] || []).push(p.name || '·'); } });
   const cell = id => {
@@ -200,6 +210,8 @@ function visMatrix(v){
 
 function visLadder(v){
   const opts = window[v.options] || [];
+  if(!(val(v.field,0) && val(v.field,1)))
+    return visHint(v, 'מד הריחוק ייבנה כאן ברגע ששניכם תסמנו איפה אתם נתקעים בסולם.');
   const idx = i => opts.findIndex(o => o.id === val(v.field,i));
   const i0 = idx(0), i1 = idx(1);
   const rows = opts.map((o,k)=>{
@@ -222,6 +234,7 @@ function visLadder(v){
 function visScale(v){
   const opts = window[v.options] || [];
   const cur = A[v.field];
+  if(!cur) return visHint(v, 'המד ייבנה כאן ברגע שתסכימו על התשובה יחד.');
   const k = opts.indexOf(cur);
   const steps = opts.map((o,i)=>
     `<div class="st${i===k?' on':''}${(k>-1&&i<k)?' pre':''}"><i></i><span>${esc(o)}</span></div>`).join('');
@@ -463,6 +476,11 @@ document.addEventListener('click', e=>{
   if(d.act==='sselect'){ A[d.f] = (A[d.f]===d.v ? '' : d.v); saveAnswers();
     const host = b.closest('[data-widget="schoice"]'); if(host) W.schoice(host);
     renderAssembled(); buildCard(); return; }
+  if(d.fieldGo){
+    const el = document.querySelector('[data-field="'+d.fieldGo+'"]');
+    const ch = el && el.closest('.chapter');
+    if(ch && CHAPTERS.length) showChapter(CHAPTERS.indexOf(ch), true);
+    return; }
   if(d.chap==='next'){ showChapter(chapIdx+1, true); return; }
   if(d.chap==='prev'){ showChapter(chapIdx-1, true); return; }
   if(d.go !== undefined){ showChapter(+d.go, true); return; }

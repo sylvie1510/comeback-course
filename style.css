@@ -252,6 +252,10 @@ input::placeholder,textarea::placeholder{color:var(--ink-mute);opacity:1}
 .vis .combo{margin:1.1rem 0 0;font-size:.95rem;line-height:1.6;color:var(--ink-soft)}
 .vis .combo b{color:var(--ink);font-weight:900}
 
+.vis.empty{background:var(--paper);border:1px dashed var(--rule);padding:1.4rem 1.25rem;text-align:center}
+.vis.empty .hint{margin:0 0 1.1rem;color:var(--ink-soft);font-size:.95rem;line-height:1.6}
+.vis.empty .cbtn{padding:.6rem 1.3rem;font-size:.9rem}
+
 /* מטריצה */
 .mx{display:grid;grid-template-columns:auto 1fr auto;grid-template-rows:auto 1fr auto;gap:.5rem;align-items:center}
 .mx .ax{font-size:.68rem;letter-spacing:.14em;font-weight:900;color:var(--ink-mute);text-align:center;white-space:nowrap}
