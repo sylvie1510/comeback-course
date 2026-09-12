@@ -70,6 +70,7 @@ const W = {};
 
 /* בחירה יחידה, טור לכל אחד */
 W.select = (el) => {
+  el.classList.add('pair2');
   const f = el.dataset.field, opts = window[el.dataset.options] || [];
   el.innerHTML = C.p.map((p,i)=>`
     <div>
@@ -84,6 +85,7 @@ W.select = (el) => {
 
 /* צ׳יפים לבחירה מרובה + שדה חופשי, טור לכל אחד */
 W.chips = (el) => {
+  el.classList.add('pair2');
   const f = el.dataset.field, opts = window[el.dataset.options] || [], label = el.dataset.label||'';
   const ph = el.dataset.ph||'ומשהו משלי…';
   el.innerHTML = C.p.map((p,i)=>`

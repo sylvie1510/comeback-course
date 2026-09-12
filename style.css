@@ -65,7 +65,10 @@ body::before{
 /* ---------- layout ---------- */
 .wrap{max-width:var(--measure);margin-inline:auto;padding-inline:clamp(1.25rem,5vw,2rem)}
 .wide{max-width:56rem}
-section{padding-block:clamp(2.75rem,7vw,4.5rem)}
+section{padding-block:clamp(1.6rem,4vw,2.4rem)}
+/* קטע קריאה קצר ומיד אחריו התרגול: בלי תהום ביניהם */
+section:has(> .q){padding-top:.15rem}
+section:has(> .rv > .q){padding-top:.15rem}
 
 /* ---------- type ---------- */
 h1,h2,h3,.blk{font-weight:900;letter-spacing:-.015em;line-height:1.12}
@@ -73,19 +76,19 @@ h1,h2,h3,.blk{font-weight:900;letter-spacing:-.015em;line-height:1.12}
   font-size:.7rem;letter-spacing:.18em;color:var(--ink-faint);
   font-weight:900;margin-bottom:1.1rem;
 }
-h2{font-size:clamp(1.9rem,1.3rem + 2.6vw,3rem);margin-bottom:1.25rem}
+h2{font-size:clamp(1.75rem,1.25rem + 2.2vw,2.6rem);margin-bottom:1rem}
 h3{font-size:clamp(1.25rem,1rem + 1vw,1.6rem);margin-bottom:.7rem}
-p{margin-bottom:1.15rem;color:var(--ink-soft)}
+p{margin-bottom:.95rem;color:var(--ink-soft)}
 p.lead{color:var(--ink);font-size:1.12em}
 em{font-style:normal;color:var(--ink);font-weight:900}
 .pull{
   font-weight:900;line-height:1.25;color:var(--ink);
-  font-size:clamp(1.4rem,1.05rem + 1.6vw,2.1rem);
-  margin-block:2.25rem;padding-inline-start:1.1rem;
+  font-size:clamp(1.3rem,1rem + 1.4vw,1.9rem);
+  margin-block:1.5rem;padding-inline-start:1.1rem;
   border-inline-start:3px solid var(--crimson);
 }
 .pull.red{color:var(--crimson)}
-.voices{margin-block:2rem;display:grid;gap:.5rem;padding-inline-start:1.1rem;border-inline-start:1px solid var(--crimson-soft)}
+.voices{margin-block:1.4rem;display:grid;gap:.5rem;padding-inline-start:1.1rem;border-inline-start:1px solid var(--crimson-soft)}
 .voices p{margin:0;font-weight:900;color:var(--crimson);line-height:1.35;font-size:clamp(1.05rem,.95rem + .55vw,1.3rem)}
 .tiny{font-size:.9rem;color:var(--ink-faint);line-height:1.65}
 
@@ -151,7 +154,7 @@ em{font-style:normal;color:var(--ink);font-weight:900}
 .scene .stage{color:var(--ink-faint);font-size:.92rem}
 
 /* ---------- two-side compare ---------- */
-.sides{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);margin-block:2rem}
+.sides{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);margin-block:1.4rem}
 @media(min-width:640px){.sides{grid-template-columns:1fr 1fr}}
 .side{background:var(--sheet);padding:1.25rem}
 .side h4{font-weight:900;font-size:1.05rem;margin-bottom:.9rem}
@@ -163,7 +166,7 @@ em{font-style:normal;color:var(--ink);font-weight:900}
 .q{
   background:var(--sheet);border:1px solid var(--rule);
   border-inline-start:3px solid var(--crimson);
-  padding:clamp(1.25rem,4vw,2rem);margin-block:2.5rem;
+  padding:clamp(1.15rem,3.5vw,1.75rem);margin-block:0;
 }
 .q > .eyebrow{color:var(--crimson);margin-bottom:.5rem}
 .q h3{margin-bottom:1.25rem}
@@ -172,6 +175,16 @@ em{font-style:normal;color:var(--ink);font-weight:900}
   .pair > div{background:var(--sheet);padding-inline:1.25rem}
   .pair > div:first-child{padding-inline-start:0}
   .pair > div:last-child{padding-inline-end:0}}
+.pair.pair2{grid-template-columns:1fr 1fr;gap:1px;background:var(--rule)}
+.pair.pair2 > div{background:var(--sheet);padding-inline:.7rem}
+.pair.pair2 > div:first-child{padding-inline-start:0}
+.pair.pair2 > div:last-child{padding-inline-end:0}
+@media(max-width:699px){
+  .pair.pair2 .chip{font-size:.8rem;padding:.28rem .6rem}
+  .pair.pair2 .opt{padding:.6rem .7rem}
+  .pair.pair2 .opt small{font-size:.76rem}
+  .pair.pair2 .pname{font-size:.92rem}
+}
 .pname{font-weight:900;font-size:1.05rem;margin-bottom:.9rem;padding-bottom:.5rem;border-bottom:1px solid var(--rule)}
 
 .opts{display:grid;gap:.4rem;margin-bottom:1.4rem}
@@ -360,7 +373,7 @@ input::placeholder,textarea::placeholder{color:var(--ink-mute);opacity:1}
 
 .locked{opacity:.4;pointer-events:none;transition:opacity .4s}
 
-hr.rule{border:0;border-top:1px solid var(--rule);margin-block:2.5rem}
+hr.rule{border:0;border-top:1px solid var(--rule);margin-block:1.6rem}
 
 @media print{
   body{background:#fff}
@@ -471,7 +484,7 @@ a.station.done .t::after{content:" ✓";color:var(--crimson);font-size:.7em;vert
 .notlist{display:grid;gap:.4rem;margin-block:1.5rem}
 .notlist p{margin:0;color:var(--ink-faint)}
 .notlist p b{color:var(--ink);font-weight:900}
-.vs{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);margin-block:2rem}
+.vs{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);margin-block:1.4rem}
 @media(min-width:640px){.vs{grid-template-columns:1fr 1fr}}
 .vs > div{background:var(--sheet);padding:1.25rem}
 .vs .lbl{font-size:.76rem;letter-spacing:.14em;color:var(--ink-faint);margin-bottom:.5rem;font-weight:900}
