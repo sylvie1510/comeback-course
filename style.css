@@ -412,6 +412,9 @@ hr.rule{border:0;border-top:1px solid var(--rule);margin-block:1.6rem}
 .curve .tiny{margin:.9rem .4rem 0}
 
 /* ---------- hub / map ---------- */
+.howto{margin-block:0 1.75rem;padding-bottom:1.5rem;border-bottom:1px solid var(--rule)}
+.howto .lead{margin-bottom:.6rem}
+.howto .pull{margin-block:0}
 .starthere{
   display:flex;align-items:center;gap:.55rem;
   font-weight:900;font-size:.8rem;letter-spacing:.18em;color:var(--crimson);
