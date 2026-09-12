@@ -472,6 +472,33 @@ function renderNames(){
     </div>`).join('');
 }
 
+
+/* ============================================================
+   ״שבו רגע״ · נגן קולי. מופיע רק אם קובץ האודיו קיים.
+   ============================================================ */
+function initAudio(){
+  document.querySelectorAll('[data-audio]').forEach(host => {
+    const src = host.dataset.audio;
+    const a = new Audio();
+    a.preload = 'metadata';
+    a.src = src;
+    const box  = host.querySelector('.listen');
+    const btn  = host.querySelector('.playbtn');
+    const bar  = host.querySelector('.lbar i');
+    if(!box || !btn) return;
+    a.addEventListener('loadedmetadata', () => { host.hidden = false; });
+    a.addEventListener('error', () => { host.hidden = true; });
+    a.addEventListener('timeupdate', () => {
+      if(bar && a.duration) bar.style.width = (a.currentTime / a.duration * 100) + '%';
+    });
+    a.addEventListener('ended', () => { box.classList.remove('on'); if(bar) bar.style.width = '0%'; });
+    btn.addEventListener('click', () => {
+      if(a.paused){ a.play().then(()=>box.classList.add('on')).catch(()=>{}); }
+      else { a.pause(); box.classList.remove('on'); }
+    });
+  });
+}
+
 /* ============================================================
    רינדור כללי
    ============================================================ */
@@ -549,6 +576,7 @@ function boot(){
     const st = a.querySelector('.st'); if(st) st.textContent = done ? 'הושלמה' : '';
   });
 
+  initAudio();
   const hasChapters = chapterize();
 
   const io = new IntersectionObserver(es=>es.forEach(en=>{

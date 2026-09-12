@@ -1,6 +1,7 @@
 :root{
   --paper:#EFE9E3;
-  --sheet:#FBF8F5;
+  --sheet:#F8F3ED;
+  --warm:#F4EDE4;
   --ink:#231D1B;
   --ink-soft:#463D39;
   --ink-faint:#2B2421;
@@ -132,6 +133,29 @@ em{font-style:normal;color:var(--ink);font-weight:900}
   filter:grayscale(1) contrast(1.04) brightness(.99)}
 @media print{.bodyimg{display:none}}
 
+/* ---------- שבו רגע · אודיו ---------- */
+.listen{
+  display:flex;align-items:center;gap:1rem;
+  background:var(--ink);color:var(--paper);border-radius:16px;
+  padding:1.1rem 1.25rem;position:relative;overflow:hidden;
+}
+.playbtn{
+  flex:0 0 auto;width:52px;height:52px;border-radius:50%;border:0;cursor:pointer;
+  background:var(--crimson);display:grid;place-items:center;transition:.2s;
+}
+.playbtn:hover{background:#a10300;transform:scale(1.05)}
+.playbtn i{display:block;width:0;height:0;border-style:solid;
+  border-width:9px 0 9px 14px;border-color:transparent transparent transparent #fff;
+  margin-inline-start:3px}
+.listen.on .playbtn i{width:12px;height:14px;border:0;background:#fff;
+  clip-path:polygon(0 0,35% 0,35% 100%,0 100%,0 0,65% 0,100% 0,100% 100%,65% 100%);margin:0}
+.ltext{flex:1;line-height:1.4}
+.ltext b{display:block;font-weight:900;font-size:1.05rem}
+.ltext span{font-size:.88rem;opacity:.75}
+.lbar{position:absolute;inset-inline:0;inset-block-end:0;height:3px;background:rgba(255,255,255,.15)}
+.lbar i{display:block;height:100%;width:0;background:var(--crimson-soft);transition:width .2s linear}
+@media print{.listen{display:none}}
+
 /* ---------- reveal ---------- */
 .rv{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.3,1)}
 .rv.in{opacity:1;transform:none}
@@ -164,19 +188,26 @@ em{font-style:normal;color:var(--ink);font-weight:900}
 
 /* ---------- question panels ---------- */
 .q{
-  background:var(--sheet);border:1px solid var(--rule);
-  border-inline-start:3px solid var(--crimson);
-  padding:clamp(1.15rem,3.5vw,1.75rem);margin-block:0;
+  background:var(--warm);border:0;border-radius:14px;
+  box-shadow:0 1px 0 rgba(35,29,27,.05), 0 10px 30px -22px rgba(35,29,27,.35);
+  padding:clamp(1.4rem,4vw,2.1rem);margin-block:0;
+  position:relative;overflow:hidden;
+}
+.q::before{
+  content:"";position:absolute;inset-block:0;inset-inline-start:0;width:3px;
+  background:linear-gradient(var(--crimson),var(--crimson-soft));opacity:.55;
 }
 .q > .eyebrow{color:var(--crimson);margin-bottom:.5rem}
 .q h3{margin-bottom:1.25rem}
 .pair{display:grid;gap:1.75rem}
-@media(min-width:700px){.pair{grid-template-columns:1fr 1fr;gap:1px;background:var(--rule)}
-  .pair > div{background:var(--sheet);padding-inline:1.25rem}
+@media(min-width:700px){.pair{grid-template-columns:1fr 1fr;gap:0;background:transparent}
+  .pair > div{background:transparent;padding-inline:1.25rem}
+  .pair > div:last-child{border-inline-end:1px solid rgba(35,29,27,.1)}
   .pair > div:first-child{padding-inline-start:0}
   .pair > div:last-child{padding-inline-end:0}}
-.pair.pair2{grid-template-columns:1fr 1fr;gap:1px;background:var(--rule)}
-.pair.pair2 > div{background:var(--sheet);padding-inline:.7rem}
+.pair.pair2{grid-template-columns:1fr 1fr;gap:0;background:transparent}
+.pair.pair2 > div{background:transparent;padding-inline:.75rem}
+.pair.pair2 > div:last-child{border-inline-end:1px solid rgba(35,29,27,.1)}
 .pair.pair2 > div:first-child{padding-inline-start:0}
 .pair.pair2 > div:last-child{padding-inline-end:0}
 @media(max-width:699px){
@@ -185,37 +216,37 @@ em{font-style:normal;color:var(--ink);font-weight:900}
   .pair.pair2 .opt small{font-size:.76rem}
   .pair.pair2 .pname{font-size:.92rem}
 }
-.pname{font-weight:900;font-size:1.05rem;margin-bottom:.9rem;padding-bottom:.5rem;border-bottom:1px solid var(--rule)}
+.pname{font-weight:900;font-size:1.05rem;margin-bottom:.9rem;padding-bottom:.5rem;border-bottom:1px solid rgba(35,29,27,.12);color:var(--crimson)}
 
 .opts{display:grid;gap:.4rem;margin-bottom:1.4rem}
 .opt{
-  display:block;background:transparent;border:1px solid var(--rule);
-  padding:.7rem .9rem;cursor:pointer;text-align:start;font:inherit;color:var(--ink);
-  transition:border-color .18s,background .18s;line-height:1.4;
+  display:block;background:rgba(255,255,255,.55);border:1px solid rgba(35,29,27,.1);border-radius:10px;
+  padding:.75rem .95rem;cursor:pointer;text-align:start;font:inherit;color:var(--ink);
+  transition:.18s;line-height:1.4;
 }
 .opt:hover{border-color:var(--crimson-soft)}
 .opt small{display:block;color:var(--ink-faint);font-size:.82rem;margin-top:.15rem}
-.opt[aria-pressed="true"]{background:var(--crimson);border-color:var(--crimson);color:#fff}
+.opt[aria-pressed="true"]{background:var(--crimson);border-color:var(--crimson);color:#fff;box-shadow:0 6px 16px -10px rgba(132,2,0,.7)}
 .opt[aria-pressed="true"] small{color:rgba(255,255,255,.72)}
 .opt .en{font-size:.68rem;letter-spacing:.16em;opacity:.6;margin-inline-start:.5rem}
 
 .field{margin-bottom:1.3rem}
-.field > label{display:block;font-size:.76rem;letter-spacing:.14em;color:var(--ink-faint);margin-bottom:.55rem;font-weight:900}
+.field > label{display:block;font-size:.95rem;letter-spacing:0;color:var(--ink);margin-bottom:.5rem;font-weight:900;line-height:1.4}
 .field > label.stem{
   font-size:1.02rem;font-weight:900;letter-spacing:-.005em;color:var(--ink);
   line-height:1.5;margin-bottom:.75rem;
 }
 .chips{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:.5rem}
 .chip{
-  border:1px solid var(--rule);background:transparent;color:var(--ink-soft);
+  border:1px solid rgba(35,29,27,.12);background:rgba(255,255,255,.6);color:var(--ink-soft);
   font:inherit;font-size:.85rem;padding:.32rem .7rem;border-radius:999px;cursor:pointer;
   transition:.15s;line-height:1.4;
 }
 .chip:hover{border-color:var(--crimson-soft);color:var(--ink)}
 .chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--sheet)}
 input[type=text],textarea{
-  width:100%;font:inherit;color:var(--ink);background:transparent;
-  border:0;border-bottom:1px solid var(--rule);padding:.45rem 0;resize:none;line-height:1.6;
+  width:100%;font:inherit;font-size:1.05rem;color:var(--ink);background:transparent;
+  border:0;border-bottom:1px solid var(--rule);padding:.55rem 0;resize:none;line-height:1.75;
 }
 input[type=text]:focus,textarea:focus{outline:none;border-bottom-color:var(--crimson)}
 input::placeholder,textarea::placeholder{color:var(--ink-mute);opacity:1}
