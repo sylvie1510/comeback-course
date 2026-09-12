@@ -72,33 +72,6 @@ function importData(file, msgEl){
   reader.readAsText(file);
 }
 
-/* ---------- תזכורת קצרה לחזור ולהמשיך, אם לא סיימתם עכשיו ---------- */
-function pad(n){ return String(n).padStart(2,'0'); }
-function icsDate(d){
-  return d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate())+'T'+pad(d.getHours())+pad(d.getMinutes())+'00';
-}
-function addReturnReminder(btn){
-  const next = btn.dataset.next || 'index.html';
-  const label = btn.dataset.nextlabel || '';
-  const start = new Date(); start.setDate(start.getDate()+1); start.setHours(20,0,0,0);
-  const end = new Date(start.getTime()+15*60000);
-  const ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//הקאמבק//תזכורת//HE','CALSCALE:GREGORIAN',
-    'BEGIN:VEVENT',
-    'UID:'+Date.now()+'@comeback-course',
-    'DTSTAMP:'+icsDate(new Date()),
-    'DTSTART:'+icsDate(start),
-    'DTEND:'+icsDate(end),
-    'SUMMARY:להמשיך בקאמבק' + (label?' - '+label:''),
-    'DESCRIPTION:עצרתם באמצע. התשובות שמורות אצלכם במכשיר\\, אפשר פשוט להמשיך מאיפה שעצרתם.',
-    'END:VEVENT','END:VCALENDAR'].join('\r\n');
-  const blob = new Blob([ics], {type:'text/calendar;charset=utf-8'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'תזכורת-קאמבק.ics';
-  document.body.appendChild(a); a.click();
-  setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 1000);
-}
-
 /* ---------- באנר "זמן לבדוק" - מופיע בעמוד הבית כמה ימים אחרי שסיימתם ---------- */
 function getProgress(){
   try{ return JSON.parse(localStorage.getItem('comeback.progress')||'{}'); }catch(e){ return {}; }
@@ -132,7 +105,6 @@ document.addEventListener('DOMContentLoaded', ()=>setTimeout(()=>{
 
 document.addEventListener('click', e=>{
   if(e.target && e.target.id === 'exportbtn') exportData();
-  if(e.target && e.target.id === 'remindreturn') addReturnReminder(e.target);
   if(e.target && e.target.id === 'checkinDismiss'){
     const el = document.getElementById('checkinBanner');
     if(el) el.hidden = true;
