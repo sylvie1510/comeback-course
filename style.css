@@ -363,6 +363,24 @@ input::placeholder,textarea::placeholder{color:var(--ink-mute);opacity:1}
 .dcol .door.d1 b{color:var(--crimson)}
 .dcol .door.d2{border-inline-start:3px solid var(--ink)}
 
+/* ---------- בדיקה שבועית ---------- */
+#chistory{display:grid;gap:.6rem}
+.cirow{
+  background:var(--sheet);border-radius:12px;padding:1rem 1.15rem;position:relative;
+  box-shadow:0 1px 0 rgba(35,29,27,.05);
+}
+.cirow.none{opacity:.72}
+.cirow .citop{display:flex;justify-content:space-between;align-items:baseline;gap:1rem}
+.cirow .citop b{font-weight:900;font-size:1.05rem;color:var(--ink)}
+.cirow .citop span{font-size:.78rem;font-weight:900;letter-spacing:.06em;color:var(--ink-mute);white-space:nowrap}
+.cirow p{margin:.45rem 0 0;color:var(--ink-soft);line-height:1.6;font-size:.95rem;padding-inline-end:1.6rem}
+.cidel{
+  position:absolute;inset-inline-end:.5rem;inset-block-start:.5rem;
+  width:26px;height:26px;border:0;background:transparent;cursor:pointer;
+  color:var(--ink-mute);font-size:1.15rem;line-height:1;border-radius:50%;
+}
+.cidel:hover{background:rgba(132,2,0,.1);color:var(--crimson)}
+
 /* ---------- final card ---------- */
 #cardsec{background:var(--ink);color:var(--paper)}
 #cardsec .eyebrow{color:var(--crimson-soft)}

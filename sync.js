@@ -6,7 +6,8 @@
 (function(){
 'use strict';
 const KEYS = ['comeback.couple','comeback.progress',
-  'comeback.st00','comeback.st01','comeback.st02','comeback.st03','comeback.st04','comeback.st05'];
+  'comeback.st00','comeback.st01','comeback.st02','comeback.st03','comeback.st04','comeback.st05',
+  'comeback.checkins'];
 
 
 /* ---------- מיזוג · אף תשובה לא נמחקת ----------
@@ -38,6 +39,19 @@ function mergeInto(key, rawIncoming){
   let incoming, existing;
   try{ incoming = JSON.parse(rawIncoming); }catch(e){ return false; }
   try{ existing = JSON.parse(localStorage.getItem(key) || 'null'); }catch(e){ existing = null; }
+  /* יומן הבדיקות הוא רשימה כרונולוגית: מאחדים ולא ממזגים תא-תא */
+  if(key === 'comeback.checkins'){
+    const a = Array.isArray(existing) ? existing : [];
+    const b = Array.isArray(incoming) ? incoming : [];
+    const seen = {}, out = [];
+    a.concat(b).forEach(it=>{
+      const k = (it && it.date) + '|' + (it && it.gesture);
+      if(!seen[k]){ seen[k] = 1; out.push(it); }
+    });
+    out.sort((x,y)=> String(y.date).localeCompare(String(x.date)));
+    localStorage.setItem(key, JSON.stringify(out.slice(0,60)));
+    return true;
+  }
   if(existing === null){ localStorage.setItem(key, rawIncoming); return true; }
   const merged = (isObj(existing) || isObj(incoming)) ? mergeObj(existing, incoming) : mergeVal(existing, incoming);
   localStorage.setItem(key, JSON.stringify(merged));
