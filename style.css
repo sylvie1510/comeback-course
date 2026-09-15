@@ -222,6 +222,22 @@ a.fill:hover{background:var(--crimson);color:#fff}
   100%{box-shadow:0 1px 0 rgba(35,29,27,.05), 0 10px 30px -22px rgba(35,29,27,.35)}
 }
 
+/* ---------- דגל לבן ---------- */
+.wabtn{
+  display:inline-flex;align-items:center;gap:.6rem;
+  background:var(--ink);color:var(--paper);text-decoration:none;
+  font-weight:900;font-size:.98rem;line-height:1;
+  padding:.85rem 1.5rem;border-radius:999px;
+  box-shadow:0 10px 24px -14px rgba(35,29,27,.9);
+  transition:transform .2s cubic-bezier(.2,.7,.3,1), box-shadow .2s, background .2s;
+  -webkit-tap-highlight-color:transparent;
+}
+.wabtn svg{width:19px;height:19px;fill:#25D366;flex:0 0 auto}
+.wabtn:hover{background:#0f0c0b;transform:translateY(-2px);box-shadow:0 16px 30px -16px rgba(35,29,27,.95)}
+.wabtn:active{transform:translateY(0)}
+.wabtn:focus-visible{outline:2px solid var(--crimson);outline-offset:3px}
+@media print{.wabtn{display:none}}
+
 /* ---------- reveal ---------- */
 .rv{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.3,1)}
 .rv.in{opacity:1;transform:none}

@@ -520,6 +520,19 @@ function initAudio(){
 }
 
 /* ============================================================
+   דגל לבן · פותח וואטסאפ עם ההודעה מוכנה
+   ============================================================ */
+function initWhatsapp(){
+  document.querySelectorAll('[data-wa]').forEach(a => {
+    const msg = window[a.dataset.wa];
+    if(!msg){ a.hidden = true; return; }
+    a.href = 'https://wa.me/?text=' + encodeURIComponent(msg);
+    a.target = '_blank';
+    a.rel = 'noopener';
+  });
+}
+
+/* ============================================================
    רינדור כללי
    ============================================================ */
 function renderAssembled(){
@@ -617,6 +630,7 @@ function boot(){
   });
 
   initAudio();
+  initWhatsapp();
   const hasChapters = chapterize();
 
   const io = new IntersectionObserver(es=>es.forEach(en=>{
