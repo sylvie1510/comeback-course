@@ -101,7 +101,7 @@ var CARD = {
     ],
   },
   badge: {field:'stance', options:'STANCES'},
-  requires: {pair:['rejection','stance'], shared:['initiator']},
+  requires: {pair:['rejection','stance'], shared:['initiator','inviteCode']},
   steps: {label:'הצעד שלכם עכשיו', bank:'BANK_C', key:'rejection'},
   blocks: [
     {type:'chips', label:'ככה אני [מזמין/מזמינה]', field:'invites'},
@@ -115,7 +115,11 @@ var CARD = {
   ],
   agreement: {
     title:'ההסכם שלנו',
-    rows:[{label:'מי יוזם אצלנו את החזרה', field:'initiator'}],
+    rows:[{label:'מי יוזם אצלנו את החזרה', field:'initiator'},
+          {label:'הריכוך', field:'softener'},
+          {label:'פתיחת שיחת התיקון', field:'openerRole'},
+          {label:'ואם הייתה דחייה', field:'retry'},
+          {label:'ההזמנה המוסכמת שלנו', field:'inviteCode'}],
     note:'המטרה של שלוש הדקות הראשונות היא לא לפתור את הקונפליקט.<br>המטרה היא לפתוח שיחה שאפשר לתקן בתוכה.',
   },
 };

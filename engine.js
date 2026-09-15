@@ -141,6 +141,7 @@ W.suggest = (el) => {
 W.stext = (el) => {
   const f = el.dataset.field;
   el.innerHTML = `<div class="shared" style="margin-inline:auto">
+    ${el.dataset.label?`<label class="slabel">${esc(el.dataset.label)}</label>`:''}
     <input type="text" class="${el.dataset.big==='1'?'big':''}" data-act="shared" data-f="${f}"
       value="${esc(A[f]||'')}" placeholder="${esc(el.dataset.ph||'')}" autocomplete="off"></div>`;
 };
