@@ -342,6 +342,7 @@ input::placeholder,textarea::placeholder{color:var(--ink-mute);opacity:1}
 .shared{max-width:30rem}
 .shared + .shared{margin-top:1.4rem}
 .slabel{display:block;font-size:.95rem;font-weight:900;color:var(--ink);margin-bottom:.5rem;line-height:1.4}
+.slabel .fillhint{font-weight:400;color:var(--crimson)}
 .shared .big{
   font-family:inherit;font-weight:900;font-size:clamp(1.3rem,1.1rem + 1vw,1.8rem);
   text-align:center;border-bottom-width:2px;padding-block:.7rem;

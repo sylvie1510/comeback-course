@@ -89,7 +89,7 @@ W.select = (el) => {
 W.chips = (el) => {
   el.classList.add('pair2');
   const f = el.dataset.field, opts = window[el.dataset.options] || [], label = el.dataset.label||'';
-  const ph = el.dataset.ph||'[תשלים/תשלימי] כאן משהו משלך…';
+  const ph = el.dataset.ph||'ומשהו משלי…';
   el.innerHTML = C.p.map((p,i)=>`
     <div>
       ${el.dataset.noname==='1'?'':`<div class="pname">${esc(p.name)||'·'}</div>`}
@@ -150,7 +150,7 @@ W.suggest = (el) => {
 W.stext = (el) => {
   const f = el.dataset.field;
   el.innerHTML = `<div class="shared" style="margin-inline:auto">
-    ${el.dataset.label?`<label class="slabel">${esc(el.dataset.label)}</label>`:''}
+    <label class="slabel">${el.dataset.label?esc(el.dataset.label)+' ':''}<span class="fillhint">(תשלימו)</span></label>
     <input type="text" class="${el.dataset.big==='1'?'big':''}" data-act="shared" data-f="${f}"
       value="${esc(A[f]||'')}" placeholder="${esc(el.dataset.ph||'')}" autocomplete="off"></div>`;
 };
