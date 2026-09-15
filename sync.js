@@ -97,6 +97,36 @@ function ensureCompletedAt(){
     try{ localStorage.setItem('comeback.completedAt', String(Date.now())); }catch(e){}
   }
 }
+const ST_NAMES = {'01':'לעצור','02':'מרחב','03':'חזרה','04':'תיקון','05':'חיבור מחדש'};
+
+function daysSince(ts){ return Math.floor((Date.now() - ts) / 86400000); }
+
+function maybeShowResumeBanner(){
+  const el = document.getElementById('resumeBanner');
+  if(!el) return false;
+  const p = getProgress();
+  const nums = ['01','02','03','04','05'];
+  const done = nums.filter(n => p[n]);
+  if(!done.length) return false;                 // עוד לא התחילו
+  const next = nums.find(n => !p[n]);
+  if(!next) return false;                        // סיימו הכל, הבאנר השני יטפל
+  const last = +localStorage.getItem('comeback.lastAt') || 0;
+  const d = last ? daysSince(last) : 0;
+  if(d < 2) return false;                        // חזרו מהר, אין צורך להזכיר
+  const seen = +localStorage.getItem('comeback.resumeSeenAt') || 0;
+  if(Date.now() - seen < 3*86400000) return false;
+
+  el.querySelector('.days').textContent = d;
+  el.querySelector('.donecount').textContent = done.length;
+  el.querySelector('.nextname').textContent = ST_NAMES[next] || '';
+  const a = el.querySelector('.resumelink');
+  a.href = 'station-' + next + '.html';
+  a.textContent = 'להמשיך לתחנה ' + next + ' ←';
+  el.hidden = false;
+  try{ localStorage.setItem('comeback.resumeSeenAt', String(Date.now())); }catch(e){}
+  return true;
+}
+
 function maybeShowCheckinBanner(){
   const el = document.getElementById('checkinBanner');
   if(!el) return; // קיים רק בעמוד הבית
@@ -114,13 +144,17 @@ function maybeShowCheckinBanner(){
 }
 document.addEventListener('DOMContentLoaded', ()=>setTimeout(()=>{
   ensureCompletedAt();
-  maybeShowCheckinBanner();
+  if(!maybeShowResumeBanner()) maybeShowCheckinBanner();
 }, 150));
 
 document.addEventListener('click', e=>{
   if(e.target && e.target.id === 'exportbtn') exportData();
   if(e.target && e.target.id === 'checkinDismiss'){
     const el = document.getElementById('checkinBanner');
+    if(el) el.hidden = true;
+  }
+  if(e.target && e.target.id === 'resumeDismiss'){
+    const el = document.getElementById('resumeBanner');
     if(el) el.hidden = true;
   }
 });

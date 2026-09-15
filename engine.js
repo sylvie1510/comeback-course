@@ -24,8 +24,9 @@ function load(){
   C.p[0].g = 'f'; C.p[1].g = 'm';   // קבוע. העמודה הראשונה שלה, השנייה שלו.
   try{ const r = localStorage.getItem(STATION_KEY()); if(r) A = JSON.parse(r); }catch(e){}
 }
-function saveCouple(){ try{ localStorage.setItem(COUPLE_KEY, JSON.stringify(C)); }catch(e){} }
-function saveAnswers(){ try{ localStorage.setItem(STATION_KEY(), JSON.stringify(A)); }catch(e){} }
+function touch(){ try{ localStorage.setItem('comeback.lastAt', String(Date.now())); }catch(e){} }
+function saveCouple(){ try{ localStorage.setItem(COUPLE_KEY, JSON.stringify(C)); touch(); }catch(e){} }
+function saveAnswers(){ try{ localStorage.setItem(STATION_KEY(), JSON.stringify(A)); touch(); }catch(e){} }
 
 function progress(){
   try{ return JSON.parse(localStorage.getItem(PROGRESS_KEY)||'{}'); }catch(e){ return {}; }
