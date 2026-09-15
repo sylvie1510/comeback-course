@@ -678,4 +678,5 @@ a.station.done .t::after{content:" ✓";color:var(--crimson);font-size:.7em;vert
   .climb .rungs::before{display:none}
   .climb .rung{gap:.8rem;padding:.85rem .9rem}
 }
-.climb .climb-done .tiny{color:var(--ink-mute);font-weight:300;max-width:24rem;margin:0 auto 1.2rem}
+.climb .climb-done .tiny{color:var(--ink-mute);font-weight:300;max-width:24rem;margin:0 auto}
+.climb .climb-done .vow{font-weight:900;font-size:1.3rem;line-height:1.4;color:var(--ink);margin:1.1rem auto .55rem}
