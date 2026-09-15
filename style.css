@@ -672,9 +672,10 @@ a.station.done .t::after{content:" ✓";color:var(--crimson);font-size:.7em;vert
 .climb .ground .say{color:var(--crimson)}
 .climb .climb-done{margin-top:1.6rem;padding-top:1.4rem;border-top:1px solid var(--rule);
   text-align:center;animation:climbin .45s ease}
-.climb .climb-done p{color:var(--crimson);font-weight:900;margin-bottom:1rem;line-height:1.5}
+.climb .climb-done>p:first-child{color:var(--crimson);font-weight:900;font-size:1.12rem;margin-bottom:.5rem;line-height:1.5}
 @keyframes climbin{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
 @media(max-width:520px){
   .climb .rungs::before{display:none}
   .climb .rung{gap:.8rem;padding:.85rem .9rem}
 }
+.climb .climb-done .tiny{color:var(--ink-mute);font-weight:300;max-width:24rem;margin:0 auto 1.2rem}
