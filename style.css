@@ -627,12 +627,11 @@ a.station.done .t::after{content:" ✓";color:var(--crimson);font-size:.7em;vert
   padding:1.15rem 1.3rem;border-radius:2px}
 .safenote a{color:var(--crimson);font-weight:900;text-decoration:none}
 .safenote a:hover{text-decoration:underline}
-/* ---------- device sync ---------- */
-.syncbox{border:1px solid var(--rule);padding:1rem 1.3rem;border-radius:2px;background:var(--sheet)}
-.syncbox summary{cursor:pointer;font-weight:900;font-size:.92rem;color:var(--ink)}
-.syncbox summary:hover{color:var(--crimson)}
-.syncbtns{display:flex;gap:.75rem;flex-wrap:wrap;margin-top:.4rem}
-.syncbox input[type=file]{display:none}
+/* ---------- בלוק מתקפל ---------- */
+.foldbox{border:1px solid var(--rule);padding:1rem 1.3rem;border-radius:2px;background:var(--sheet)}
+.foldbox summary{cursor:pointer;font-weight:900;font-size:.92rem;color:var(--ink)}
+.foldbox summary:hover{color:var(--crimson)}
+
 
 /* ---------- misc ---------- */
 .ladder{counter-reset:s;display:grid;gap:.5rem;margin-block:1.75rem}
