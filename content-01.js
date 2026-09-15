@@ -128,7 +128,7 @@ var CARD = {
   blocks: [
     {type:'bank',        bank:'BANK_A', key:'mode'},
     {type:'bankPartner', bank:'BANK_B', key:'interp'},
-    {type:'note',        label:'הסימן המוקדם שלי', field:'early'},
+    {type:'chips',       label:'הסימן המוקדם שלי, זה שהגוף נותן לי', field:'body'},
     {type:'quote',       field:'flip', bank:'BANK_FLIP', key:'mode'},
     {type:'plain',       template:'FULL_LINE', quote:true},
     {type:'note',        label:'מה שלמדתי על עצמי', field:'learnedMe'},
