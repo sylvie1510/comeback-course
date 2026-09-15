@@ -92,15 +92,35 @@ var INITIATORS = ['שנינו, בדרכים שונות','בעיקר אחד מא�
 var WHITE_FLAG = 'היי מאמי. אני לא רוצה שנמשיך בברוגז. ' +
   'בוא נתאמן על להשלים מהר. הפסקת אש?';
 
+/* ---------- הקצב שלי ---------- */
+var PACES = [
+  { id:'fast', label:'אני [מתעצבן/מתעצבנת] מהר, [ונרגע/ונרגעת] מהר',
+    sub:'מתלקח אצלי ונגמר. אחרי שעה אני כבר רוצה לדבר.' },
+  { id:'slow', label:'לוקח לי זמן להתעצבן, וזמן להירגע',
+    sub:'אני [סופג/סופגת] הרבה לפני שזה מתפוצץ. ואחר כך אני צריך[/ה] שעות.' },
+];
+
+var BANK_PACE = {
+  fast:
+    'את[ה/] [מתעצבן/מתעצבנת] מהר, [ונרגע/ונרגעת] מהר. ולכן אחרי שעה כבר בא לך לסגור את זה, ' +
+    'ולא מובן לך למה {בן_זוג} עוד שם. החלק שלך הוא לא למהר <אותו/אותה>. ' +
+    'הזמן ש<הוא צריך/היא צריכה> הוא לא עונש ולא עקשנות, הוא פשוט מערכת עצבים אחרת.',
+  slow:
+    'לוקח לך זמן להתעצבן, ולוקח לך זמן להירגע. ולכן כש{בן_זוג} <מציע/מציעה> לדבר מוקדם, ' +
+    'זה מרגיש לך כמו לחץ ולא כמו הזמנה. החלק שלך הוא להגיד כמה זמן את[ה/] [צריך/צריכה], ' +
+    'במקום להיעלם בלי תאריך.',
+};
+
 /* ---------- הכרטיס ---------- */
 var CARD = {
   title: 'תחנה 03 · RETURN',
   badge: {field:'stance', options:'STANCES'},
-  requires: {pair:['rejection','stance'], shared:['initiator','inviteCode']},
+  requires: {pair:['rejection','stance','pace'], shared:['initiator','inviteCode']},
   steps: {label:'הצעד שלכם עכשיו', bank:'BANK_C', key:'rejection'},
   blocks: [
     {type:'chips', label:'ככה אני [מזמין/מזמינה]', field:'invites'},
     {type:'bank',  bank:'BANK_A', key:'rejection'},
+    {type:'bank',  bank:'BANK_PACE', key:'pace'},
     {type:'note',  label:'מה שאני לא [סופר/סופרת] כהזמנה', field:'missed'},
     {type:'note',  label:'והפרשנות הנדיבה שלי', field:'generous'},
     {type:'quote', field:'opener', bank:'BANK_OPENER', key:'stance'},
