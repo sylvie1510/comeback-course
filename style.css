@@ -640,6 +640,7 @@ a.station.done .t::after{content:" ✓";color:var(--crimson);font-size:.7em;vert
   background:var(--sheet);border:1px solid var(--rule);padding:.75rem 1rem}
 .ladder li::before{counter-increment:s;content:counter(s,decimal-leading-zero);
   font-weight:900;font-size:.72rem;letter-spacing:.1em;color:var(--crimson)}
+.ladder.nonum li::before{content:"·";font-size:1rem;color:var(--crimson)}
 .notlist{display:grid;gap:.4rem;margin-block:1.5rem}
 .notlist p{margin:0;color:var(--ink-faint)}
 .notlist p b{color:var(--ink);font-weight:900}
