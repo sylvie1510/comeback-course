@@ -49,11 +49,11 @@ var CHIPS_READY = [
 
 /* ---------- ה-50% שלי ---------- */
 var HALVES = [
-  { id:'attack',  label:'איפה תקפתי' },
-  { id:'shut',    label:'איפה נסגרתי' },
-  { id:'listen',  label:'איפה לא הקשבתי' },
-  { id:'assume',  label:'איפה הנחתי במקום לשאול' },
-  { id:'trigger', label:'איפה הגבתי מהטריגר שלי' },
+  { id:'attack',  label:'הדרך שבה דיברתי' },
+  { id:'shut',    label:'הדרך שבה נסגרתי' },
+  { id:'listen',  label:'הדרך שבה הקשבתי' },
+  { id:'assume',  label:'הדרך שבה פירשתי' },
+  { id:'trigger', label:'הדרך שבה הגבתי' },
 ];
 
 var BANK_HALF = {
@@ -89,7 +89,7 @@ var CHIPS_HEARING = [
 var CARD = {
   title: 'תחנה 04 · REPAIR',
   visual: {kind:'marks', title:'מפת ה־50% שלכם', field:'half', options:'HALVES',
-           hint:'המפה תיבנה כאן ברגע ששניכם תסמנו איפה החלק שלכם.',
+           hint:'המפה תיבנה כאן ברגע ששניכם תסמנו על מה אתם לוקחים אחריות.',
            sameNote:'שניכם סימנתם את אותו מקום. זה אומר שיש לכם דפוס משותף, ושאפשר לתרגל אותו יחד.',
            diffNote:'כל אחד מכם נופל במקום אחר. זה דווקא טוב: אתם לא צריכים לתקן את אותו דבר, אלא כל אחד את שלו.'},
   badge: {field:'half', options:'HALVES'},
