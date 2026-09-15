@@ -532,6 +532,17 @@ function initWhatsapp(){
   });
 }
 
+function initClimb(){
+  document.querySelectorAll('.climb').forEach(box=>{
+    const rungs = box.querySelectorAll('.rung input');
+    const done  = box.querySelector('.climb-done');
+    if(!rungs.length || !done) return;
+    const sync = () => { done.hidden = [...rungs].some(b => !b.checked); };
+    rungs.forEach(b => b.addEventListener('change', sync));
+    sync();
+  });
+}
+
 /* ============================================================
    רינדור כללי
    ============================================================ */
@@ -631,6 +642,7 @@ function boot(){
 
   initAudio();
   initWhatsapp();
+  initClimb();
   const hasChapters = chapterize();
 
   const io = new IntersectionObserver(es=>es.forEach(en=>{
