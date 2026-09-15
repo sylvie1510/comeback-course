@@ -306,10 +306,16 @@ function buildSteps(){
   const any = C.p.some((p,i)=> keys(st.key,i).length);
   if(!any) return '';
   const cols = C.p.map((p,i)=>{
-    const k = keys(st.key,i)[0];
+    const ks = keys(st.key,i);
+    const lead = st.lead ? `<p>${esc(rz(window[st.lead]||'', i))}</p>` : '';
+    let body;
+    if(!ks.length)            body = lead || '<p>—</p>';
+    else if(ks.length === 1)  body = lead + `<p>${esc(rz(bank[ks[0]], i))}</p>`;
+    else                      body = lead + (st.more?`<p class="more">${esc(rz(st.more,i))}</p>`:'') +
+      `<ul class="steplist">${ks.map(k=>`<li>${esc(rz(bank[k], i))}</li>`).join('')}</ul>`;
     return `<div class="step">
       <div class="who">${esc(p.name||'·')}</div>
-      <p>${k ? esc(rz(bank[k], i)) : '—'}</p></div>`;
+      ${body}</div>`;
   }).join('');
   return `<div class="steps"><div class="hd">${esc(st.label||'הצעדים שלכם')}</div>${cols}</div>`;
 }
