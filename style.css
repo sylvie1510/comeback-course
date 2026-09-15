@@ -518,6 +518,11 @@ hr.rule{border:0;border-top:1px solid var(--rule);margin-block:1.6rem}
 .promises i{display:block;font-style:normal;font-weight:300;font-size:.96rem;color:var(--ink-faint);line-height:1.5;margin-top:.35rem}
 .promises span{display:block;font-weight:900;font-size:.83rem;letter-spacing:.09em;color:var(--crimson);margin-bottom:.35rem}
 
+.shout{
+  font-weight:900;color:var(--crimson);text-align:center;
+  font-size:clamp(1.9rem,1.25rem + 3vw,3rem);line-height:1.15;letter-spacing:-.02em;
+  margin-block:2rem .4rem;
+}
 .bignum{font-weight:900;color:var(--crimson);line-height:.9;letter-spacing:-.03em;
   font-size:clamp(4rem,3rem + 9vw,7.5rem);margin-block:1.5rem .4rem}
 
