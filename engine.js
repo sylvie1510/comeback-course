@@ -34,7 +34,7 @@ function progress(){
 function markProgress(){
   if(!window.STATION || !CARD.requires) return;
   const need = CARD.requires;
-  const ok = (need.pair||[]).every(f => (A[f]||[])[0] && (A[f]||[])[1])
+  const ok = (need.pair||[]).every(f => keys(f,0).length && keys(f,1).length)
           && (need.shared||[]).every(f => A[f]);
   const p = progress(); p[STATION.num] = !!ok;
   try{ localStorage.setItem(PROGRESS_KEY, JSON.stringify(p)); }catch(e){}
@@ -63,12 +63,28 @@ function rz(txt, i){
 const val  = (f,i) => (A[f]||[])[i] || '';
 const me_v = (i,m,f2) => (C.p[i].g === 'm' ? m : f2);
 const list = (f,i) => ((A[f]||[])[i]) || [];
+function keys(f,i){ const v = val(f,i); return Array.isArray(v) ? v.filter(Boolean) : (v ? [v] : []); }
 function setPair(f,i,v){ if(!Array.isArray(A[f])) A[f]=['','']; A[f][i]=v; saveAnswers(); }
 
 /* ============================================================
    רכיבים
    ============================================================ */
 const W = {};
+
+/* בחירה מרובה, טור לכל אחד */
+W.multi = (el) => {
+  el.classList.add('pair2');
+  const f = el.dataset.field, opts = window[el.dataset.options] || [];
+  el.innerHTML = C.p.map((p,i)=>`
+    <div>
+      <div class="pname">${esc(p.name)||'·'}</div>
+      <div class="opts multi">
+        ${opts.map(o=>`<button type="button" class="opt" data-act="mselect" data-f="${f}" data-i="${i}" data-v="${esc(o.id)}"
+           aria-pressed="${keys(f,i).includes(o.id)}">${esc(rz(o.label,i))}${
+           o.sub?`<small>${esc(rz(o.sub,i))}</small>`:''}</button>`).join('')}
+      </div>
+    </div>`).join('');
+};
 
 /* בחירה יחידה, טור לכל אחד */
 W.select = (el) => {
@@ -287,10 +303,10 @@ function visDoors(v){
 function buildSteps(){
   const st = (window.CARD||{}).steps; if(!st) return '';
   const bank = window[st.bank] || {};
-  const any = C.p.some((p,i)=> val(st.key,i));
+  const any = C.p.some((p,i)=> keys(st.key,i).length);
   if(!any) return '';
   const cols = C.p.map((p,i)=>{
-    const k = val(st.key,i);
+    const k = keys(st.key,i)[0];
     return `<div class="step">
       <div class="who">${esc(p.name||'·')}</div>
       <p>${k ? esc(rz(bank[k], i)) : '—'}</p></div>`;
@@ -319,19 +335,21 @@ function buildCard(){
     const you = C.p[1-i];
     let badge = '';
     if(CARD.badge){
-      const o = badgeOpts.find(o=>o.id===val(CARD.badge.field,i));
-      if(o) badge = (o.en?o.en+' · ':'') + rz(o.label||'', i);
+      badge = keys(CARD.badge.field,i).map(id=>{
+        const o = badgeOpts.find(o=>o.id===id);
+        return o ? (o.en?o.en+' · ':'') + rz(o.label||'', i) : '';
+      }).filter(Boolean).join(' · ');
     }
     const blocks = (CARD.blocks||[]).map(b=>{
       if(b.type==='bank'){
-        const k = val(b.key,i); return k ? `<p>${esc(rz(window[b.bank][k], i))}</p>` : '';
+        return keys(b.key,i).map(k=>`<p>${esc(rz(window[b.bank][k], i))}</p>`).join('');
       }
       if(b.type==='bankPartner'){
-        const k = val(b.key,1-i); return k ? `<p>${esc(rz(window[b.bank][k], i))}</p>` : '';
+        return keys(b.key,1-i).map(k=>`<p>${esc(rz(window[b.bank][k], i))}</p>`).join('');
       }
       if(b.type==='do'){
-        const k = val(b.key,i); if(!k) return '';
-        return `<div class="do"><strong>${esc(rz(b.label,i))}</strong>${esc(rz(window[b.bank][k], i))}</div>`;
+        return keys(b.key,i).map(k=>
+          `<div class="do"><strong>${esc(rz(b.label,i))}</strong>${esc(rz(window[b.bank][k], i))}</div>`).join('');
       }
       if(b.type==='note'){
         const v = val(b.field,i); if(!v) return '';
@@ -585,6 +603,12 @@ document.addEventListener('click', e=>{
   if(d.act==='select'){
     setPair(d.f, +d.i, val(d.f,+d.i)===d.v ? '' : d.v);
     renderWidgets(); buildCard(); return; }
+  if(d.act==='mselect'){
+    if(!Array.isArray(A[d.f])) A[d.f]=[[],[]];
+    if(!Array.isArray(A[d.f][+d.i])) A[d.f][+d.i]=[];
+    const arr = A[d.f][+d.i], k = arr.indexOf(d.v);
+    k>-1 ? arr.splice(k,1) : arr.push(d.v);
+    saveAnswers(); b.setAttribute('aria-pressed', k===-1); buildCard(); return; }
   if(d.act==='chip'){
     if(!Array.isArray(A[d.f])) A[d.f]=[[],[]];
     if(!Array.isArray(A[d.f][+d.i])) A[d.f][+d.i]=[];
