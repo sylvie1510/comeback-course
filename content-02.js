@@ -115,7 +115,7 @@ var CARD = {
   visual: {kind:'doors', title:'שתי הדלתות שלכם', field:'event', a:'story', b:'other',
            hint:'שתי הדלתות ייבנו כאן ממה שתכתבו בשאלת הדלתות.'},
   badge: {field:'distortion', options:'DISTORTIONS'},
-  requires: {pair:['distortion','belief']},
+  requires: {pair:['distortion','belief'], shared:['shulam']},
   steps: {label:'הצעד שלכם עכשיו', bank:'BANK_C', key:'distortion'},
   blocks: [
     {type:'bank',  bank:'BANK_A', key:'distortion'},
@@ -133,8 +133,8 @@ var CARD = {
     {type:'notePartner', label:'ומה שהבנתי על', field:'learnedYou'},
   ],
   agreement: {
-    title:'הזמן שבין הריב לתיקון',
-    rows:[],
+    title:'ההסכם שלנו',
+    rows:[{label:'השולם שלנו', field:'shulam'}],
     note:'הזמן הזה הוא לא ריק. הוא או מכין אותנו לתיקון, או הורס אותו עוד לפני שהתחיל.',
   },
 };
