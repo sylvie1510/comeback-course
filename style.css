@@ -108,6 +108,11 @@ em{font-style:normal;color:var(--ink);font-weight:900}
   letter-spacing:-.03em;color:var(--crimson);
 }
 #cover .sub{margin-top:1.1rem;max-width:26rem;color:var(--ink-soft)}
+.coverintro{max-width:28rem;margin-top:1.5rem}
+.coverintro p{margin-top:.9rem;color:var(--ink-soft)}
+.coverintro p:first-child{margin-top:0}
+.coverintro .hi{font-weight:900;color:var(--crimson);font-size:1.08rem}
+.coverintro .tiny{color:var(--ink-mute)}
 .scroll-hint{margin-top:1.6rem;font-size:.86rem;letter-spacing:.09em;color:var(--ink-faint)}
 .scroll-hint::after{content:"";display:block;width:1px;height:1.3rem;background:var(--rule);margin-top:.55rem}
 
