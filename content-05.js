@@ -103,8 +103,8 @@ var CARD = {
   blocks: [
     {type:'bank',        bank:'BANK_A', key:'rung'},
     {type:'bankPartner', bank:'BANK_WEIRD', key:'weird'},
-    {type:'chips',       label:'ככה אני [מסמן/מסמנת] שחזרתי', field:'signs'},
-    {type:'chips',       label:'ומה מחזיר לי את הקרבה', field:'closer'},
+    {type:'chips',       label:'שלב א · מה מחמם לי את האווירה', field:'closer'},
+    {type:'chips',       label:'שלב ב · וככה אני [מסמן/מסמנת] שאני בתחנת חיבור', field:'signs'},
     {type:'plain',       template:'SIGNAL', quote:true},
     {type:'note',        label:'מה שלמדתי על עצמי', field:'learnedMe'},
     {type:'notePartner', label:'ומה שהבנתי על', field:'learnedYou'},
