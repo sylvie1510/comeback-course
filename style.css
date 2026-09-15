@@ -348,6 +348,12 @@ input::placeholder,textarea::placeholder{color:var(--ink-mute);opacity:1}
 .steps .more{font-weight:900;margin-top:.55rem}
 .steps .steplist{margin:.3rem 0 0;padding-inline-start:1.05rem}
 .steps .steplist li{margin-top:.3rem}
+/* ---------- איך זה נראה בסלון ---------- */
+.mirrors{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);margin-block:1.1rem}
+@media(min-width:640px){.mirrors{grid-template-columns:1fr 1fr}}
+.mirrors > div{background:var(--sheet);padding:1rem 1.15rem}
+.mirrors b{display:block;font-weight:900;font-size:.9rem;letter-spacing:.02em;color:var(--crimson);margin-bottom:.3rem}
+.mirrors span{display:block;font-size:.95rem;line-height:1.6;color:var(--ink-soft)}
 .shared .big{
   font-family:inherit;font-weight:900;font-size:clamp(1.3rem,1.1rem + 1vw,1.8rem);
   text-align:center;border-bottom-width:2px;padding-block:.7rem;
