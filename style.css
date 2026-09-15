@@ -694,3 +694,28 @@ a.station.done .t::after{content:" ✓";color:var(--crimson);font-size:.7em;vert
 }
 .climb .climb-done .tiny{color:var(--ink-mute);font-weight:300;max-width:24rem;margin:0 auto}
 .climb .climb-done .wabtn{margin-top:1.3rem}
+
+/* ---------- חוזה שעת חירום ---------- */
+.pactwrap{margin-top:2.6rem}
+.pactwrap > .tiny{margin-bottom:.9rem}
+.pact{
+  background:#141010;color:#F4EDE4;border-radius:18px;
+  padding:clamp(2rem,7vw,3.2rem) clamp(1.4rem,5vw,2.4rem);
+  max-width:24rem;margin-inline:auto;text-align:center;
+  box-shadow:0 24px 50px -28px rgba(20,16,16,.9);
+}
+.pact .ph{font-size:.74rem;font-weight:900;letter-spacing:.22em;color:#C4564B}
+.pact .pn{font-size:.95rem;color:#9C8F87;margin-top:.35rem}
+.pact .pcodelbl{font-size:.72rem;font-weight:900;letter-spacing:.16em;color:#9C8F87;margin-top:2.1rem}
+.pact .pcode{font-weight:900;font-size:clamp(2rem,1.2rem + 4vw,2.9rem);line-height:1.15;margin-top:.4rem;color:#F4EDE4}
+.pact .prow{display:flex;justify-content:space-between;gap:1rem;text-align:start;
+  border-top:1px solid rgba(244,237,228,.14);margin-top:1.5rem;padding-top:.85rem}
+.pact .prow:first-of-type{margin-top:2.3rem}
+.pact .prow span{font-size:.84rem;color:#9C8F87}
+.pact .prow b{font-weight:900;font-size:.98rem}
+.pact .pf{margin-top:2.2rem;font-size:.9rem;line-height:1.6;color:#C4564B;font-weight:900}
+.pactwrap .btnrow{justify-content:center;margin-top:1.4rem}
+.pactout{margin-top:1.6rem;text-align:center}
+.pactout img{max-width:18rem;width:100%;border-radius:14px;border:1px solid var(--rule)}
+.pactout .tiny{margin:.7rem 0 .9rem}
+@media print{.pactwrap .btnrow,.pactout{display:none}}

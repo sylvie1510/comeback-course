@@ -402,6 +402,7 @@ function buildCard(){
       <span>${esc(C.p[0].name||'')}${C.p[1].name?' & '+esc(C.p[1].name):''}</span></div>
     ${buildVisual()}${buildSteps()}${people}${agr}`;
   markProgress();
+  buildPact();
 }
 
 
@@ -636,6 +637,114 @@ document.addEventListener('click', e=>{
 });
 
 /* ============================================================
+   חוזה שעת חירום · כרטיס לשמירה בטלפון
+   ============================================================ */
+const PACT_FOOT = ['אנחנו לא עוצרים כדי לברוח.', 'אנחנו עוצרים כדי לחזור.'];
+
+function buildPact(){
+  const box = document.getElementById('pactwrap'); if(!box) return;
+  const code = (A.code || '').trim();
+  box.hidden = !code;
+  if(!code) return;
+
+  const names = C.p.map(p => p.name).filter(Boolean).join(' & ');
+  const dur = (A.duration || '').trim();
+  const who = (A.whoreturns || '').trim();
+  const put = (id, v) => { const el = document.getElementById(id); if(el) el.textContent = v; };
+  put('pactNames', names || '·');
+  put('pactCode', code);
+  put('pactDur', dur || '—');
+  put('pactWho', who || '—');
+
+  const wa = document.getElementById('pactWa');
+  if(wa){
+    const msg = 'חוזה שעת החירום שלנו' + (names ? ' · ' + names : '') + '\n\n' +
+      'מילת הקוד: ' + code + '\n' +
+      (dur ? 'אורך ההפסקה: ' + dur + '\n' : '') +
+      (who ? 'מי מחזיר לשיחה: ' + who + '\n' : '') +
+      '\n' + PACT_FOOT.join(' ');
+    wa.href = 'https://wa.me/?text=' + encodeURIComponent(msg);
+    wa.target = '_blank';
+    wa.rel = 'noopener';
+  }
+}
+
+function pactCanvas(){
+  const W = 1080, H = 1920, cx = W/2;
+  const cv = document.createElement('canvas');
+  cv.width = W; cv.height = H;
+  const c = cv.getContext('2d');
+  c.direction = 'rtl';
+  c.textAlign = 'center';
+  c.fillStyle = '#141010'; c.fillRect(0,0,W,H);
+
+  c.strokeStyle = 'rgba(244,237,228,.16)'; c.lineWidth = 2;
+  c.strokeRect(56, 56, W-112, H-112);
+
+  const names = C.p.map(p => p.name).filter(Boolean).join(' & ');
+  const code = (A.code || '').trim();
+  const dur  = (A.duration || '').trim();
+  const who  = (A.whoreturns || '').trim();
+
+  const F = (w,sz) => w + ' ' + sz + 'px Polin, Arial, sans-serif';
+
+  c.fillStyle = '#C4564B'; c.font = F(900, 30);
+  c.letterSpacing = '10px';
+  c.fillText('חוזה שעת חירום', cx, 300);
+  c.letterSpacing = '0px';
+
+  if(names){ c.fillStyle = '#9C8F87'; c.font = F(300, 40); c.fillText(names, cx, 372); }
+
+  c.fillStyle = '#9C8F87'; c.font = F(900, 28);
+  c.letterSpacing = '8px';
+  c.fillText('מילת הקוד שלנו', cx, 760);
+  c.letterSpacing = '0px';
+
+  c.fillStyle = '#F4EDE4';
+  let sz = 150;
+  do { c.font = F(900, sz); sz -= 6; } while(c.measureText(code).width > W-220 && sz > 40);
+  c.fillText(code, cx, 900);
+
+  const rows = [['אורך ההפסקה', dur || '—'], ['מי מחזיר לשיחה', who || '—']];
+  let y = 1130;
+  rows.forEach(([k,v]) => {
+    c.strokeStyle = 'rgba(244,237,228,.14)'; c.lineWidth = 1;
+    c.beginPath(); c.moveTo(150, y); c.lineTo(W-150, y); c.stroke();
+    c.textAlign = 'right';
+    c.fillStyle = '#9C8F87'; c.font = F(300, 34); c.fillText(k, W-150, y+68);
+    c.textAlign = 'left';
+    c.fillStyle = '#F4EDE4'; c.font = F(900, 40); c.fillText(v, 150, y+68);
+    c.textAlign = 'center';
+    y += 150;
+  });
+
+  c.fillStyle = '#C4564B'; c.font = F(900, 38);
+  PACT_FOOT.forEach((line,k) => c.fillText(line, cx, 1600 + k*58));
+
+  return cv;
+}
+
+function initPact(){
+  const btn = document.getElementById('pactPng'); if(!btn) return;
+  btn.addEventListener('click', () => {
+    btn.disabled = true;
+    const go = () => {
+      pactCanvas().toBlob(blob => {
+        const url = URL.createObjectURL(blob);
+        const img = document.getElementById('pactImg');
+        const dl  = document.getElementById('pactDl');
+        const out = document.getElementById('pactOut');
+        if(img) img.src = url;
+        if(dl) dl.href = url;
+        if(out){ out.hidden = false; out.scrollIntoView({behavior:'smooth', block:'center'}); }
+        btn.disabled = false;
+      }, 'image/png');
+    };
+    (document.fonts && document.fonts.ready) ? document.fonts.ready.then(go) : go();
+  });
+}
+
+/* ============================================================
    התקדמות, גלילה, הפעלה
    ============================================================ */
 function jumpToField(){
@@ -673,6 +782,7 @@ function boot(){
   initAudio();
   initWhatsapp();
   initClimb();
+  initPact();
   const hasChapters = chapterize();
 
   const io = new IntersectionObserver(es=>es.forEach(en=>{
