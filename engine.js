@@ -89,7 +89,7 @@ W.select = (el) => {
 W.chips = (el) => {
   el.classList.add('pair2');
   const f = el.dataset.field, opts = window[el.dataset.options] || [], label = el.dataset.label||'';
-  const ph = el.dataset.ph||'ומשהו משלי…';
+  const ph = el.dataset.ph||'[תשלים/תשלימי] כאן משהו משלך…';
   el.innerHTML = C.p.map((p,i)=>`
     <div>
       ${el.dataset.noname==='1'?'':`<div class="pname">${esc(p.name)||'·'}</div>`}
