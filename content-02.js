@@ -111,10 +111,6 @@ var CARD = {
            more:'ולפי מה שסימנת, יש לך גם:'},
   blocks: [
     {type:'bank',  bank:'BANK_A', key:'distortion'},
-    {type:'chips', label:'ומה אני עושה עם עצמי בזמן הזה', field:'doing'},
-    {type:'note',  label:'האירוע החוזר', field:'event'},
-    {type:'note',  label:'הדלת הראשונה', field:'story'},
-    {type:'note',  label:'והדלת השנייה', field:'other'},
     {type:'bank',  bank:'BANK_EGO', key:'belief'},
     {type:'chips', label:'שלושת הדברים שאעשה במקום', field:'instead'},
     {type:'plain', template:'FULL_LINE', quote:true},
