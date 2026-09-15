@@ -288,6 +288,11 @@ em{font-style:normal;color:var(--ink);font-weight:900}
   font-size:1.02rem;font-weight:900;letter-spacing:-.005em;color:var(--ink);
   line-height:1.5;margin-bottom:.75rem;
 }
+.basis{
+  margin:0 0 .7rem;font-size:.92rem;line-height:1.6;color:var(--ink-soft);
+  background:rgba(132,2,0,.055);border-radius:10px;padding:.6rem .8rem;
+}
+.basis b{color:var(--crimson);font-weight:900}
 .chips{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:.5rem}
 .chip{
   border:1px solid rgba(35,29,27,.12);background:rgba(255,255,255,.6);color:var(--ink-soft);

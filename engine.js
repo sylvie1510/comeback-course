@@ -60,6 +60,7 @@ function rz(txt, i){
 }
 
 const val  = (f,i) => (A[f]||[])[i] || '';
+const me_v = (i,m,f2) => (C.p[i].g === 'm' ? m : f2);
 const list = (f,i) => ((A[f]||[])[i]) || [];
 function setPair(f,i,v){ if(!Array.isArray(A[f])) A[f]=['','']; A[f][i]=v; saveAnswers(); }
 
@@ -121,15 +122,22 @@ W.text = (el) => {
 /* שדה טקסט שמגיע עם הצעה לפי תשובה קודמת */
 W.suggest = (el) => {
   const f = el.dataset.field, bank = window[el.dataset.bank]||{}, key = el.dataset.key;
+  const opts = window[el.dataset.options] || [];
   el.innerHTML = C.p.map((p,i)=>{
     const k = val(key,i);
     const touched = (A[f+'_t']||[])[i];
     const v = touched ? val(f,i) : (k ? rz(bank[k], i) : '');
+    const o = opts.find(o => o.id === k);
+    const tpl = el.dataset.basis || 'בחרת ב{}';
+    const basis = k
+      ? `<p class="basis">${tpl.replace('{}', '<b>'+esc(rz((o&&o.label)||'',i))+'</b>')}, ועל בסיס זה בנינו לך את ההצעה הבאה.
+           ${me_v(i,'שנה','שני')} אותה למילים שלך:</p>`
+      : '<p class="tiny">בחרו קודם תשובה בשאלה שלמעלה, וההצעה תיבנה כאן.</p>';
     return `<div>
       <div class="pname">${esc(p.name)||'·'}</div>
       <div class="field" style="margin-bottom:0">
         ${el.dataset.label?`<label>${esc(rz(el.dataset.label,i))}</label>`:''}
-        ${k?'':'<p class="tiny">בחרו קודם תשובה בשאלה שלמעלה.</p>'}
+        ${basis}
         <textarea rows="${el.dataset.rows||'3'}" data-act="suggest" data-f="${f}" data-i="${i}"
           placeholder="${esc(rz(el.dataset.ph||'במילים שלי…',i))}">${esc(v)}</textarea>
       </div>
