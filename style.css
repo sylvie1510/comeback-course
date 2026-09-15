@@ -191,6 +191,19 @@ em{font-style:normal;color:var(--ink);font-weight:900}
 }
 @media print{.breathe{display:none}}
 
+/* ---------- בלוק מחקר ---------- */
+.research{
+  background:var(--warm);border-radius:14px;
+  border-inline-start:3px solid var(--crimson-soft);
+  padding:1.2rem 1.35rem;margin-block:1.5rem;
+}
+.research .rlabel{
+  font-size:.72rem;letter-spacing:.16em;font-weight:900;color:var(--crimson);margin-bottom:.5rem;
+}
+.research p{
+  margin:0;color:var(--ink);font-size:1.05rem;line-height:1.65;font-weight:300;
+}
+
 /* ---------- reveal ---------- */
 .rv{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.3,1)}
 .rv.in{opacity:1;transform:none}
