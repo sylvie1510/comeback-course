@@ -38,7 +38,10 @@ function render(){
     const items = r.items.map(it=>{
       const v = A[it.field];
       if(v) any = true;
-      return `<div class="row"><span>${esc(it.label)}</span><b>${esc(v||'·')}</b></div>`;
+      return v
+        ? `<div class="row"><span>${esc(it.label)}</span><b>${esc(v)}</b></div>`
+        : `<div class="row miss"><span>${esc(it.label)}</span>` +
+          `<a class="fill" href="station-${r.num}.html#f=${encodeURIComponent(it.field)}">להשלים ←</a></div>`;
     }).join('');
     return `<div class="person">
       <div class="hd"><b>${esc(r.he)}</b><span>${r.num} · ${r.en}</span></div>
@@ -51,7 +54,10 @@ function render(){
   const goals = (S0[START.field] || ['','']);
   const startItems = (couple.p||[]).map((p,i)=>{
     const v = goals[i]; if(v) any = true;
-    return `<div class="row"><span>${esc(p.name||'·')}</span><b>${esc(v||'·')}</b></div>`;
+    return v
+      ? `<div class="row"><span>${esc(p.name||'·')}</span><b>${esc(v)}</b></div>`
+      : `<div class="row miss"><span>${esc(p.name||'·')}</span>` +
+        `<a class="fill" href="index.html#f=${encodeURIComponent(START.field)}">להשלים ←</a></div>`;
   }).join('');
   const startBlock = `<div class="person"><div class="hd"><b>${esc(START.he)}</b><span>00</span></div>
     <p>${esc(START.line)}</p>${startItems}</div>`;
@@ -63,8 +69,13 @@ function render(){
       זוגיות בריאה היא זוגיות ששני אנשים יודעים איך לתקן, ולחזור לחיבור מחודש.</p>
     </div>`;
 
+  const missing = el.querySelectorAll('.row.miss').length;
   const hint = document.getElementById('maphint');
-  if(hint) hint.textContent = any ? '' : 'המפה תתמלא מעצמה ככל שתעברו את התחנות.';
+  if(hint){
+    hint.textContent = !any ? 'המפה תתמלא מעצמה ככל שתעברו את התחנות.'
+      : missing ? 'נשארו ' + missing + ' דברים להשלים. לחצו על ״להשלים״ ותגיעו ישר לשאלה.'
+      : 'המפה שלכם מלאה. אפשר להדפיס.';
+  }
 }
 
 document.readyState==='loading' ? addEventListener('DOMContentLoaded', render) : render();

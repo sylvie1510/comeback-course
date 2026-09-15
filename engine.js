@@ -583,6 +583,26 @@ document.addEventListener('click', e=>{
 /* ============================================================
    התקדמות, גלילה, הפעלה
    ============================================================ */
+function jumpToField(){
+  const m = /[#&]f=([^&]+)/.exec(location.hash || '');
+  if(!m) return;
+  const name = decodeURIComponent(m[1]);
+  const el = document.querySelector('[data-field="'+name+'"]');
+  if(!el) return;
+  const ch = el.closest('.chapter');
+  if(ch && CHAPTERS.length) goChapter(CHAPTERS.indexOf(ch));
+  setTimeout(()=>{
+    const host = el.closest('.q') || el;
+    const bar = document.getElementById('chapbar');
+    const y = host.getBoundingClientRect().top + scrollY - (bar ? bar.offsetHeight : 0) - 14;
+    scrollTo({top: Math.max(0, y), behavior: 'smooth'});
+    host.classList.add('flash');
+    setTimeout(()=>host.classList.remove('flash'), 2400);
+    const inp = el.querySelector('input,textarea,button');
+    if(inp && inp.tagName !== 'BUTTON') inp.focus({preventScroll:true});
+  }, 260);
+}
+
 function boot(){
   load();
   renderNames();
@@ -602,6 +622,8 @@ function boot(){
     if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }}),
     {rootMargin:'0px 0px -12% 0px'});
   document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+  jumpToField();
 
   const rail = document.querySelector('#rail i');
   if(rail) addEventListener('scroll', ()=>{
