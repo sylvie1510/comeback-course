@@ -89,6 +89,7 @@ em{font-style:normal;color:var(--ink);font-weight:900}
   border-inline-start:3px solid var(--crimson);
 }
 .pull.red{color:var(--crimson)}
+.pull.sm{font-size:clamp(1.08rem,.95rem + .6vw,1.35rem);line-height:1.4}
 .voices{margin-block:1.4rem;display:grid;gap:.5rem;padding-inline-start:1.1rem;border-inline-start:1px solid var(--crimson-soft)}
 .voices p{margin:0;font-weight:900;color:var(--crimson);line-height:1.35;font-size:clamp(1.05rem,.95rem + .55vw,1.3rem)}
 .tiny{font-size:.95rem;color:var(--ink-faint);line-height:1.65}

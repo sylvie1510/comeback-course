@@ -14,7 +14,7 @@ const ROWS = [
    items:[{label:'מילת הקוד', field:'code'},{label:'אורך ההפסקה', field:'duration'},{label:'מי מחזיר לשיחה', field:'whoreturns'}]},
   {num:'02', en:'SPACE',     he:'הזמן שאחרי',
    line:'אני יודע/ת להירגע בזמן הזה, במקום להמשיך את הריב בראש.',
-   items:[{label:'השולם שלנו', field:'shulam'}]},
+   items:[]},
   {num:'03', en:'RETURN',    he:'מי בא ראשון',
    line:'אני יודע/ת לשלוח יד, ולזהות כשמושיטים לי אחת.',
    items:[{label:'מי יוזם אצלנו', field:'initiator'},
