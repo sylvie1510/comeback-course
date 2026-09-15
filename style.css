@@ -152,6 +152,10 @@ em{font-style:normal;color:var(--ink);font-weight:900}
 .ltext{flex:1;line-height:1.4}
 .ltext b{display:block;font-weight:900;font-size:1.05rem}
 .ltext span{font-size:.94rem;opacity:.8}
+.ltime{
+  flex:0 0 auto;font-weight:900;font-size:.9rem;letter-spacing:.04em;
+  color:var(--paper);opacity:.7;font-variant-numeric:tabular-nums;
+}
 .lbar{position:absolute;inset-inline:0;inset-block-end:0;height:3px;background:rgba(255,255,255,.15)}
 .lbar i{display:block;height:100%;width:0;background:var(--crimson-soft);transition:width .2s linear}
 @media print{.listen{display:none}}

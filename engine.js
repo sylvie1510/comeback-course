@@ -487,12 +487,22 @@ function initAudio(){
     const btn  = host.querySelector('.playbtn');
     const bar  = host.querySelector('.lbar i');
     if(!box || !btn) return;
-    a.addEventListener('loadedmetadata', () => { host.hidden = false; });
+    const time = host.querySelector('.ltime');
+    const mmss = t => { t = Math.max(0, Math.round(t||0)); return Math.floor(t/60) + ':' + String(t%60).padStart(2,'0'); };
+    a.addEventListener('loadedmetadata', () => {
+      host.hidden = false;
+      if(time) time.textContent = mmss(a.duration);
+    });
     a.addEventListener('error', () => { host.hidden = true; });
     a.addEventListener('timeupdate', () => {
       if(bar && a.duration) bar.style.width = (a.currentTime / a.duration * 100) + '%';
+      if(time) time.textContent = mmss(a.duration - a.currentTime);
     });
-    a.addEventListener('ended', () => { box.classList.remove('on'); if(bar) bar.style.width = '0%'; });
+    a.addEventListener('ended', () => {
+      box.classList.remove('on');
+      if(bar) bar.style.width = '0%';
+      if(time) time.textContent = mmss(a.duration);
+    });
     btn.addEventListener('click', () => {
       if(a.paused){ a.play().then(()=>box.classList.add('on')).catch(()=>{}); }
       else { a.pause(); box.classList.remove('on'); }
