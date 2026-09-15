@@ -118,15 +118,12 @@ var CARD = {
   requires: {pair:['rejection','stance','pace'], shared:['initiator','inviteCode']},
   steps: {label:'הצעד שלכם עכשיו', bank:'BANK_C', key:'rejection'},
   blocks: [
-    {type:'chips', label:'ככה אני [מזמין/מזמינה]', field:'invites'},
     {type:'bank',  bank:'BANK_A', key:'rejection'},
     {type:'bank',  bank:'BANK_PACE', key:'pace'},
-    {type:'note',  label:'מה שאני לא [סופר/סופרת] כהזמנה', field:'missed'},
     {type:'note',  label:'והפרשנות הנדיבה שלי', field:'generous'},
     {type:'quote', field:'opener', bank:'BANK_OPENER', key:'stance'},
     {type:'plain', template:'NOT_READY', quote:true},
-    {type:'note',        label:'מה שלמדתי על עצמי', field:'learnedMe'},
-    {type:'notePartner', label:'ומה שהבנתי על', field:'learnedYou'},
+    {type:'notePartner', label:'ומה ש{שני} [הבין/הבינה] עליי', field:'learnedYou'},
   ],
   agreement: {
     title:'ההסכם שלנו',

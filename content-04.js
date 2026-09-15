@@ -97,17 +97,12 @@ var CARD = {
   steps: {label:'ה־50% שלי · הצעד שלכם', bank:'BANK_HALF', key:'half'},
   blocks: [
     {type:'bank',        bank:'BANK_RIGHT', key:'righteous'},
-    {type:'chips',       label:'מה ה״צדק״ משרת אצלי', field:'serves'},
-    {type:'chips',       label:'ומה אני [שומע/שומעת] כשמגיעה גרסה אחרת', field:'hearing'},
-    {type:'chips',       label:'לפני השיחה בדקתי שאני', field:'ready'},
-    {type:'note',        label:'ומה שאני [צריך/צריכה] כדי להיות שם', field:'toBeThere'},
     {type:'note',        label:'מה אני [צריך/צריכה] ולא ביקשתי', field:'unasked'},
     {type:'note',        label:'ומה אני [מרגיש/מרגישה] ולא שיתפתי', field:'unshared'},
     {type:'note',        label:'בלי ״אבל״ · מה אני עשיתי', field:'apoDid'},
     {type:'note',        label:'הכרה בפגיעה · איך זה השפיע <עליך/עלייך>', field:'apoEffect'},
     {type:'note',        label:'חוזה לעתיד · בפעם הבאה', field:'apoFix'},
-    {type:'note',        label:'מה שלמדתי על עצמי', field:'learnedMe'},
-    {type:'notePartner', label:'ומה שהבנתי על', field:'learnedYou'},
+    {type:'notePartner', label:'ומה ש{שני} [הבין/הבינה] עליי', field:'learnedYou'},
   ],
   agreement: {
     title:'ההסכם שלנו',

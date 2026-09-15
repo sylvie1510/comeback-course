@@ -131,8 +131,7 @@ var CARD = {
     {type:'chips',       label:'הסימן המוקדם שלי, זה שהגוף נותן לי', field:'body'},
     {type:'quote',       field:'flip', bank:'BANK_FLIP', key:'mode'},
     {type:'plain',       template:'FULL_LINE', quote:true},
-    {type:'note',        label:'מה שלמדתי על עצמי', field:'learnedMe'},
-    {type:'notePartner', label:'ומה שהבנתי על', field:'learnedYou'},
+    {type:'notePartner', label:'ומה ש{שני} [הבין/הבינה] עליי', field:'learnedYou'},
   ],
   agreement: {
     title:'ההסכם שלנו',

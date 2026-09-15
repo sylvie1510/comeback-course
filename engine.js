@@ -362,8 +362,9 @@ function buildCard(){
         return `<p class="early-p"><strong>${esc(rz(b.label,i))}</strong>${esc(v)}</p>`;
       }
       if(b.type==='notePartner'){
-        const v = val(b.field,i); if(!v) return '';
-        return `<p class="early-p"><strong>${esc(rz(b.label,i))} ${esc(you.name||'·')}</strong>${esc(v)}</p>`;
+        const v = val(b.field,1-i); if(!v) return '';
+        const lab = rz(b.label,1-i).replace('{שני}', you.name||'·');
+        return `<p class="early-p"><strong>${esc(lab)}</strong>${esc(v)}</p>`;
       }
       if(b.type==='chips'){
         const sel = list(b.field,i).map(c=>rz(c,i));

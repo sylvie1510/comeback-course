@@ -114,8 +114,7 @@ var CARD = {
     {type:'bank',  bank:'BANK_EGO', key:'belief'},
     {type:'chips', label:'שלושת הדברים שאעשה במקום', field:'instead'},
     {type:'plain', template:'FULL_LINE', quote:true},
-    {type:'note',        label:'מה שלמדתי על עצמי', field:'learnedMe'},
-    {type:'notePartner', label:'ומה שהבנתי על', field:'learnedYou'},
+    {type:'notePartner', label:'ומה ש{שני} [הבין/הבינה] עליי', field:'learnedYou'},
   ],
   agreement: {
     title:'הזמן שבין הריב לתיקון',

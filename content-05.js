@@ -105,11 +105,9 @@ var CARD = {
   blocks: [
     {type:'bank',        bank:'BANK_A', key:'rung'},
     {type:'bankPartner', bank:'BANK_PARTNER', key:'rung'},
-    {type:'chips',       label:'שלב א · מה מחמם לי את האווירה', field:'closer'},
     {type:'chips',       label:'שלב ב · וככה אני [מסמן/מסמנת] שאני בתחנת חיבור', field:'signs'},
     {type:'plain',       template:'SIGNAL', quote:true},
-    {type:'note',        label:'מה שלמדתי על עצמי', field:'learnedMe'},
-    {type:'notePartner', label:'ומה שהבנתי על', field:'learnedYou'},
+    {type:'notePartner', label:'ומה ש{שני} [הבין/הבינה] עליי', field:'learnedYou'},
   ],
   agreement: {
     title:'ההסכם שלנו',
