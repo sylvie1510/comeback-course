@@ -120,9 +120,6 @@ var CARD = {
   blocks: [
     {type:'bank',  bank:'BANK_A', key:'distortion'},
     {type:'chips', label:'ומה אני עושה עם עצמי בזמן הזה', field:'doing'},
-    {type:'note',  label:'מה החלק שלי כאן', field:'mypart'},
-    {type:'note',  label:'מה אני [צריך/צריכה] ולא ביקשתי', field:'unasked'},
-    {type:'note',  label:'מה אני [מרגיש/מרגישה] ולא שיתפתי', field:'unshared'},
     {type:'note',  label:'האירוע החוזר', field:'event'},
     {type:'note',  label:'הדלת הראשונה', field:'story'},
     {type:'note',  label:'והדלת השנייה', field:'other'},
