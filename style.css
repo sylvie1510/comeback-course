@@ -113,6 +113,7 @@ em{font-style:normal;color:var(--ink);font-weight:900}
 .coverintro p:first-child{margin-top:0}
 .coverintro .hi{font-weight:900;color:var(--crimson);font-size:1.08rem}
 .coverintro .tiny{color:var(--ink-mute)}
+.timehint{margin-top:1.5rem;font-weight:900;font-size:1rem;color:var(--crimson);max-width:26rem}
 .scroll-hint{margin-top:1.6rem;font-size:.86rem;letter-spacing:.09em;color:var(--ink-faint)}
 .scroll-hint::after{content:"";display:block;width:1px;height:1.3rem;background:var(--rule);margin-top:.55rem}
 
