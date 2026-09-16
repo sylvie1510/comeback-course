@@ -510,6 +510,18 @@ function chapterize(){
 /* ============================================================
    שמות
    ============================================================ */
+function renderMode(){
+  const el = document.getElementById('modepick'); if(!el) return;
+  const solo = !!C.solo;
+  el.innerHTML = `<p class="modelbl">איך אתם עוברים את זה?</p>
+    <div class="opts modepick">
+      <button type="button" class="opt" data-act="mode" data-v="duo" aria-pressed="${!solo}">
+        ביחד<small>מסך אחד, שניכם</small></button>
+      <button type="button" class="opt" data-act="mode" data-v="solo" aria-pressed="${solo}">
+        לבד<small>ואביא את זה איתי לשיחה</small></button>
+    </div>`;
+}
+
 function renderNames(){
   const el = document.getElementById('names'); if(!el) return;
   el.className = 'namesbox';
@@ -524,14 +536,7 @@ function renderNames(){
       </div>
     </div>`;
 
-  const modes = `<div class="opts modepick">
-    <button type="button" class="opt" data-act="mode" data-v="duo" aria-pressed="${!solo}">
-      עושים את זה ביחד<small>מסך אחד, שניכם</small></button>
-    <button type="button" class="opt" data-act="mode" data-v="solo" aria-pressed="${solo}">
-      אני עושה את זה לבד<small>ואביא את זה איתי לשיחה</small></button>
-  </div>`;
-
-  const body = !solo
+  el.innerHTML = !solo
     ? `<div class="pair">${field(0,'היא','השם שלה')}${field(1,'הוא','השם שלו')}</div>`
     : `<div class="opts whopick">
          <button type="button" class="opt" data-act="who" data-v="0" aria-pressed="${me===0}">אני האישה</button>
@@ -539,8 +544,6 @@ function renderNames(){
        </div>
        <div class="pair">${field(me,'השם שלי','איך קוראים לך')}${
          field(1-me, me===0?'ובן הזוג':'ובת הזוג', me===0?'השם שלו':'השם שלה')}</div>`;
-
-  el.innerHTML = modes + body;
 
   const h = el.closest('.q') && el.closest('.q').querySelector('h3');
   if(h){
@@ -690,9 +693,9 @@ document.addEventListener('click', e=>{
   if(d.act==='mode'){
     C.solo = (d.v === 'solo');
     if(C.solo && C.me === undefined) C.me = 0;
-    saveCouple(); renderNames(); applyMode(); renderAll(); return; }
+    saveCouple(); renderMode(); renderNames(); applyMode(); renderAll(); return; }
   if(d.act==='who'){
-    C.me = +d.v; saveCouple(); renderNames(); applyMode(); renderAll(); return; }
+    C.me = +d.v; saveCouple(); renderMode(); renderNames(); applyMode(); renderAll(); return; }
   if(d.act==='pick'){
     setPair(d.f, +d.i, val(d.f,+d.i)===d.v ? '' : d.v);
     const host = b.closest('[data-widget]'); if(host) W[host.dataset.widget](host);
@@ -856,6 +859,7 @@ function jumpToField(){
 
 function boot(){
   load();
+  renderMode();
   renderNames();
   renderAll();
 

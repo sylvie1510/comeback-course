@@ -739,8 +739,9 @@ a.station.done .t::after{content:" ✓";color:var(--crimson);font-size:.7em;vert
 @media print{.picks{display:none}}
 
 /* ---------- ביחד או לבד ---------- */
-.namesbox .modepick{grid-template-columns:1fr;gap:.5rem;margin-bottom:1.4rem}
-@media(min-width:560px){.namesbox .modepick{grid-template-columns:1fr 1fr}}
+#modepick{max-width:26rem;margin-top:1.5rem}
+.modelbl{font-size:.78rem;font-weight:900;letter-spacing:.1em;color:var(--ink-mute);margin-bottom:.5rem}
+.opts.modepick{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
 .namesbox .whopick{grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:1.2rem}
 .namesbox .pair{display:grid;gap:1.1rem}
 @media(min-width:560px){.namesbox .pair{grid-template-columns:1fr 1fr;gap:1.4rem}}
