@@ -566,6 +566,12 @@ function applyMode(){
     const t = el.dataset.duo;
     if(SOLO_EYEBROWS[t]) el.textContent = solo ? SOLO_EYEBROWS[t] : t;
   });
+  document.querySelectorAll('.willread').forEach(el=>{
+    if(el.dataset.tpl === undefined) el.dataset.tpl = el.textContent.trim();
+    el.textContent = C.solo
+      ? rz('וזה ייכנס לכרטיס שלך, כדי ש[תוכל/תוכלי] להראות <לו/לה> את זה.', C.me===1?1:0)
+      : el.dataset.tpl;
+  });
   const th = document.querySelector('.timehint');
   if(th) th.textContent = solo
     ? rz('[תפנה/תפני] לעצמך 20 דקות לבנות זוגיות שיודעת לחזור.', me)
