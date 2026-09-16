@@ -130,6 +130,10 @@ W.text = (el) => {
       <div class="field" style="margin-bottom:0">
         ${el.dataset.label?`<label class="${el.dataset.stem?'stem':''}">${esc(rz(el.dataset.label,i).replace('{שני}', C.p[1-i].name||'·'))}</label>`:''}
         ${el.dataset.hint?`<p class="tiny" style="margin-bottom:.6rem">${esc(rz(el.dataset.hint,i))}</p>`:''}
+        ${el.dataset.picks?`<div class="picks">${(window[el.dataset.picks]||[]).map(t=>{
+          const v = rz(t,i);
+          return `<button type="button" class="pick" data-act="pick" data-f="${f}" data-i="${i}"
+            data-v="${esc(v)}" aria-pressed="${val(f,i)===v}">${esc(v)}</button>`;}).join('')}</div>`:''}
         <textarea rows="${rows}" data-act="free" data-f="${f}" data-i="${i}"
           placeholder="${esc(rz(el.dataset.ph||'',i))}">${esc(val(f,i))}</textarea>
       </div>
@@ -611,6 +615,10 @@ document.addEventListener('click', e=>{
   if(d.act==='select'){
     setPair(d.f, +d.i, val(d.f,+d.i)===d.v ? '' : d.v);
     renderWidgets(); buildCard(); return; }
+  if(d.act==='pick'){
+    setPair(d.f, +d.i, val(d.f,+d.i)===d.v ? '' : d.v);
+    const host = b.closest('[data-widget]'); if(host) W[host.dataset.widget](host);
+    buildCard(); return; }
   if(d.act==='mselect'){
     if(!Array.isArray(A[d.f])) A[d.f]=[[],[]];
     if(!Array.isArray(A[d.f][+d.i])) A[d.f][+d.i]=[];

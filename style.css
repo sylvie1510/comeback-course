@@ -724,3 +724,15 @@ a.station.done .t::after{content:" ✓";color:var(--crimson);font-size:.7em;vert
 .pactout img{max-width:18rem;width:100%;border-radius:14px;border:1px solid var(--rule)}
 .pactout .tiny{margin:.7rem 0 .9rem}
 @media print{.pactwrap .btnrow,.pactout{display:none}}
+
+/* ---------- פרשנויות ללחיצה ---------- */
+.picks{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.7rem}
+.pick{
+  font:inherit;font-size:.88rem;line-height:1.35;text-align:start;
+  background:var(--paper);color:var(--ink-soft);
+  border:1px solid var(--rule);border-radius:999px;
+  padding:.4rem .85rem;cursor:pointer;transition:background .15s,border-color .15s,color .15s;
+}
+.pick:hover{background:var(--warm)}
+.pick[aria-pressed="true"]{background:var(--crimson);border-color:var(--crimson);color:var(--sheet);font-weight:900}
+@media print{.picks{display:none}}
