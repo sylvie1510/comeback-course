@@ -34,7 +34,7 @@ function progress(){
 function markProgress(){
   if(!window.STATION || !CARD.requires) return;
   const need = CARD.requires;
-  const ok = (need.pair||[]).every(f => keys(f,0).length && keys(f,1).length)
+  const ok = (need.pair||[]).every(f => IDX().every(i => keys(f,i).length))
           && (need.shared||[]).every(f => A[f]);
   const p = progress(); p[STATION.num] = !!ok;
   try{ localStorage.setItem(PROGRESS_KEY, JSON.stringify(p)); }catch(e){}
@@ -63,6 +63,13 @@ function rz(txt, i){
 const val  = (f,i) => (A[f]||[])[i] || '';
 const me_v = (i,m,f2) => (C.p[i].g === 'm' ? m : f2);
 const list = (f,i) => ((A[f]||[])[i]) || [];
+/* ---------- מצב: ביחד או לבד ---------- */
+function tx(o,k){ if(!o) return ''; const sk='solo'+k[0].toUpperCase()+k.slice(1);
+  return (C.solo && o[sk]) ? o[sk] : (o[k]||''); }
+function IDX(){ return C.solo ? [C.me === 1 ? 1 : 0] : [0,1]; }
+function PP(){ return IDX().map(i => [C.p[i], i]); }
+function DUO(){ return IDX().length === 2; }
+
 function keys(f,i){ const v = val(f,i); return Array.isArray(v) ? v.filter(Boolean) : (v ? [v] : []); }
 function setPair(f,i,v){ if(!Array.isArray(A[f])) A[f]=['','']; A[f][i]=v; saveAnswers(); }
 
@@ -75,7 +82,7 @@ const W = {};
 W.multi = (el) => {
   el.classList.add('pair2');
   const f = el.dataset.field, opts = window[el.dataset.options] || [];
-  el.innerHTML = C.p.map((p,i)=>`
+  el.innerHTML = PP().map(([p,i])=>`
     <div>
       <div class="pname">${esc(p.name)||'·'}</div>
       <div class="opts multi">
@@ -90,7 +97,7 @@ W.multi = (el) => {
 W.select = (el) => {
   el.classList.add('pair2');
   const f = el.dataset.field, opts = window[el.dataset.options] || [];
-  el.innerHTML = C.p.map((p,i)=>`
+  el.innerHTML = PP().map(([p,i])=>`
     <div>
       <div class="pname">${esc(p.name)||'·'}</div>
       <div class="opts">
@@ -106,7 +113,7 @@ W.chips = (el) => {
   el.classList.add('pair2');
   const f = el.dataset.field, opts = window[el.dataset.options] || [], label = el.dataset.label||'';
   const ph = el.dataset.ph||'ומשהו משלי…';
-  el.innerHTML = C.p.map((p,i)=>`
+  el.innerHTML = PP().map(([p,i])=>`
     <div>
       ${el.dataset.noname==='1'?'':`<div class="pname">${esc(p.name)||'·'}</div>`}
       <div class="field" style="margin-bottom:0">
@@ -124,7 +131,7 @@ W.chips = (el) => {
 /* שדה טקסט חופשי, טור לכל אחד */
 W.text = (el) => {
   const f = el.dataset.field, rows = el.dataset.rows||'3';
-  el.innerHTML = C.p.map((p,i)=>`
+  el.innerHTML = PP().map(([p,i])=>`
     <div>
       ${el.dataset.noname==='1'?'':`<div class="pname">${esc(p.name)||'·'}</div>`}
       <div class="field" style="margin-bottom:0">
@@ -144,7 +151,7 @@ W.text = (el) => {
 W.suggest = (el) => {
   const f = el.dataset.field, bank = window[el.dataset.bank]||{}, key = el.dataset.key;
   const opts = window[el.dataset.options] || [];
-  el.innerHTML = C.p.map((p,i)=>{
+  el.innerHTML = PP().map(([p,i])=>{
     const k = val(key,i);
     const touched = (A[f+'_t']||[])[i];
     const v = touched ? val(f,i) : (k ? rz(bank[k], i) : '');
@@ -170,7 +177,7 @@ W.suggest = (el) => {
 W.stext = (el) => {
   const f = el.dataset.field;
   el.innerHTML = `<div class="shared" style="margin-inline:auto">
-    <label class="slabel">${el.dataset.label?esc(el.dataset.label)+' ':''}<span class="fillhint">(תשלימו)</span></label>
+    <label class="slabel">${el.dataset.label?esc(el.dataset.label)+' ':''}<span class="fillhint">${C.solo?'(ההצעה שלך)':'(תשלימו)'}</span></label>
     <input type="text" class="${el.dataset.big==='1'?'big':''}" data-act="shared" data-f="${f}"
       value="${esc(A[f]||'')}" placeholder="${esc(el.dataset.ph||'')}" autocomplete="off"></div>`;
 };
@@ -187,7 +194,7 @@ W.schoice = (el) => {
 W.assembled = (el) => {
   const t = window[el.dataset.template] || '';
   el.className = 'assembled';
-  el.innerHTML = C.p.map((p,i)=>{
+  el.innerHTML = PP().map(([p,i])=>{
     let line = esc(rz(t,i));
     Object.keys(window.VARS||{}).forEach(k=>{
       const v = A[VARS[k].field] || VARS[k].fallback; if(!v) return;
@@ -203,7 +210,7 @@ W.assembled = (el) => {
    ============================================================ */
 function visHint(v, msg){
   return `<figure class="vis empty">
-    <figcaption>${esc(v.title)}</figcaption>
+    <figcaption>${esc(tx(v,'title'))}</figcaption>
     <p class="hint">${esc(msg)}</p>
     <button type="button" class="cbtn" data-field-go="${esc(v.field)}">לשאלה החסרה ←</button>
   </figure>`;
@@ -211,10 +218,11 @@ function visHint(v, msg){
 
 function visMatrix(v){
   const opts = window[v.options] || [];
-  if(!(val(v.field,0) && val(v.field,1)))
-    return visHint(v, 'מפת הדפוס תיבנה כאן ברגע ששניכם תבחרו את דפוס ההישרדות שלכם.');
+  if(!IDX().every(i=>val(v.field,i)))
+    return visHint(v, C.solo ? rz('מפת הדפוס תיבנה כאן ברגע ש[תבחר/תבחרי] את דפוס ההישרדות שלך.', C.me===1?1:0)
+                             : 'מפת הדפוס תיבנה כאן ברגע ששניכם תבחרו את דפוס ההישרדות שלכם.');
   const pins = {};
-  C.p.forEach((p,i)=>{ const k = val(v.field,i); if(k){ (pins[k] = pins[k] || []).push(p.name || '·'); } });
+  PP().forEach(([p,i])=>{ const k = val(v.field,i); if(k){ (pins[k] = pins[k] || []).push(p.name || '·'); } });
   const cell = id => {
     const o = opts.find(o=>o.id===id) || {};
     const mine = (pins[id]||[]).map(n=>`<em>${esc(n)}</em>`).join('');
@@ -224,13 +232,13 @@ function visMatrix(v){
   };
   const a = val(v.field,0), b = val(v.field,1);
   let combo = '';
-  if(a && b){
+  if(DUO() && a && b){
     const key = [a,b].sort().join('|');
     const c = (window[v.combos]||{})[key];
     if(c) combo = `<p class="combo"><b>${esc(c.name)}</b> ${esc(c.line)}</p>`;
   }
   return `<figure class="vis">
-    <figcaption>${esc(v.title)}</figcaption>
+    <figcaption>${esc(tx(v,'title'))}</figcaption>
     <div class="mx">
       <div class="ax t">${esc(v.axes[0])}</div>
       <div class="ax r">${esc(v.axes[2])}</div>
@@ -242,24 +250,24 @@ function visMatrix(v){
 
 function visLadder(v){
   const opts = window[v.options] || [];
-  if(!(val(v.field,0) && val(v.field,1)))
+  if(!IDX().every(i=>val(v.field,i)))
     return visHint(v, 'מד הריחוק ייבנה כאן ברגע ששניכם תסמנו איפה אתם נתקעים בסולם.');
   const idx = i => opts.findIndex(o => o.id === val(v.field,i));
   const i0 = idx(0), i1 = idx(1);
   const rows = opts.map((o,k)=>{
-    const who = C.p.map((p,i)=> (idx(i)===k ? `<em>${esc(p.name||'·')}</em>` : '')).join('');
+    const who = PP().map(([p,i])=> (idx(i)===k ? `<em>${esc(p.name||'·')}</em>` : '')).join('');
     return `<li class="${who?'on':''}"><span class="n">${String(k+1).padStart(2,'0')}</span>
       <span class="lbl">${esc(rz(o.label||'',0))}</span><span class="pins">${who}</span></li>`;
   }).join('');
   let combo = '';
-  if(i0 > -1 && i1 > -1){
+  if(DUO() && i0 > -1 && i1 > -1){
     const gap = Math.abs(i0 - i1);
     combo = gap === 0
       ? '<p class="combo"><b>אתם באותו שלב.</b> זה אומר שאתם נתקעים יחד, ושהצעד הבא הוא משותף.</p>'
       : `<p class="combo"><b>${gap===1?'אתם שלב אחד זה מזה.':'אתם '+gap+' שלבים זה מזה.'}</b> ` +
         'מי שנמצא גבוה יותר צריך לרדת אל השלב של השני, ולא להפך. ההתקרבות תמיד מתחילה מהמקום האיטי יותר.</p>';
   }
-  return `<figure class="vis"><figcaption>${esc(v.title)}</figcaption>
+  return `<figure class="vis"><figcaption>${esc(tx(v,'title'))}</figcaption>
     <ol class="ladderv">${rows}</ol>${combo}</figure>`;
 }
 
@@ -271,35 +279,34 @@ function visScale(v){
   const steps = opts.map((o,i)=>
     `<div class="st${i===k?' on':''}${(k>-1&&i<k)?' pre':''}"><i></i><span>${esc(o)}</span></div>`).join('');
   const note = (k > -1 && v.notes && v.notes[k]) ? `<p class="combo">${esc(v.notes[k])}</p>` : '';
-  return `<figure class="vis"><figcaption>${esc(v.title)}</figcaption>
+  return `<figure class="vis"><figcaption>${esc(tx(v,'title'))}</figcaption>
     <div class="scale">${steps}</div>${note}</figure>`;
 }
 
 function visMarks(v){
   const opts = window[v.options] || [];
-  if(!(val(v.field,0) && val(v.field,1)))
-    return visHint(v, v.hint || 'המיפוי ייבנה כאן ברגע ששניכם תענו.');
+  if(!IDX().every(i=>val(v.field,i)))
+    return visHint(v, tx(v,'hint') || 'המיפוי ייבנה כאן ברגע ששניכם תענו.');
   const rows = opts.map(o=>{
-    const who = C.p.map((p,i)=> (val(v.field,i)===o.id ? `<em>${esc(p.name||'·')}</em>` : '')).join('');
+    const who = PP().map(([p,i])=> (val(v.field,i)===o.id ? `<em>${esc(p.name||'·')}</em>` : '')).join('');
     return `<li class="${who?'on':''}"><span class="lbl">${esc(rz(o.label||'',0))}</span><span class="pins">${who}</span></li>`;
   }).join('');
-  const same = val(v.field,0) === val(v.field,1);
-  const note = same ? (v.sameNote||'') : (v.diffNote||'');
-  return `<figure class="vis"><figcaption>${esc(v.title)}</figcaption>
+  const note = !DUO() ? '' : (val(v.field,0) === val(v.field,1) ? (v.sameNote||'') : (v.diffNote||''));
+  return `<figure class="vis"><figcaption>${esc(tx(v,'title'))}</figcaption>
     <ol class="ladderv nonum">${rows}</ol>${note?`<p class="combo">${esc(note)}</p>`:''}</figure>`;
 }
 
 function visDoors(v){
-  const ok = C.p.some((p,i)=> val(v.a,i) || val(v.b,i));
-  if(!ok) return visHint(v, v.hint || 'שתי הדלתות ייבנו כאן ממה שתכתבו למעלה.');
-  const cols = C.p.map((p,i)=>`
+  const ok = PP().some(([p,i])=> val(v.a,i) || val(v.b,i));
+  if(!ok) return visHint(v, tx(v,'hint') || 'שתי הדלתות ייבנו כאן ממה שתכתבו למעלה.');
+  const cols = PP().map(([p,i])=>`
     <div class="dcol">
       <div class="who">${esc(p.name||'·')}</div>
       ${val(v.field,i)?`<p class="ev">${esc(val(v.field,i))}</p>`:''}
       <div class="door d1"><span>הדלת הראשונה</span><p>${esc(val(v.a,i)||'—')}</p><b>↓ ריחוק, או ריב נוסף</b></div>
       <div class="door d2"><span>הדלת השנייה</span><p>${esc(val(v.b,i)||'—')}</p><b>↓ פנייה מרוככת</b></div>
     </div>`).join('');
-  return `<figure class="vis"><figcaption>${esc(v.title)}</figcaption>
+  return `<figure class="vis"><figcaption>${esc(tx(v,'title'))}</figcaption>
     <div class="doors">${cols}</div>
     <p class="combo">שתיהן אפשריות. ההבדל ביניהן הוא לא באמת, אלא במה שקורה אחריהן.</p></figure>`;
 }
@@ -307,9 +314,9 @@ function visDoors(v){
 function buildSteps(){
   const st = (window.CARD||{}).steps; if(!st) return '';
   const bank = window[st.bank] || {};
-  const any = C.p.some((p,i)=> keys(st.key,i).length);
+  const any = PP().some(([p,i])=> keys(st.key,i).length);
   if(!any) return '';
-  const cols = C.p.map((p,i)=>{
+  const cols = PP().map(([p,i])=>{
     const ks = keys(st.key,i);
     const lead = st.lead ? `<p>${esc(rz(window[st.lead]||'', i))}</p>` : '';
     let body;
@@ -321,7 +328,7 @@ function buildSteps(){
       <div class="who">${esc(p.name||'·')}</div>
       ${body}</div>`;
   }).join('');
-  return `<div class="steps"><div class="hd">${esc(st.label||'הצעדים שלכם')}</div>${cols}</div>`;
+  return `<div class="steps"><div class="hd">${esc(tx(st,'label')||'הצעדים שלכם')}</div>${cols}</div>`;
 }
 
 function buildVisual(){
@@ -341,7 +348,7 @@ function buildCard(){
   const el = document.getElementById('card'); if(!el) return;
   const badgeOpts = CARD.badge ? (window[CARD.badge.options]||[]) : [];
 
-  const people = C.p.map((p,i)=>{
+  const people = PP().map(([p,i])=>{
     const you = C.p[1-i];
     let badge = '';
     if(CARD.badge){
@@ -399,12 +406,15 @@ function buildCard(){
   if(CARD.agreement){
     const rows = (CARD.agreement.rows||[]).map(r=>
       `<div class="row"><span>${esc(r.label)}</span><b>${esc(A[r.field]||'·')}</b></div>`).join('');
-    agr = `<div class="agreement"><h4>${esc(CARD.agreement.title)}</h4>${rows}
+    const soloNote = C.solo
+      ? `<p class="full solonote">${esc(rz('אלה ההצעות שלך, ולא הסכם עדיין. כש[תביא/תביאי] אותן, תוכלו להסכים עליהן יחד.', C.me===1?1:0))}</p>`
+      : '';
+    agr = `<div class="agreement"><h4>${esc(tx(CARD.agreement,'title'))}</h4>${rows}${soloNote}
       ${CARD.agreement.note?`<p class="full">${CARD.agreement.note}</p>`:''}</div>`;
   }
 
   el.innerHTML = `<div class="cardhead"><b>${esc(CARD.title)}</b>
-      <span>${esc(C.p[0].name||'')}${C.p[1].name?' & '+esc(C.p[1].name):''}</span></div>
+      <span>${esc(PP().map(([p])=>p.name).filter(Boolean).join(' & '))}</span></div>
     ${buildVisual()}${buildSteps()}${people}${agr}`;
   markProgress();
   buildPact();
@@ -502,15 +512,65 @@ function chapterize(){
    ============================================================ */
 function renderNames(){
   const el = document.getElementById('names'); if(!el) return;
-  el.innerHTML = C.p.map((p,i)=>`
+  el.className = 'namesbox';
+  const solo = !!C.solo, me = C.me === 1 ? 1 : 0;
+
+  const field = (i, lbl, ph) => `
     <div>
       <div class="field" style="margin-bottom:0">
-        <label>${i===0?'היא':'הוא'}</label>
-        <input type="text" data-act="name" data-i="${i}" value="${esc(p.name)}"
-          placeholder="${i===0?'השם שלה':'השם שלו'}" autocomplete="off">
+        <label>${esc(lbl)}</label>
+        <input type="text" data-act="name" data-i="${i}" value="${esc(C.p[i].name)}"
+          placeholder="${esc(ph)}" autocomplete="off">
       </div>
-    </div>`).join('');
+    </div>`;
+
+  const modes = `<div class="opts modepick">
+    <button type="button" class="opt" data-act="mode" data-v="duo" aria-pressed="${!solo}">
+      עושים את זה ביחד<small>מסך אחד, שניכם</small></button>
+    <button type="button" class="opt" data-act="mode" data-v="solo" aria-pressed="${solo}">
+      אני עושה את זה לבד<small>ואביא את זה איתי לשיחה</small></button>
+  </div>`;
+
+  const body = !solo
+    ? `<div class="pair">${field(0,'היא','השם שלה')}${field(1,'הוא','השם שלו')}</div>`
+    : `<div class="opts whopick">
+         <button type="button" class="opt" data-act="who" data-v="0" aria-pressed="${me===0}">אני האישה</button>
+         <button type="button" class="opt" data-act="who" data-v="1" aria-pressed="${me===1}">אני הגבר</button>
+       </div>
+       <div class="pair">${field(me,'השם שלי','איך קוראים לך')}${
+         field(1-me, me===0?'ובן הזוג':'ובת הזוג', me===0?'השם שלו':'השם שלה')}</div>`;
+
+  el.innerHTML = modes + body;
+
+  const h = el.closest('.q') && el.closest('.q').querySelector('h3');
+  if(h){
+    if(h.dataset.duo === undefined) h.dataset.duo = h.textContent.trim();
+    h.textContent = solo ? (me === 0 ? 'איך קוראים לך, ולבן הזוג?' : 'איך קוראים לך, ולבת הזוג?')
+                         : h.dataset.duo;
+  }
 }
+
+/* ---------- התאמת הניסוחים למצב ---------- */
+const SOLO_EYEBROWS = {
+  'מסכימים יחד':'ההצעה שלך', 'קובעים מראש':'ההצעה שלך',
+  'מגדירים תפקידים':'ההצעה שלך', 'רגע ביניכם':'רגע איתך',
+};
+function applyMode(){
+  const solo = !!C.solo, me = C.me === 1 ? 1 : 0;
+  document.body.classList.toggle('solo', solo);
+  document.querySelectorAll('.eyebrow').forEach(el=>{
+    if(el.dataset.duo === undefined) el.dataset.duo = el.textContent.trim();
+    const t = el.dataset.duo;
+    if(SOLO_EYEBROWS[t]) el.textContent = solo ? SOLO_EYEBROWS[t] : t;
+  });
+  const th = document.querySelector('.timehint');
+  if(th) th.textContent = solo
+    ? rz('[תפנה/תפני] לעצמך 20 דקות לבנות זוגיות שיודעת לחזור.', me)
+    : 'תפנו לכם 20 דקות לבנות זוגיות שיודעת לחזור.';
+  const sh = document.querySelector('.scroll-hint');
+  if(sh) sh.textContent = solo ? 'גללו' : 'גללו · שבו יחד';
+}
+
 
 
 /* ============================================================
@@ -586,7 +646,7 @@ function renderWidgets(){
 }
 function updateGate(){
   const g = document.getElementById('gate'); if(!g) return;
-  g.classList.toggle('locked', !(C.p[0].name.trim() && C.p[1].name.trim()));
+  g.classList.toggle('locked', !IDX().every(i => C.p[i].name.trim()));
 }
 function renderAll(){ renderWidgets(); buildCard(); updateGate(); }
 
@@ -596,7 +656,8 @@ function renderAll(){ renderWidgets(); buildCard(); updateGate(); }
 document.addEventListener('input', e=>{
   const d = e.target.dataset, v = e.target.value;
   if(d.act==='name'){ C.p[+d.i].name = v; saveCouple();
-    document.querySelectorAll('.pname').forEach((el,k)=>{ el.textContent = C.p[k%2].name || '·'; });
+    const ix = IDX();
+    document.querySelectorAll('.pname').forEach((el,k)=>{ el.textContent = C.p[ix[k%ix.length]].name || '·'; });
     buildCard(); updateGate(); return; }
   if(d.act==='free'){ setPair(d.f, +d.i, v); buildCard(); return; }
   if(d.act==='suggest'){ setPair(d.f, +d.i, v);
@@ -615,6 +676,12 @@ document.addEventListener('click', e=>{
   if(d.act==='select'){
     setPair(d.f, +d.i, val(d.f,+d.i)===d.v ? '' : d.v);
     renderWidgets(); buildCard(); return; }
+  if(d.act==='mode'){
+    C.solo = (d.v === 'solo');
+    if(C.solo && C.me === undefined) C.me = 0;
+    saveCouple(); renderNames(); applyMode(); renderAll(); return; }
+  if(d.act==='who'){
+    C.me = +d.v; saveCouple(); renderNames(); applyMode(); renderAll(); return; }
   if(d.act==='pick'){
     setPair(d.f, +d.i, val(d.f,+d.i)===d.v ? '' : d.v);
     const host = b.closest('[data-widget]'); if(host) W[host.dataset.widget](host);
@@ -656,7 +723,7 @@ function buildPact(){
   box.hidden = !code;
   if(!code) return;
 
-  const names = C.p.map(p => p.name).filter(Boolean).join(' & ');
+  const names = PP().map(([p]) => p.name).filter(Boolean).join(' & ');
   const dur = (A.duration || '').trim();
   const who = (A.whoreturns || '').trim();
   const put = (id, v) => { const el = document.getElementById(id); if(el) el.textContent = v; };
@@ -690,7 +757,7 @@ function pactCanvas(){
   c.strokeStyle = 'rgba(244,237,228,.16)'; c.lineWidth = 2;
   c.strokeRect(56, 56, W-112, H-112);
 
-  const names = C.p.map(p => p.name).filter(Boolean).join(' & ');
+  const names = PP().map(([p]) => p.name).filter(Boolean).join(' & ');
   const code = (A.code || '').trim();
   const dur  = (A.duration || '').trim();
   const who  = (A.whoreturns || '').trim();
@@ -788,6 +855,7 @@ function boot(){
     const st = a.querySelector('.st'); if(st) st.textContent = done ? 'הושלמה' : '';
   });
 
+  applyMode();
   initAudio();
   initWhatsapp();
   initClimb();

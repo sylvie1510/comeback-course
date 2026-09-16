@@ -117,14 +117,14 @@ var FULL_LINE =
 var CARD = {
   title: 'תחנה 01 · STOP',
   visual: {
-    kind:'matrix', title:'מפת הדפוס שלכם',
+    kind:'matrix', title:'מפת הדפוס שלכם', soloTitle:'מפת הדפוס שלך',
     field:'mode', options:'MODES', combos:'COMBOS',
     axes:['מתנגד','נכנע','פונה החוצה','פונה פנימה'],
     cells:['fight','flight','freeze','fawn'],
   },
   badge: {field:'mode', options:'MODES'},
   requires: {pair:['mode','interp'], shared:['code','duration','whoreturns']},
-  steps: {label:'הצעד שלכם עכשיו', bank:'BANK_C', key:'mode'},
+  steps: {label:'הצעד שלכם עכשיו', soloLabel:'הצעד שלך עכשיו', bank:'BANK_C', key:'mode'},
   blocks: [
     {type:'bank',        bank:'BANK_A', key:'mode'},
     {type:'bankPartner', bank:'BANK_B', key:'interp'},
@@ -134,7 +134,7 @@ var CARD = {
     {type:'notePartner', label:'ומה ש{שני} [הבין/הבינה] עליי', field:'learnedYou'},
   ],
   agreement: {
-    title:'ההסכם שלנו',
+    title:'ההסכם שלנו', soloTitle:'ההצעה שלי',
     rows:[{label:'מילת הקוד', field:'code'},
           {label:'אורך ההפסקה', field:'duration'},
           {label:'מי מחזיר אותנו לשיחה', field:'whoreturns'}],

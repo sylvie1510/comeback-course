@@ -737,3 +737,11 @@ a.station.done .t::after{content:" ✓";color:var(--crimson);font-size:.7em;vert
 .pick:hover{background:var(--warm)}
 .pick[aria-pressed="true"]{background:var(--crimson);border-color:var(--crimson);color:var(--sheet);font-weight:900}
 @media print{.picks{display:none}}
+
+/* ---------- ביחד או לבד ---------- */
+.namesbox .modepick{grid-template-columns:1fr;gap:.5rem;margin-bottom:1.4rem}
+@media(min-width:560px){.namesbox .modepick{grid-template-columns:1fr 1fr}}
+.namesbox .whopick{grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:1.2rem}
+.namesbox .pair{display:grid;gap:1.1rem}
+@media(min-width:560px){.namesbox .pair{grid-template-columns:1fr 1fr;gap:1.4rem}}
+.agreement .solonote{color:var(--crimson);font-weight:900}

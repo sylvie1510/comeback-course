@@ -95,13 +95,13 @@ var SIGNAL = 'אני [רוצה/רוצה] לחזור <אליך/אלייך>. אנ�
 /* ---------- הכרטיס ---------- */
 var CARD = {
   title: 'תחנה 05 · RECONNECT',
-  visual: {kind:'marks', title:'מה הכי קשה לכל אחד מכם', field:'rung', options:'RUNGS',
+  visual: {kind:'marks', title:'מה הכי קשה לכל אחד מכם', soloTitle:'מה הכי קשה לך', field:'rung', options:'RUNGS',
            hint:'המפה תיבנה כאן ברגע ששניכם תסמנו מה הכי קשה לכם.',
            sameNote:'שניכם סימנתם את אותו דבר. החזרה שלכם מתחילה מאותו מקום, ואפשר לתרגל אותה יחד.',
            diffNote:'כל אחד מכם נתקע במקום אחר. זה דווקא טוב: מה שקל לאחד יכול לפתוח את הדלת לשני.'},
   badge: {field:'rung', options:'RUNGS'},
   requires: {pair:['rung'], shared:['sign','closure']},
-  steps: {label:'הצעד שלכם עכשיו', bank:'BANK_C', key:'rung'},
+  steps: {label:'הצעד שלכם עכשיו', soloLabel:'הצעד שלך עכשיו', bank:'BANK_C', key:'rung'},
   blocks: [
     {type:'bank',        bank:'BANK_A', key:'rung'},
     {type:'bankPartner', bank:'BANK_PARTNER', key:'rung'},
@@ -110,7 +110,7 @@ var CARD = {
     {type:'notePartner', label:'ומה ש{שני} [הבין/הבינה] עליי', field:'learnedYou'},
   ],
   agreement: {
-    title:'ההסכם שלנו',
+    title:'ההסכם שלנו', soloTitle:'ההצעה שלי',
     rows:[
       {label:'הסימן שלנו', field:'sign'},
       {label:'המשפט שסוגר', field:'closure'},

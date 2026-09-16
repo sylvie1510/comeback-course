@@ -107,13 +107,13 @@ var PICKS_UNSHARED = [
 /* ---------- הכרטיס ---------- */
 var CARD = {
   title: 'תחנה 04 · REPAIR',
-  visual: {kind:'marks', title:'מפת ה־50% שלכם', field:'half', options:'HALVES',
+  visual: {kind:'marks', title:'מפת ה־50% שלכם', soloTitle:'ה־50% שלך', field:'half', options:'HALVES',
            hint:'המפה תיבנה כאן ברגע ששניכם תסמנו על מה אתם לוקחים אחריות.',
            sameNote:'שניכם סימנתם את אותו מקום. זה אומר שיש לכם דפוס משותף, ושאפשר לתרגל אותו יחד.',
            diffNote:'כל אחד מכם נופל במקום אחר. זה דווקא טוב: אתם לא צריכים לתקן את אותו דבר, אלא כל אחד את שלו.'},
   badge: {field:'half', options:'HALVES'},
   requires: {pair:['righteous','half'], shared:['blowup']},
-  steps: {label:'ה־50% שלי · הצעד שלכם', bank:'BANK_HALF', key:'half'},
+  steps: {label:'ה־50% שלי · הצעד שלכם', soloLabel:'ה־50% שלי · הצעד שלך', bank:'BANK_HALF', key:'half'},
   blocks: [
     {type:'bank',        bank:'BANK_RIGHT', key:'righteous'},
     {type:'note',        label:'מה אני [צריך/צריכה] ולא ביקשתי', field:'unasked'},
@@ -124,7 +124,7 @@ var CARD = {
     {type:'notePartner', label:'ומה ש{שני} [הבין/הבינה] עליי', field:'learnedYou'},
   ],
   agreement: {
-    title:'ההסכם שלנו',
+    title:'ההסכם שלנו', soloTitle:'ההצעה שלי',
     rows:[{label:'כשהשיחה עצמה מתפוצצת', field:'blowup'}],
     note:'הקונפליקט הזה יחזור. זה לא אומר שהתיקון נכשל.<br>בפעם הבאה שנפגוש את אותה בעיה, אנחנו יכולים להיות זוג קצת אחר בתוכה.',
   },

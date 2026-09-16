@@ -126,7 +126,7 @@ var CARD = {
   title: 'תחנה 03 · RETURN',
   badge: {field:'stance', options:'STANCES'},
   requires: {pair:['rejection','stance','pace'], shared:['initiator','inviteCode']},
-  steps: {label:'הצעד שלכם עכשיו', bank:'BANK_C', key:'rejection'},
+  steps: {label:'הצעד שלכם עכשיו', soloLabel:'הצעד שלך עכשיו', bank:'BANK_C', key:'rejection'},
   blocks: [
     {type:'bank',  bank:'BANK_A', key:'rejection'},
     {type:'bank',  bank:'BANK_PACE', key:'pace'},
@@ -136,7 +136,7 @@ var CARD = {
     {type:'notePartner', label:'ומה ש{שני} [הבין/הבינה] עליי', field:'learnedYou'},
   ],
   agreement: {
-    title:'ההסכם שלנו',
+    title:'ההסכם שלנו', soloTitle:'ההצעה שלי',
     rows:[{label:'מי יוזם אצלנו את החזרה', field:'initiator'},
           {label:'הריכוך', field:'softener'},
           {label:'פתיחת שיחת התיקון', field:'openerRole'},

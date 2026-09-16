@@ -114,11 +114,11 @@ var CLIMB_VOW = 'אנחנו מתחייבים לרדת מהעץ מהר לבחור
 /* ---------- הכרטיס ---------- */
 var CARD = {
   title: 'תחנה 02 · SPACE',
-  visual: {kind:'doors', title:'שתי הדלתות שלכם', field:'event', a:'story', b:'other',
+  visual: {kind:'doors', title:'שתי הדלתות שלכם', soloTitle:'שתי הדלתות שלך', field:'event', a:'story', b:'other',
            hint:'שתי הדלתות ייבנו כאן ממה שתכתבו בשאלת הדלתות.'},
   badge: {field:'distortion', options:'DISTORTIONS'},
   requires: {pair:['distortion','belief']},
-  steps: {label:'הצעד שלכם עכשיו', bank:'BANK_C', key:'distortion', lead:'STEP_LEAD',
+  steps: {label:'הצעד שלכם עכשיו', soloLabel:'הצעד שלך עכשיו', bank:'BANK_C', key:'distortion', lead:'STEP_LEAD',
            more:'ולפי מה שסימנת, יש לך גם:'},
   blocks: [
     {type:'bank',  bank:'BANK_A', key:'distortion'},
