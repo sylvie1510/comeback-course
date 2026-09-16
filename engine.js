@@ -835,6 +835,134 @@ function initPact(){
 }
 
 /* ============================================================
+   הגלויה · לרדת מהעץ
+   ============================================================ */
+const PHOTO_KEY = 'comeback.photo';
+const PC_LINES = [
+  ['04', 'אנחנו כאן לטווח ארוך.'],
+  ['03', 'מה שאני באמת רוצה זה להרגיש קרוב/ה.'],
+  ['02', 'הצדקנות משאירה אותי לבד.'],
+  ['01', 'אני בוחר/ת בנו עכשיו.'],
+];
+
+function photoGet(){ try{ return localStorage.getItem(PHOTO_KEY) || ''; }catch(e){ return ''; } }
+
+function loadImg(src){
+  return new Promise(res => { const im = new Image(); im.onload = () => res(im); im.onerror = () => res(null); im.src = src; });
+}
+
+function shrink(file){
+  return new Promise(res => {
+    const fr = new FileReader();
+    fr.onload = () => loadImg(fr.result).then(im => {
+      if(!im) return res('');
+      const max = 1200, r = Math.min(1, max / Math.max(im.width, im.height));
+      const c = document.createElement('canvas');
+      c.width = Math.round(im.width * r); c.height = Math.round(im.height * r);
+      c.getContext('2d').drawImage(im, 0, 0, c.width, c.height);
+      res(c.toDataURL('image/jpeg', 0.75));
+    });
+    fr.onerror = () => res('');
+    fr.readAsDataURL(file);
+  });
+}
+
+async function pcCanvas(){
+  const W = 1080, H = 1350, cx = W/2;
+  const cv = document.createElement('canvas');
+  cv.width = W; cv.height = H;
+  const c = cv.getContext('2d');
+  c.direction = 'rtl'; c.textAlign = 'center';
+
+  const F = (w,sz) => w + ' ' + sz + 'px Polin, Arial, sans-serif';
+  const photo = photoGet();
+  c.fillStyle = '#141010'; c.fillRect(0,0,W,H);
+  if(photo){
+    const im = await loadImg(photo);
+    if(im){
+      const r = Math.max(W/im.width, H/im.height);
+      const w = im.width*r, h = im.height*r;
+      c.drawImage(im, (W-w)/2, (H-h)/2, w, h);
+      c.fillStyle = 'rgba(16,12,11,.74)'; c.fillRect(0,0,W,H);
+    }
+  }
+  c.strokeStyle = 'rgba(244,237,228,.2)'; c.lineWidth = 2;
+  c.strokeRect(52,52,W-104,H-104);
+
+  c.fillStyle = '#C4564B'; c.font = F(900,30); c.letterSpacing = '12px';
+  c.fillText('לרדת מהעץ', cx, 176);
+  c.letterSpacing = '0px';
+
+  const names = PP().map(([p]) => p.name).filter(Boolean).join(' & ');
+  if(names){ c.fillStyle = '#9C8F87'; c.font = F(300,36); c.fillText(names, cx, 236); }
+
+  let y = 486;
+  PC_LINES.forEach(([n,line]) => {
+    c.textAlign = 'right';
+    c.fillStyle = '#7C6F68'; c.font = F(900,28); c.fillText(n, W-120, y);
+    c.fillStyle = '#F4EDE4'; c.font = F(900,46);
+    let sz = 46;
+    while(c.measureText(line).width > W-320 && sz > 26){ sz -= 2; c.font = F(900,sz); }
+    c.fillText(line, W-180, y);
+    c.textAlign = 'center';
+    y += 122;
+  });
+
+  const note = (A.climbNote || '').trim();
+  if(note){
+    c.strokeStyle = 'rgba(244,237,228,.18)'; c.lineWidth = 1;
+    c.beginPath(); c.moveTo(220, y+40); c.lineTo(W-220, y+40); c.stroke();
+    c.fillStyle = '#C4564B';
+    let sz = 44; c.font = F(900,sz);
+    while(c.measureText(note).width > W-280 && sz > 24){ sz -= 2; c.font = F(900,sz); }
+    c.fillText(note, cx, y+130);
+  }
+  return cv;
+}
+
+function initPostcard(){
+  const make = document.getElementById('pcmake'); if(!make) return;
+  const file = document.getElementById('pcphoto');
+  const clear = document.getElementById('pcclear');
+  const msg = document.getElementById('pcmsg');
+  const sync = () => { if(clear) clear.hidden = !photoGet(); };
+  sync();
+
+  if(file) file.addEventListener('change', async () => {
+    const f = file.files && file.files[0]; if(!f) return;
+    if(msg) msg.textContent = 'רגע, מכינה את התמונה…';
+    const data = await shrink(f);
+    file.value = '';
+    if(!data){ if(msg) msg.textContent = 'לא הצלחתי לקרוא את התמונה. נסו אחת אחרת.'; return; }
+    try{ localStorage.setItem(PHOTO_KEY, data); if(msg) msg.textContent = 'התמונה נשמרת אצלכם במכשיר בלבד.'; }
+    catch(e){ if(msg) msg.textContent = 'התמונה גדולה מדי לשמירה, אבל היא תיכנס לגלויה עכשיו.'; }
+    sync();
+  });
+
+  if(clear) clear.addEventListener('click', () => {
+    try{ localStorage.removeItem(PHOTO_KEY); }catch(e){}
+    if(msg) msg.textContent = '';
+    sync();
+  });
+
+  make.addEventListener('click', async () => {
+    make.disabled = true;
+    if(document.fonts && document.fonts.ready) await document.fonts.ready;
+    const cv = await pcCanvas();
+    cv.toBlob(blob => {
+      const url = URL.createObjectURL(blob);
+      const img = document.getElementById('pcimg');
+      const dl  = document.getElementById('pcdl');
+      const out = document.getElementById('pcout');
+      if(img) img.src = url;
+      if(dl) dl.href = url;
+      if(out){ out.hidden = false; out.scrollIntoView({behavior:'smooth', block:'center'}); }
+      make.disabled = false;
+    }, 'image/png');
+  });
+}
+
+/* ============================================================
    התקדמות, גלילה, הפעלה
    ============================================================ */
 function jumpToField(){
@@ -874,6 +1002,7 @@ function boot(){
   initAudio();
   initWhatsapp();
   initClimb();
+  initPostcard();
   initPact();
   const hasChapters = chapterize();
 

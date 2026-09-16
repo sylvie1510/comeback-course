@@ -349,8 +349,6 @@ input::placeholder,textarea::placeholder{color:var(--ink-mute);opacity:1}
 .shared + .shared{margin-top:1.4rem}
 .slabel{display:block;font-size:.95rem;font-weight:900;color:var(--ink);margin-bottom:.5rem;line-height:1.4}
 .slabel .fillhint{font-weight:400;color:var(--crimson)}
-.opts.multi .opt[aria-pressed="true"]::after{content:"✓";position:absolute;inset-inline-start:.85rem;top:50%;transform:translateY(-50%);font-weight:900;font-size:.9rem}
-.opts.multi .opt{position:relative}
 .steps .more{font-weight:900;margin-top:.55rem}
 .steps .steplist{margin:.3rem 0 0;padding-inline-start:1.05rem}
 .steps .steplist li{margin-top:.3rem}
