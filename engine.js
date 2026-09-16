@@ -567,6 +567,16 @@ function applyMode(){
   if(th) th.textContent = solo
     ? rz('[תפנה/תפני] לעצמך 20 דקות לבנות זוגיות שיודעת לחזור.', me)
     : 'תפנו לכם 20 דקות לבנות זוגיות שיודעת לחזור.';
+  document.querySelectorAll('[data-audio]').forEach(h=>{
+    if(!h._audio || !h._pick) return;
+    const want = h._pick();
+    if(h._audio.getAttribute('src') === want) return;
+    h._audio.pause();
+    h._audio.setAttribute('src', want);
+    h._audio.src = want;
+    const bx = h.querySelector('.listen'); if(bx) bx.classList.remove('on');
+    const br = h.querySelector('.lbar i'); if(br) br.style.width = '0%';
+  });
   const sh = document.querySelector('.scroll-hint');
   if(sh) sh.textContent = solo ? 'גללו' : 'גללו · שבו יחד';
 }
@@ -578,10 +588,11 @@ function applyMode(){
    ============================================================ */
 function initAudio(){
   document.querySelectorAll('[data-audio]').forEach(host => {
-    const src = host.dataset.audio;
+    const pick = () => (C.solo && host.dataset.audioSolo) ? host.dataset.audioSolo : host.dataset.audio;
     const a = new Audio();
     a.preload = 'metadata';
-    a.src = src;
+    a.src = pick();
+    host._audio = a; host._pick = pick;
     const box  = host.querySelector('.listen');
     const btn  = host.querySelector('.playbtn');
     const bar  = host.querySelector('.lbar i');

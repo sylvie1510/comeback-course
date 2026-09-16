@@ -745,3 +745,7 @@ a.station.done .t::after{content:" ✓";color:var(--crimson);font-size:.7em;vert
 .namesbox .pair{display:grid;gap:1.1rem}
 @media(min-width:560px){.namesbox .pair{grid-template-columns:1fr 1fr;gap:1.4rem}}
 .agreement .solonote{color:var(--crimson);font-weight:900}
+
+/* ---------- הנגן מתחת לכותרת ---------- */
+.listenwrap{margin:1.5rem 0 .4rem;max-width:26rem}
+.listenwrap .listen{margin:0}
