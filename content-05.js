@@ -92,6 +92,9 @@ var CHIPS_CLOSER = [
 /* ---------- המשפט שמסמן ---------- */
 var SIGNAL = 'אני [רוצה/רוצה] לחזור <אליך/אלייך>. אני לא [בטוח/בטוחה] שאני [יודע/יודעת] איך. אפשר שנשב רגע?';
 
+/* ---------- זיכרון מתחנה 01 ---------- */
+var FROM_CODE = 'מילת הקוד שלכם היא ״{01.code}״, והיא זו שעוצרת את הריב. הסימן שקבעתם כאן הוא הצד השני שלה, זה שאומר שחזרתם.';
+
 /* ---------- הכרטיס ---------- */
 var CARD = {
   title: 'תחנה 05 · RECONNECT',
@@ -106,6 +109,7 @@ var CARD = {
     {type:'bank',        bank:'BANK_A', key:'rung'},
     {type:'bankPartner', bank:'BANK_PARTNER', key:'rung'},
     {type:'chips',       label:'שלב ב · וככה אני [מסמן/מסמנת] שאני בתחנת חיבור', field:'signs'},
+    {type:'plain',       template:'FROM_CODE', need:'01.code'},
     {type:'plain',       template:'SIGNAL', quote:true},
     {type:'notePartner', label:'ומה ש{שני} [הבין/הבינה] עליי', field:'learnedYou'},
   ],

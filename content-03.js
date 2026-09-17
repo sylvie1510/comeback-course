@@ -121,6 +121,9 @@ var PICKS_GENEROUS = [
   'אולי זה היה מאמץ אמיתי <בשבילו/בשבילה>, גם אם אצלי זה נראה קטן.',
 ];
 
+/* ---------- זיכרון מתחנה 02 ---------- */
+var FROM_02 = 'בתחנה 02 כתבת שהדלת השנייה שלך היא ״{02.other}״. זאת בדיוק ההזמנה שלך, וכדאי להגיד אותה בקול במקום להחזיק אותה בראש.';
+
 /* ---------- הכרטיס ---------- */
 var CARD = {
   title: 'תחנה 03 · RETURN',
@@ -130,6 +133,7 @@ var CARD = {
   blocks: [
     {type:'bank',  bank:'BANK_A', key:'rejection'},
     {type:'bank',  bank:'BANK_PACE', key:'pace'},
+    {type:'plain', template:'FROM_02', need:'02.other'},
     {type:'note',  label:'והפרשנות הנדיבה שלי', field:'generous'},
     {type:'quote', field:'opener', bank:'BANK_OPENER', key:'stance'},
     {type:'plain', template:'NOT_READY', quote:true},

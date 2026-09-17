@@ -104,6 +104,9 @@ var PICKS_UNSHARED = [
   'שנפגעתי, ו[בחרתי/בחרתי] לתקוף במקום להראות את זה.',
 ];
 
+/* ---------- זיכרון מתחנה 01 ---------- */
+var FROM_01 = 'דפוס ההישרדות שסימנת בתחנה 01 הוא {01.mode}. הוא לא נשאר בתוך הריב, הוא נכנס גם לשיחת התיקון, ובדיוק שם כדאי לתפוס אותו.';
+
 /* ---------- הכרטיס ---------- */
 var CARD = {
   title: 'תחנה 04 · REPAIR',
@@ -116,6 +119,7 @@ var CARD = {
   steps: {label:'ה־50% שלי · הצעד שלכם', soloLabel:'ה־50% שלי · הצעד שלך', bank:'BANK_HALF', key:'half'},
   blocks: [
     {type:'bank',        bank:'BANK_RIGHT', key:'righteous'},
+    {type:'plain',       template:'FROM_01', need:'01.mode'},
     {type:'note',        label:'מה אני [צריך/צריכה] ולא ביקשתי', field:'unasked'},
     {type:'note',        label:'ומה אני [מרגיש/מרגישה] ולא שיתפתי', field:'unshared'},
     {type:'note',        label:'בלי ״אבל״ · מה אני עשיתי', field:'apoDid'},

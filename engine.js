@@ -43,6 +43,43 @@ function markProgress(){
 /* ---------- helpers ---------- */
 const esc = s => String(s==null?'':s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
+/* ============================================================
+   זיכרון בין תחנות
+   {01.code}  = תשובה משותפת או שלי מתחנה 01
+   {01.mode!} = התשובה של בן/בת הזוג
+   ============================================================ */
+function stAns(num){
+  if(window.STATION && num === STATION.num) return A;
+  try{ return JSON.parse(localStorage.getItem('comeback.st'+num) || '{}'); }catch(e){ return {}; }
+}
+
+/* תוויות לשדות בחירה, כדי שאפשר יהיה לצטט אותם מתחנה אחרת */
+var XLABELS = {
+  mode:       {fight:'תוקפנות', flight:'בריחה', freeze:'קיפאון', fawn:'ריצוי'},
+  interp:     {abandon:'נטישה', silence:'סתימת פיות', steamroll:'דורסנות', punish:'עונש', relief:'הקלה'},
+  distortion: {mindread:'קריאת מחשבות', future:'ניבוי עתידות', assume:'הנחת הנחות',
+               general:'הכללה', intent:'ייחוס כוונות', allnone:'הכל או כלום'},
+  belief:     {right:'שאם תבואי, ייצא שהוא צדק', admit:'שלהשלים זה להודות שטעית',
+               blame:'שלהתנצל זה לקחת את כל האשמה', hurt:'שלהתקרב זה לוותר על מה שכאב'},
+  pace:       {fast:'מתעצבן ונרגע מהר', slow:'לוקח זמן להתעצבן ולהירגע'},
+  righteous:  {notsaid:'״זה לא מה שאמרתי״', nothappened:'״זה לא מה שהיה״',
+               context:'״אתה מוציא את זה מהקשר״', meant:'״לא לזה התכוונתי״', youtoo:'״אבל גם אתה״'},
+  half:       {attack:'הדרך שבה דיברתי', shut:'הדרך שבה נסגרתי', listen:'הדרך שבה הקשבתי',
+               assume:'הדרך שבה פירשתי', trigger:'הדרך שבה הגבתי'},
+  rung:       {room:'להיות באותו חדר', touch:'מגע קצר', humor:'משהו מצחיק',
+               talk:'שיחה על משהו אחר', close:'קרבה'},
+};
+
+function xval(num, field, i){
+  const A2 = stAns(num);
+  const v = A2[field];
+  const raw = Array.isArray(v) ? v[i] : v;
+  const one = Array.isArray(raw) ? raw[0] : raw;
+  if(!one) return '';
+  const map = XLABELS[field];
+  return (map && map[one]) ? map[one] : String(one);
+}
+
 /* [זכר/נקבה] לפי מי שמדברים אליו · <זכר/נקבה> לפי בן/בת הזוג · {משתנים} */
 function rz(txt, i){
   if(!txt) return '';
@@ -53,6 +90,8 @@ function rz(txt, i){
     .replace(/\{שם\}/g,     me.name  || '·')
     .replace(/\{בן_זוג\}/g, you.name || '·');
   // כל שדה משותף זמין כמשתנה: {קוד} {זמן} וכו׳, לפי VARS בקובץ התוכן
+  out = out.replace(/\{(\d\d)\.(\w+)(!?)\}/g,
+    (_, num, f, bang) => xval(num, f, bang ? 1 - i : i));
   const vars = window.VARS || {};
   Object.keys(vars).forEach(k => {
     out = out.split('{'+k+'}').join(A[vars[k].field] || vars[k].fallback || '___');
@@ -358,6 +397,21 @@ function buildCard(){
       }).filter(Boolean).join(' · ');
     }
     const blocks = (CARD.blocks||[]).map(b=>{
+      if(b.type==='combo'){
+        const ka = keys(b.a, i)[0], kb = keys(b.b, i)[0];
+        if(!ka || !kb) return '';
+        const map = window[b.map] || {};
+        const t = map[[ka,kb].sort().join('|')] || map[ka+'|'+kb];
+        return t ? `<p>${esc(rz(t,i))}</p>` : '';
+      }
+      if(b.type==='comboPair'){
+        if(!DUO()) return '';
+        const ka = keys(b.field, i)[0], kb = keys(b.field, 1-i)[0];
+        if(!ka || !kb) return '';
+        const map = window[b.map] || {};
+        const t = map[[ka,kb].sort().join('|')] || map[ka+'|'+kb];
+        return t ? `<p>${esc(rz(t,i))}</p>` : '';
+      }
       if(b.type==='bank'){
         return keys(b.key,i).map(k=>`<p>${esc(rz(window[b.bank][k], i))}</p>`).join('');
       }
@@ -390,6 +444,10 @@ function buildCard(){
         return v ? `<p class="says">״${esc(v)}״</p>` : '';
       }
       if(b.type==='plain'){
+        if(b.need){
+          const mm = /^(\d\d)\.(\w+)(!?)$/.exec(b.need);
+          if(mm && !xval(mm[1], mm[2], mm[3] ? 1-i : i)) return '';
+        }
         const t = window[b.template]; if(!t) return '';
         return `<p class="fullline-p">${b.quote?'״':''}${esc(rz(t,i))}${b.quote?'״':''}</p>`;
       }
