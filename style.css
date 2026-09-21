@@ -753,3 +753,34 @@ a.station.done .t::after{content:" ✓";color:var(--crimson);font-size:.7em;vert
 /* ---------- הנגן מתחת לכותרת ---------- */
 .listenwrap{margin:1.5rem 0 .4rem;max-width:26rem}
 .listenwrap .listen{margin:0}
+
+/* ---------- דוח הקאמבק ---------- */
+.rphead{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;flex-wrap:wrap;
+  border-bottom:2px solid var(--crimson);padding-bottom:.7rem;margin-bottom:1.6rem}
+#cardsec .rphead b{font-weight:900;font-size:1.15rem;color:var(--crimson)}
+.rphead span{font-size:.95rem;color:var(--ink-mute)}
+.rp{border-top:1px solid var(--rule);padding-top:1.3rem;margin-top:1.6rem}
+.rp:first-of-type{border-top:0;margin-top:0;padding-top:0}
+#cardsec .rp h2{font-weight:900;font-size:clamp(1.12rem,1rem + .7vw,1.45rem);line-height:1.25;color:var(--ink)}
+.rpnote{font-size:.88rem;color:var(--ink-mute);margin-top:.25rem}
+.rpcols{display:grid;gap:1.1rem;margin-top:1.1rem}
+@media(min-width:640px){.rpcols{grid-template-columns:1fr 1fr;gap:1.4rem}}
+.rpcols.one{max-width:34rem}
+.rpcol{background:var(--sheet);border:1px solid var(--rule);padding:1rem 1.1rem}
+.rpcol .who{font-weight:900;font-size:.8rem;letter-spacing:.08em;color:var(--crimson);margin-bottom:.5rem}
+.rpcol p{font-size:.95rem;line-height:1.62;margin-top:.5rem}
+.rptag{font-weight:900;color:var(--ink);font-size:1rem;margin-top:0!important}
+.rpcombo{margin-top:1rem;background:var(--warm);border-inline-start:3px solid var(--crimson);
+  padding:.85rem 1.05rem;font-size:.95rem;line-height:1.6}
+.rpcombo b{font-weight:900;color:var(--crimson)}
+.rpagree{margin-top:1.1rem;display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.rpagree .row{background:var(--paper);display:flex;justify-content:space-between;gap:1rem;
+  padding:.62rem .9rem;font-size:.94rem}
+.rpagree .row span{color:var(--ink-mute)}
+.rpagree .row b{font-weight:900;text-align:start}
+.rpstep{position:relative;padding-inline-start:2.1rem}
+.rpstep span{position:absolute;inset-inline-start:0;top:.15rem;font-weight:900;font-size:.72rem;
+  letter-spacing:.06em;color:var(--crimson-soft)}
+.rpsaw{font-weight:900;color:var(--ink)}
+.rpempty{color:var(--ink-mute)}
+@media print{.btnrow,.stationnav,#cover .eyebrow{display:none}}
