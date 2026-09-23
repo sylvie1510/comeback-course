@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>הקאמבק · ההרצאה</title>
+<link rel="stylesheet" href="fonts.css?v=150">
+<link rel="stylesheet" href="style.css?v=150">
+<style>
+.vwrap{margin:clamp(1.6rem,4vw,2.6rem) 0 0;border:1px solid var(--rule);border-radius:14px;
+  overflow:hidden;background:#141110;box-shadow:0 18px 44px -26px rgba(35,29,27,.55)}
+.vwrap video{display:block;width:100%;height:auto;background:#141110}
+.chapters{margin-top:clamp(1.8rem,4.4vw,2.8rem);border-top:1px solid var(--rule);padding-top:1.4rem}
+.chapters h3{font-weight:900;font-size:clamp(1.15rem,.95rem + 1vw,1.5rem);margin-bottom:.35rem}
+.chapters .tiny{margin-bottom:1.2rem}
+.chaplist{display:grid;gap:2px}
+.chap{display:flex;align-items:baseline;gap:.9rem;width:100%;text-align:start;
+  background:none;border:0;border-bottom:1px solid var(--rule);padding:.72rem .35rem;
+  font:inherit;color:var(--ink);cursor:pointer;transition:background .18s,color .18s}
+.chap:hover{background:var(--sheet);color:var(--crimson)}
+.chap.on{background:var(--sheet);color:var(--crimson)}
+.chap .tm{font-variant-numeric:tabular-nums;font-weight:900;font-size:.88rem;
+  letter-spacing:.04em;color:var(--crimson);min-width:4.2rem;direction:ltr;text-align:start}
+.chap .lb{font-weight:300;line-height:1.5}
+.chap.big .lb{font-weight:900}
+.chap.big .lb i{font-style:normal;color:var(--ink-mute);font-weight:300;font-size:.92em}
+.audioalt{margin-top:clamp(1.8rem,4vw,2.4rem)}
+.audioalt audio{width:100%;margin-top:.7rem}
+</style>
+</head>
+<body>
+
+<div id="rail"><i></i></div>
+
+<section id="cover" class="wrap">
+  <div class="rv in">
+    <div class="eyebrow"><a href="index.html" style="color:inherit;text-decoration:none">הקאמבק · הדרך חזרה</a></div>
+    <div class="stop" style="font-size:clamp(2.6rem,10vw,5rem)">ההרצאה</div>
+    <p class="sub lead">
+      קודם מבינים למה זה קורה לכם דווקא ככה.
+      ואז עוברים את הדרך ברגליים.
+    </p>
+    <p class="timehint">שעה ועשרים · אפשר בפעם אחת, ואפשר תחנה־תחנה</p>
+  </div>
+</section>
+
+<section class="wrap wide">
+  <div class="rv">
+    <div class="vwrap">
+      <video id="lec" controls preload="metadata" playsinline
+             poster="images/lecture-poster.jpg">
+        <source src="media/comeback-lecture.mp4" type="video/mp4">
+        הדפדפן שלכם לא תומך בנגן. <a href="media/comeback-lecture.mp4">להורדת ההרצאה</a>.
+      </video>
+    </div>
+    <p class="tiny" style="margin-top:.9rem">המיקום שלכם נשמר. אם תסגרו באמצע, בפעם הבאה תחזרו בדיוק לשם.</p>
+    <p class="tiny" style="margin-top:.35rem">הנגן לא עובד לכם? <a href="https://us02web.zoom.us/clips/share/ttB8uBzmQquL3SPgP6US6g" target="_blank" rel="noopener" style="color:var(--crimson);font-weight:900">לצפייה בחלון נפרד ←</a></p>
+  </div>
+</section>
+
+<section class="wrap wide">
+  <div class="rv chapters">
+    <div class="eyebrow">מה יש בפנים</div>
+    <h3>הפרקים</h3>
+    <p class="tiny">לחצו על פרק כדי לקפוץ אליו.</p>
+    <div class="chaplist" id="chaps"></div>
+  </div>
+</section>
+
+<section class="wrap wide">
+  <div class="rv audioalt">
+    <div class="eyebrow">גם באוזניים</div>
+    <h3 style="font-weight:900;font-size:clamp(1.15rem,.95rem + 1vw,1.5rem);margin-bottom:.35rem">להאזנה בלי השקפים</h3>
+    <p class="tiny">אותה הרצאה, לנסיעה או להליכה. השקפים עוזרים, אבל לא חובה.</p>
+    <audio controls preload="none" src="media/comeback-lecture.mp3"></audio>
+  </div>
+</section>
+
+<section class="wrap wide">
+  <div class="rv howbox">
+    <div class="eyebrow">ומכאן</div>
+    <h3>עכשיו החלק שבו אתם עושים.</h3>
+    <p>חמש תחנות, כל אחת כ־20 דקות. שניכם על מסך אחד, עונים, בוחרים ומסכימים — והתחנות מתאימות את עצמן לתשובות שלכם.</p>
+    <div class="btnrow">
+      <a class="cbtn solid" href="index.html#start">לתחנות ←</a>
+    </div>
+  </div>
+</section>
+
+<div class="wrap wide"><div class="stationnav">
+  <a href="index.html">→ דף הבית</a>
+  <a href="index.html#start">לתחנות ←</a>
+</div></div>
+
+<script src="lecture.js?v=150"></script>
+</body>
+</html>
