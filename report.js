@@ -116,6 +116,37 @@ function build(){
     cols(i => tagline(lbl('04','HALVES',K('04','half',i),i)) + p(bank('04','BANK_HALF',K('04','half',i),i))),
     'החלק שכל אחד מכם בחר לקחת עליו אחריות.');
 
+  /* 6ב · צרכים מתנגשים */
+  out += (function(){
+    const need = i => {
+      const sel = keys('04','need_c',i).map(c => rz(c,i));
+      const free = val('04','need_c_free',i); if(free) sel.push(free);
+      return sel.join(' · ');
+    };
+    const a = parseInt(val('04','needRate',0),10), b = parseInt(val('04','needRate',1),10);
+    const body = cols(i => {
+      const n = need(i), r = val('04','needRate',i);
+      if(!n && !r) return '';
+      return tagline(n) + p(r ? 'עוצמה בריב הזה: ' + r + ' מתוך 10' : '');
+    });
+    if(!body) return '';
+    let read = '';
+    if(!SOLO && a && b){
+      const G = (CONTENT['04']||{}).GAPBANK || {};
+      const diff = Math.abs(a-b);
+      const key = (a>=8&&b>=8) ? 'bothHigh' : (a<=4&&b<=4) ? 'bothLow' : diff>=3 ? 'far' : 'near';
+      const t = G[key] || {};
+      const hi = a>=b ? 0 : 1, lo = 1-hi;
+      const nm = n => (C.p[n].name || '·');
+      const fill = str => String(str||'')
+        .split('{גבוה}').join(nm(hi)).split('{נמוך}').join(nm(lo))
+        .split('{צורך_גבוה}').join(need(hi)).split('{צורך_נמוך}').join(need(lo));
+      read = p(fill(t.lead)) + p(fill(t.do));
+    }
+    return block('הצרכים שהתנגשו', body + read,
+      'שני צרכים אמיתיים שמשכו לכיוונים הפוכים, וכמה כל אחד היה דחוף.');
+  })();
+
   /* 7 · מה הכי קשה בחזרה */
   out += block('מה הכי קשה לכל אחד מכם בחזרה',
     cols(i => tagline(lbl('05','RUNGS',K('05','rung',i),i)) +

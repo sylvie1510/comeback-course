@@ -784,3 +784,29 @@ a.station.done .t::after{content:" ✓";color:var(--crimson);font-size:.7em;vert
 .rpsaw{font-weight:900;color:var(--ink)}
 .rpempty{color:var(--ink-mute)}
 @media print{.btnrow,.stationnav,#cover .eyebrow{display:none}}
+
+/* ---------- צרכים מתנגשים · סולם 1–10 ---------- */
+.scale{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;margin-top:.45rem}
+.scale .sc{
+  appearance:none;border:1px solid var(--rule);background:var(--sheet);color:var(--ink-mute);
+  font:inherit;font-weight:900;font-size:.9rem;padding:.5rem 0;border-radius:7px;cursor:pointer;
+  transition:background .15s,color .15s,border-color .15s,transform .1s}
+.scale .sc:hover{border-color:var(--crimson-soft);color:var(--crimson)}
+.scale .sc.on{background:var(--crimson);border-color:var(--crimson);color:#fff;transform:translateY(-1px)}
+@media (max-width:420px){ .scale{gap:3px} .scale .sc{font-size:.78rem;padding:.42rem 0} }
+
+.scalelock{margin-top:.45rem;border:1px dashed var(--crimson-soft);border-radius:9px;
+  background:var(--sheet);padding:.85rem .9rem;text-align:center}
+.scalelock b{display:block;color:var(--crimson);font-weight:900}
+.scalelock span{display:block;font-size:.88rem;color:var(--ink-mute);line-height:1.5;margin-top:.2rem}
+.relink{appearance:none;background:none;border:0;font:inherit;font-weight:900;font-size:.85rem;
+  color:var(--ink-mute);text-decoration:underline;cursor:pointer;margin-top:.45rem;padding:0}
+.relink:hover{color:var(--crimson)}
+
+.gapnote{margin-top:clamp(1.4rem,3.4vw,2rem);border:1px solid var(--rule);border-radius:12px;
+  background:var(--sheet);padding:clamp(1rem,3vw,1.5rem)}
+.gaphd{display:flex;align-items:center;justify-content:center;gap:.9rem;
+  font-weight:900;letter-spacing:.02em;color:var(--crimson)}
+.gaphd i{flex:0 0 42px;height:1px;background:var(--rule);display:block}
+.gaplead{margin-top:.8rem;font-weight:900;line-height:1.55}
+.gapdo{margin-top:.6rem;color:var(--ink-soft);line-height:1.7}

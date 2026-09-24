@@ -229,6 +229,66 @@ W.schoice = (el) => {
       aria-pressed="${A[f]===o}">${esc(o)}</button>`).join('');
 };
 
+/* סולם 1–10 · נחשף רק כששניכם סימנתם */
+W.scale = (el) => {
+  el.classList.add('pair2');
+  const f = el.dataset.field, label = el.dataset.label || '';
+  const lock = el.dataset.lock === '1' && DUO();
+  const both = DUO() && val(f,0) && val(f,1);
+  const show = !lock || both;
+  el.innerHTML = PP().map(([p,i])=>{
+    const v = val(f,i);
+    const body = (show || !v)
+      ? `<div class="scale">${Array.from({length:10},(_,k)=>{
+           const n = String(k+1);
+           return `<button type="button" class="sc${v===n?' on':''}" data-act="select"
+             data-f="${f}" data-i="${i}" data-v="${n}" aria-pressed="${v===n}">${n}</button>`;
+         }).join('')}</div>`
+      : `<div class="scalelock">
+           <b>✓ ${me_v(i,'סימנת','סימנת')}</b>
+           <span>מחכים ל${esc(C.p[1-i].name||'שני')}. המספרים ייחשפו כששניכם תסמנו.</span>
+           <button type="button" class="relink" data-act="select" data-f="${f}" data-i="${i}"
+             data-v="${esc(v)}">לשנות</button>
+         </div>`;
+    return `<div>
+      <div class="pname">${esc(p.name)||'·'}</div>
+      <div class="field" style="margin-bottom:0">
+        ${label?`<label>${esc(rz(label,i))}</label>`:''}
+        ${body}
+      </div></div>`;
+  }).join('');
+};
+
+/* קריאת הפער בין שני המספרים */
+W.gapnote = (el) => {
+  const f = el.dataset.field, nf = el.dataset.need || '';
+  const a = parseInt(val(f,0),10), b = parseInt(val(f,1),10);
+  const bank = window[el.dataset.bank] || {};
+  if(!DUO()){ el.innerHTML = `<p class="tiny">${esc(bank.solo||'')}</p>`; return; }
+  if(!a || !b){
+    el.innerHTML = `<p class="tiny">${esc(bank.wait||'כששניכם תסמנו מספר, תופיע כאן הקריאה של הפער.')}</p>`;
+    return;
+  }
+  const diff = Math.abs(a-b);
+  const hi = a >= b ? 0 : 1, lo = 1 - hi;
+  let key;
+  if(a >= 8 && b >= 8)       key = 'bothHigh';
+  else if(a <= 4 && b <= 4)  key = 'bothLow';
+  else if(diff >= 3)         key = 'far';
+  else                       key = 'near';
+  const t = bank[key] || {};
+  const nm = n => esc(C.p[n].name || '·');
+  const need = n => esc(nf ? (val(nf,n) || (list(nf+'_c',n)[0]||'')) : '');
+  const fill = str => String(str||'')
+    .split('{גבוה}').join(nm(hi)).split('{נמוך}').join(nm(lo))
+    .split('{צורך_גבוה}').join(need(hi)).split('{צורך_נמוך}').join(need(lo))
+    .split('{א}').join(String(a)).split('{ב}').join(String(b));
+  el.className = 'gapnote';
+  el.innerHTML = `<div class="gaphd"><span>${nm(0)} · ${a}</span><i></i><span>${nm(1)} · ${b}</span></div>
+    <p class="gaplead">${fill(t.lead)}</p>
+    ${t.do?`<p class="gapdo">${fill(t.do)}</p>`:''}`;
+};
+
 /* משפט שנבנה מהתשובות, מגדרי לכל אחד */
 W.assembled = (el) => {
   const t = window[el.dataset.template] || '';
@@ -436,6 +496,14 @@ function buildCard(){
         const free = val(b.field+'_free',i); if(free) sel.push(free);
         if(!sel.length) return '';
         return `<p class="early-p"><strong>${esc(rz(b.label,i))}</strong>${esc(sel.join(' · '))}</p>`;
+      }
+      if(b.type==='needrate'){
+        const sel = list(b.field,i).map(c=>rz(c,i));
+        const free = val(b.field+'_free',i); if(free) sel.push(free);
+        const r = val(b.rate,i);
+        if(!sel.length && !r) return '';
+        const txt = sel.join(' · ') + (r ? '  ·  ' + r + '/10' : '');
+        return `<p class="early-p"><strong>${esc(rz(b.label,i))}</strong>${esc(txt)}</p>`;
       }
       if(b.type==='quote'){
         const touched = (A[b.field+'_t']||[])[i];
